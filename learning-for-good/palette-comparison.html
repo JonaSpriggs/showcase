@@ -212,6 +212,7 @@ const palettes = [
   // === TOP 3: Brand-based designs ===
   {
     name: "1. Brand Tricolour",
+    selected: true,
     desc: "Uses all three logo colours together. Teal primary, purple sidebar, orange highlights. Maximum brand recognition across the platform.",
     primary: "#2596be", primaryHover: "#1e7fa3", primaryLight: "#ddf0f8",
     bg: "#f8f8fa", text: "#2a2a35", textLight: "#5e6070", textMuted: "#8e9098",
@@ -461,15 +462,23 @@ document.addEventListener('DOMContentLoaded', () => {
   palettes.forEach((p, i) => {
     const section = document.createElement('div');
     section.className = 'palette-section';
+    if (p.selected) {
+      section.style.border = '2px solid #2596be';
+      section.style.boxShadow = '0 0 0 4px rgba(37, 150, 190, 0.15), 0 8px 40px rgba(0,0,0,0.2)';
+    }
 
     const chipsHTML = p.chips.map(c =>
       `<div class="chip" style="background:${c};"></div>`
     ).join('');
 
+    const selectedBadge = p.selected
+      ? '<span style="display: inline-block; background: #2596be; color: white; font-size: 10px; font-weight: 700; padding: 4px 12px; border-radius: 6px; margin-left: 12px; letter-spacing: 0.06em; text-transform: uppercase; vertical-align: middle;">SELECTED</span>'
+      : '';
+
     section.innerHTML = `
       <div class="palette-header">
         <div>
-          <div class="palette-label">${i + 1}. ${p.name}</div>
+          <div class="palette-label">${p.name} ${selectedBadge}</div>
           <div class="palette-desc">${p.desc}</div>
         </div>
         <div class="chips">${chipsHTML}</div>
