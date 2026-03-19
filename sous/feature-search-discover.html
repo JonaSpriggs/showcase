@@ -12,124 +12,54 @@
   .back:hover { color: var(--text); }
   h1 { text-align: center; font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--sous-green); margin-bottom: 4px; }
   .subtitle { text-align: center; font-size: 14px; color: var(--text-light); margin-bottom: 40px; }
-
-  .mockup-section { max-width: 100%; margin: 0 auto 64px; }
-  .mockup-section h2 {
-    font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
-    margin-bottom: 4px;
-    padding-left: 4px;
-  }
-  .mockup-section .desc {
-    font-size: 13px;
-    color: var(--text-light);
-    margin-bottom: 16px;
-    padding-left: 4px;
-  }
-  .mockup-frame {
-    width: 100%;
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 2px 12px rgba(45,58,46,0.08);
-    border: 1px solid var(--border);
-    overflow: hidden;
-  }
-  .mockup-frame iframe {
-    width: 100%;
-    border: none;
-    display: block;
-  }
-
-  .divider {
-    height: 1px;
-    background: var(--border);
-    margin: 0 auto 48px;
-  }
+  .grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; max-width: 1800px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(45,58,46,0.08); overflow: hidden; width: 300px; text-decoration: none; color: var(--text); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(45,58,46,0.15); }
+  .card-preview { width: 300px; height: 540px; overflow: hidden; border-bottom: 1px solid var(--border); position: relative; }
+  .card-preview iframe { width: 390px; height: 844px; border: none; transform: scale(0.75); transform-origin: top left; pointer-events: none; }
+  .card-info { padding: 12px 14px; }
+  .card-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .card-path { font-size: 11px; color: var(--text-light); }
 </style>
 </head>
 <body>
 <a class="back" href="index.html">&larr; All Features</a>
 <h1>Search & Discover</h1>
-<p class="subtitle">49 screens across 8 mockup sets &mdash; unified search, auto-suggest, ingredient search, tag browsing, and discovery feed</p>
+<p class="subtitle">49 screens across 8 mockup sets &mdash; unified search, auto-suggest, ingredient search, tag browsing, and discovery</p>
 
-<div class="mockup-section">
-  <h2>Search — All Screens (15 screens)</h2>
-  <p class="desc">Full search flow: discover tab, empty state, autosuggest, unified results, recipe/account/cookbook/tag results, filters, ingredient search</p>
-  <div class="mockup-frame">
-    <iframe src="search-all-screens.html" loading="lazy" style="height: 10000px;"></iframe>
-  </div>
+<div class="grid">
+  <a class="card" href="search-all-screens.html">
+    <div class="card-preview"><iframe src="search-all-screens.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Search — All Screens</div><div class="card-path">15 screens &middot; Full search flow</div></div>
+  </a>
+  <a class="card" href="search-drilldown.html">
+    <div class="card-preview"><iframe src="search-drilldown.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Search Drilldown</div><div class="card-path">4 screens &middot; Results detail views</div></div>
+  </a>
+  <a class="card" href="search-options-comparison.html">
+    <div class="card-preview"><iframe src="search-options-comparison.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Search Options Comparison</div><div class="card-path">6 screens &middot; Design exploration</div></div>
+  </a>
+  <a class="card" href="feed-discover.html">
+    <div class="card-preview"><iframe src="feed-discover.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Discover Tab</div><div class="card-path">1 screen &middot; Discovery feed</div></div>
+  </a>
+  <a class="card" href="browse-by-tag-flow.html">
+    <div class="card-preview"><iframe src="browse-by-tag-flow.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Browse by Tag — Flow</div><div class="card-path">3 screens &middot; Tag browsing journey</div></div>
+  </a>
+  <a class="card" href="browse-by-tag-options.html">
+    <div class="card-preview"><iframe src="browse-by-tag-options.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Browse by Tag — Options</div><div class="card-path">3 screens &middot; Layout comparison</div></div>
+  </a>
+  <a class="card" href="tag-hero-options.html">
+    <div class="card-preview"><iframe src="tag-hero-options.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Tag Hero Options</div><div class="card-path">3 screens &middot; Hero section variants</div></div>
+  </a>
+  <a class="card" href="tag-ux-designs.html">
+    <div class="card-preview"><iframe src="tag-ux-designs.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Tag UX Designs</div><div class="card-path">6 screens &middot; Interaction patterns</div></div>
+  </a>
 </div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Search Drilldown (4 screens)</h2>
-  <p class="desc">Results detail views with filters and sorting</p>
-  <div class="mockup-frame">
-    <iframe src="search-drilldown.html" loading="lazy" style="height: 4000px;"></iframe>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Search Options Comparison (6 screens)</h2>
-  <p class="desc">Design exploration of different search UI approaches</p>
-  <div class="mockup-frame">
-    <iframe src="search-options-comparison.html" loading="lazy" style="height: 4000px;"></iframe>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Discover Tab (1 screen)</h2>
-  <p class="desc">Discovery feed on the main feed screen</p>
-  <div class="mockup-frame">
-    <iframe src="feed-discover.html" loading="lazy" style="height: 1000px;"></iframe>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Browse by Tag — Flow (3 screens)</h2>
-  <p class="desc">Tag browsing experience from discovery to results with flow arrows</p>
-  <div class="mockup-frame">
-    <iframe src="browse-by-tag-flow.html" loading="lazy" style="height: 2200px;"></iframe>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Browse by Tag — Options (3 screens)</h2>
-  <p class="desc">Comparison of tag layout approaches</p>
-  <div class="mockup-frame">
-    <iframe src="browse-by-tag-options.html" loading="lazy" style="height: 2200px;"></iframe>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Tag Hero Options (3 screens)</h2>
-  <p class="desc">Tag page hero section design variants</p>
-  <div class="mockup-frame">
-    <iframe src="tag-hero-options.html" loading="lazy" style="height: 2200px;"></iframe>
-  </div>
-</div>
-
-<div class="divider"></div>
-
-<div class="mockup-section">
-  <h2>Tag UX Designs (6 screens)</h2>
-  <p class="desc">Tag interaction patterns and micro-interactions</p>
-  <div class="mockup-frame">
-    <iframe src="tag-ux-designs.html" loading="lazy" style="height: 3200px;"></iframe>
-  </div>
-</div>
-
 </body>
 </html>
