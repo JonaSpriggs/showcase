@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning for Good - Style Guide</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  body { background: #f0f0f4; padding: 32px; }
+  .sg { max-width: 1100px; margin: 0 auto; }
+  .sg-header { text-align: center; margin-bottom: 48px; }
+  .sg-header h1 { font-size: 36px; font-weight: 800; margin-bottom: 8px; }
+  .sg-header h1 .t { color: var(--brand-teal); }
+  .sg-header h1 .p { color: var(--brand-purple); }
+  .sg-header h1 .o { color: var(--brand-orange); }
+  .sg-header p { color: var(--text-light); }
+
+  .sg-section { background: white; border-radius: 14px; padding: 32px; margin-bottom: 24px; box-shadow: var(--shadow-sm); }
+  .sg-section h2 { font-size: 22px; font-weight: 700; color: var(--text); margin-bottom: 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border-light); }
+  .sg-section h3 { font-size: 15px; font-weight: 600; color: var(--text-light); margin: 20px 0 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+  .swatch { border-radius: 10px; overflow: hidden; box-shadow: var(--shadow-sm); }
+  .swatch-color { height: 64px; }
+  .swatch-info { padding: 8px 10px; background: white; }
+  .swatch-name { font-size: 12px; font-weight: 600; color: var(--text); }
+  .swatch-hex { font-size: 11px; color: var(--text-muted); font-family: monospace; }
+
+  .type-row { margin-bottom: 12px; padding: 8px 0; border-bottom: 1px solid var(--border-light); }
+  .type-label { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+
+  .btn-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-bottom: 12px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .input-demo { max-width: 400px; margin-bottom: 16px; }
+  .alert-demo { max-width: 600px; }
+</style>
+</head>
+<body>
+<div class="sg">
+
+  <div class="sg-header">
+    <h1><span class="t">Learning</span><span class="p">for</span><span class="o">Good</span></h1>
+    <p>Design System &amp; Style Guide &mdash; Brand Tricolour Palette</p>
+  </div>
+
+  <!-- COLOURS -->
+  <div class="sg-section">
+    <h2>Colours</h2>
+    <h3>Brand</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background: #2596be;"></div><div class="swatch-info"><div class="swatch-name">Teal (Learning)</div><div class="swatch-hex">#2596be</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #8b5a9e;"></div><div class="swatch-info"><div class="swatch-name">Purple (for)</div><div class="swatch-hex">#8b5a9e</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #e8842c;"></div><div class="swatch-info"><div class="swatch-name">Orange (Good)</div><div class="swatch-hex">#e8842c</div></div></div>
+    </div>
+    <h3>Primary &amp; Variants</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background: #2596be;"></div><div class="swatch-info"><div class="swatch-name">Primary</div><div class="swatch-hex">#2596be</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #1e7fa3;"></div><div class="swatch-info"><div class="swatch-name">Primary Hover</div><div class="swatch-hex">#1e7fa3</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #ddf0f8;"></div><div class="swatch-info"><div class="swatch-name">Primary Light</div><div class="swatch-hex">#ddf0f8</div></div></div>
+    </div>
+    <h3>Backgrounds &amp; Surfaces</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background: #f8f8fa;"></div><div class="swatch-info"><div class="swatch-name">Background</div><div class="swatch-hex">#f8f8fa</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #ffffff; border: 1px solid #eee;"></div><div class="swatch-info"><div class="swatch-name">White</div><div class="swatch-hex">#ffffff</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #f0f0f4;"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#f0f0f4</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #2a2035;"></div><div class="swatch-info"><div class="swatch-name">Nav BG</div><div class="swatch-hex">#2a2035</div></div></div>
+    </div>
+    <h3>Text</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background: #2a2a35;"></div><div class="swatch-info"><div class="swatch-name">Text</div><div class="swatch-hex">#2a2a35</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #5e6070;"></div><div class="swatch-info"><div class="swatch-name">Text Light</div><div class="swatch-hex">#5e6070</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #8e9098;"></div><div class="swatch-info"><div class="swatch-name">Text Muted</div><div class="swatch-hex">#8e9098</div></div></div>
+    </div>
+    <h3>Status</h3>
+    <div class="swatch-grid">
+      <div class="swatch"><div class="swatch-color" style="background: #16a34a;"></div><div class="swatch-info"><div class="swatch-name">Success</div><div class="swatch-hex">#16a34a</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #d97706;"></div><div class="swatch-info"><div class="swatch-name">Warning</div><div class="swatch-hex">#d97706</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #dc4a3f;"></div><div class="swatch-info"><div class="swatch-name">Error</div><div class="swatch-hex">#dc4a3f</div></div></div>
+      <div class="swatch"><div class="swatch-color" style="background: #2596be;"></div><div class="swatch-info"><div class="swatch-name">Info</div><div class="swatch-hex">#2596be</div></div></div>
+    </div>
+  </div>
+
+  <!-- TYPOGRAPHY -->
+  <div class="sg-section">
+    <h2>Typography</h2>
+    <div class="type-row"><div class="type-label">3XL / 36px / Extrabold</div><div style="font-size: 36px; font-weight: 800;">Good morning, Emma</div></div>
+    <div class="type-row"><div class="type-label">2XL / 28px / Bold</div><div style="font-size: 28px; font-weight: 700;">Workshop Dashboard</div></div>
+    <div class="type-row"><div class="type-label">XL / 22px / Bold</div><div style="font-size: 22px; font-weight: 700;">Assertiveness and Constructive Negotiation</div></div>
+    <div class="type-row"><div class="type-label">LG / 17px / Bold</div><div style="font-size: 17px; font-weight: 700;">Needs Your Attention</div></div>
+    <div class="type-row"><div class="type-label">Base / 15px / Regular</div><div style="font-size: 15px;">Learning for Good is a charity training organisation that runs soft skills workshops.</div></div>
+    <div class="type-row"><div class="type-label">SM / 13px / Regular</div><div style="font-size: 13px; color: var(--text-light);">3 charities haven't booked yet for Assertiveness (13 Mar)</div></div>
+    <div class="type-row"><div class="type-label">XS / 11px / Bold / Uppercase</div><div style="font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted);">Next Workshop</div></div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="sg-section">
+    <h2>Buttons</h2>
+    <h3>Primary Actions</h3>
+    <div class="btn-row">
+      <button class="btn btn--primary">Book Places</button>
+      <button class="btn btn--primary" disabled>Disabled</button>
+      <button class="btn btn--primary btn--sm">Small</button>
+      <button class="btn btn--primary btn--lg">Large Button</button>
+    </div>
+    <h3>Secondary &amp; Accent</h3>
+    <div class="btn-row">
+      <button class="btn btn--secondary">Facilitator Action</button>
+      <button class="btn btn--accent">Highlight CTA</button>
+      <button class="btn btn--outline">Outline</button>
+      <button class="btn btn--ghost">Ghost</button>
+    </div>
+    <h3>Danger &amp; With Icons</h3>
+    <div class="btn-row">
+      <button class="btn btn--danger">Cancel Booking</button>
+      <button class="btn btn--primary"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Attendee</button>
+      <button class="btn btn--outline"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download</button>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="sg-section">
+    <h2>Status Badges</h2>
+    <div class="badge-row">
+      <span class="badge badge--booked">Booked</span>
+      <span class="badge badge--confirmed">Confirmed</span>
+      <span class="badge badge--attended">Attended</span>
+      <span class="badge badge--waitlisted">Waitlisted</span>
+      <span class="badge badge--reserved">Reserved</span>
+      <span class="badge badge--cancelled">Cancelled</span>
+      <span class="badge badge--no_show">No Show</span>
+    </div>
+    <h3>Workshop Status</h3>
+    <div class="badge-row">
+      <span class="badge badge--draft">Draft</span>
+      <span class="badge badge--open">Booking Open</span>
+      <span class="badge badge--full">Full</span>
+      <span class="badge badge--completed">Completed</span>
+    </div>
+    <h3>Dietary Tags</h3>
+    <div class="badge-row">
+      <span class="dietary-tag">Vegetarian</span>
+      <span class="dietary-tag">Halal</span>
+      <span class="dietary-tag">Gluten Free</span>
+      <span class="dietary-tag--missing dietary-tag">Not provided</span>
+    </div>
+  </div>
+
+  <!-- FORMS -->
+  <div class="sg-section">
+    <h2>Form Inputs</h2>
+    <div class="input-demo">
+      <div class="form-group">
+        <label class="form-label">Name</label>
+        <input class="form-input" type="text" placeholder="e.g. John Smith">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" value="john@charity.org">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Line Manager Email</label>
+        <input class="form-input form-input--error" type="email" value="invalid-email">
+        <div class="form-error">Please enter a valid email address</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Dietary Requirements</label>
+        <textarea class="form-input" placeholder="e.g. Vegetarian, no nuts"></textarea>
+        <div class="form-hint">This information will be shared with the venue host for catering</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Filter by Year</label>
+        <select class="filter-select">
+          <option>2026</option>
+          <option>2025</option>
+          <option>2024</option>
+        </select>
+      </div>
+    </div>
+    <h3>Star Rating</h3>
+    <div class="star-rating">
+      <span class="star active">&#9733;</span>
+      <span class="star active">&#9733;</span>
+      <span class="star active">&#9733;</span>
+      <span class="star active">&#9733;</span>
+      <span class="star">&#9733;</span>
+    </div>
+  </div>
+
+  <!-- ALERTS -->
+  <div class="sg-section">
+    <h2>Alerts &amp; Messages</h2>
+    <div class="alert-demo">
+      <div class="alert alert--success">Successfully booked 3 attendees for Assertiveness workshop.</div>
+      <div class="alert alert--warning">2 unnamed reservations need names by 15 Feb 2026.</div>
+      <div class="alert alert--error">Cannot cancel this booking — workshop has already taken place.</div>
+      <div class="alert alert--info">This attendee has previously attended this topic (Leadership, Jan 2025).</div>
+    </div>
+  </div>
+
+  <!-- PROGRESS BARS -->
+  <div class="sg-section">
+    <h2>Progress Bars</h2>
+    <div style="max-width: 400px;">
+      <p style="font-size: 13px; margin-bottom: 4px;">14/18 booked</p>
+      <div class="progress"><div class="progress-fill progress-fill--primary" style="width: 78%;"></div></div>
+      <p style="font-size: 13px; margin: 12px 0 4px;">18/18 full</p>
+      <div class="progress"><div class="progress-fill progress-fill--success" style="width: 100%;"></div></div>
+      <p style="font-size: 13px; margin: 12px 0 4px;">6/18 early</p>
+      <div class="progress"><div class="progress-fill progress-fill--accent" style="width: 33%;"></div></div>
+    </div>
+  </div>
+
+  <!-- ACTION ITEMS -->
+  <div class="sg-section">
+    <h2>Action Items</h2>
+    <div style="max-width: 600px;">
+      <div class="action-item action-item--amber"><div class="action-dot action-dot--amber"></div>3 charities haven't booked for <strong>Assertiveness</strong> (13 Mar)</div>
+      <div class="action-item action-item--amber"><div class="action-dot action-dot--amber"></div>5 attendees haven't confirmed dietary requirements</div>
+      <div class="action-item action-item--green"><div class="action-dot action-dot--green"></div>Leading a Team is full &mdash; 2 on waitlist</div>
+      <div class="action-item action-item--red"><div class="action-dot action-dot--red"></div>2 unnamed reservations expire in 3 days</div>
+    </div>
+  </div>
+
+  <!-- CARDS -->
+  <div class="sg-section">
+    <h2>Cards</h2>
+    <div style="max-width: 600px;">
+      <div class="workshop-card">
+        <div class="workshop-card-header">
+          <div class="workshop-card-title">Assertiveness and Constructive Negotiation</div>
+          <span class="badge badge--open">Booking Open</span>
+        </div>
+        <div class="workshop-card-meta">
+          <span><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Friday 13 March 2026</span>
+          <span><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Travers Smith, London</span>
+        </div>
+        <div class="workshop-card-footer">
+          <div class="workshop-card-places"><strong>14</strong>/18 places booked &bull; 1 on waitlist</div>
+          <button class="btn btn--primary btn--sm">Book Places</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION SIDEBAR PREVIEW -->
+  <div class="sg-section">
+    <h2>Sidebar Navigation</h2>
+    <div style="width: 240px; background: var(--nav-bg); border-radius: 14px; overflow: hidden;">
+      <div class="sidebar-logo" style="padding: 20px;"><span class="t">Learning</span><span class="p">for</span><span class="o">Good</span></div>
+      <div style="padding: 8px 0;">
+        <div class="nav-link active"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</div>
+        <div class="nav-link"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Workshops <span class="nav-badge">3</span></div>
+        <div class="nav-link"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Charities</div>
+        <div class="nav-link"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Alumni</div>
+        <div class="nav-link"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>Materials</div>
+        <div class="nav-link"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</div>
+      </div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">E</div>
+        <div class="sidebar-user-info"><div class="sidebar-user-name">Emma Niven</div><div class="sidebar-user-role">Super Admin</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="sg-section">
+    <h2>Tables</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Workshop</th><th>Date</th><th>Venue</th><th>Bookings</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="font-weight: 600;">Assertiveness</td>
+            <td>13 Mar 2026</td>
+            <td>Travers Smith</td>
+            <td>14/18</td>
+            <td><span class="badge badge--open">Booking Open</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">Leading a Team</td>
+            <td>17 Apr 2026</td>
+            <td>McFarlanes</td>
+            <td>18/18</td>
+            <td><span class="badge badge--full">Full</span></td>
+          </tr>
+          <tr>
+            <td style="font-weight: 600;">Looking After Yourself</td>
+            <td>22 May 2026</td>
+            <td>Travers Smith</td>
+            <td>6/18</td>
+            <td><span class="badge badge--open">Booking Open</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SPACING & RADIUS -->
+  <div class="sg-section">
+    <h2>Spacing &amp; Radius</h2>
+    <h3>Spacing Scale (4px grid)</h3>
+    <div style="display: flex; gap: 8px; align-items: flex-end; flex-wrap: wrap;">
+      <div style="text-align: center;"><div style="width: 4px; height: 4px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">4</div></div>
+      <div style="text-align: center;"><div style="width: 8px; height: 8px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">8</div></div>
+      <div style="text-align: center;"><div style="width: 12px; height: 12px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">12</div></div>
+      <div style="text-align: center;"><div style="width: 16px; height: 16px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">16</div></div>
+      <div style="text-align: center;"><div style="width: 20px; height: 20px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">20</div></div>
+      <div style="text-align: center;"><div style="width: 24px; height: 24px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">24</div></div>
+      <div style="text-align: center;"><div style="width: 32px; height: 32px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">32</div></div>
+      <div style="text-align: center;"><div style="width: 48px; height: 48px; background: var(--primary); border-radius: 2px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">48</div></div>
+    </div>
+    <h3>Border Radius</h3>
+    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+      <div style="text-align: center;"><div style="width: 48px; height: 48px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 6px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">sm (6)</div></div>
+      <div style="text-align: center;"><div style="width: 48px; height: 48px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 10px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">md (10)</div></div>
+      <div style="text-align: center;"><div style="width: 48px; height: 48px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 14px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">lg (14)</div></div>
+      <div style="text-align: center;"><div style="width: 48px; height: 48px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 20px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">xl (20)</div></div>
+      <div style="text-align: center;"><div style="width: 48px; height: 48px; background: var(--primary-light); border: 2px solid var(--primary); border-radius: 9999px;"></div><div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">full</div></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

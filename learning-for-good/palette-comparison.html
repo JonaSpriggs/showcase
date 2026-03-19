@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning for Good - Palette Comparison</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #1a1a1e; padding: 32px 20px 60px; }
+  h1 { text-align: center; font-size: 36px; font-weight: 800; color: #f0ebe4; margin-bottom: 4px; letter-spacing: -0.5px; }
+  h1 span { color: #d4a024; }
+  .subtitle { text-align: center; font-size: 14px; color: #8a8a80; margin-bottom: 40px; }
+
+  .palette-section {
+    max-width: 1400px;
+    margin: 0 auto 60px;
+    background: #242428;
+    border-radius: 16px;
+    padding: 32px;
+  }
+  .palette-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .palette-label { font-size: 22px; font-weight: 700; color: #e0ddd5; }
+  .palette-desc { font-size: 13px; color: #8a8a80; max-width: 500px; }
+  .chips { display: flex; gap: 6px; }
+  .chip {
+    width: 32px; height: 32px; border-radius: 8px; border: 2px solid rgba(255,255,255,0.1);
+    position: relative;
+  }
+  .chip-label {
+    position: absolute; bottom: -18px; left: 50%; transform: translateX(-50%);
+    font-size: 8px; color: #666; white-space: nowrap;
+  }
+
+  /* Web frame */
+  .web-frame {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+  }
+  .browser-bar {
+    height: 36px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    gap: 8px;
+    background: #2a2a2e;
+  }
+  .browser-dots { display: flex; gap: 6px; }
+  .browser-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .browser-dot.red { background: #ff5f57; }
+  .browser-dot.yellow { background: #febc2e; }
+  .browser-dot.green { background: #28c840; }
+  .browser-url {
+    flex: 1; height: 22px; background: #1a1a1e; border-radius: 4px;
+    margin-left: 8px; display: flex; align-items: center; padding: 0 10px;
+    font-size: 11px; color: #666;
+  }
+
+  /* Dashboard layout */
+  .dashboard {
+    display: flex;
+    min-height: 520px;
+  }
+  .sidebar {
+    width: 220px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .sidebar-logo {
+    font-size: 16px;
+    font-weight: 800;
+    padding: 0 20px 20px;
+    letter-spacing: -0.5px;
+  }
+  .nav-items { flex: 1; }
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .nav-link svg { width: 18px; height: 18px; stroke-width: 1.8; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .nav-link.active { font-weight: 700; }
+  .sidebar-user {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+  }
+  .sidebar-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 24px 28px;
+    overflow: hidden;
+  }
+  .greeting { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .greeting-sub { font-size: 13px; margin-bottom: 20px; }
+
+  .cards-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    padding: 16px;
+    border-radius: 10px;
+  }
+  .stat-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 800; }
+  .stat-sub { font-size: 11px; margin-top: 4px; }
+
+  .action-items { margin-bottom: 20px; }
+  .action-title { font-size: 15px; font-weight: 700; margin-bottom: 10px; }
+  .action-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .action-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+
+  .upcoming-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .upcoming-table th {
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .upcoming-table td { padding: 10px 12px; }
+  .status-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+  }
+  .progress-bar {
+    width: 80px; height: 6px; border-radius: 3px; overflow: hidden;
+  }
+  .progress-fill { height: 100%; border-radius: 3px; }
+
+  @media print {
+    .palette-section {
+      page-break-after: always;
+      break-after: always;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+    .palette-section:last-child {
+      page-break-after: avoid;
+      break-after: avoid;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1><span>Learning for Good</span> Palette Selection</h1>
+<p class="subtitle">Pick the colour palette that feels right. Each shows Emma's dashboard with real data.</p>
+
+<script>
+const palettes = [
+  // === TOP 3: Brand-based designs ===
+  {
+    name: "1. Brand Tricolour",
+    desc: "Uses all three logo colours together. Teal primary, purple sidebar, orange highlights. Maximum brand recognition across the platform.",
+    primary: "#2596be", primaryHover: "#1e7fa3", primaryLight: "#ddf0f8",
+    bg: "#f8f8fa", text: "#2a2a35", textLight: "#5e6070", textMuted: "#8e9098",
+    surface: "#f0f0f4", surfaceDark: "#e0e0e6", navBg: "#2a2035", navText: "#b5a8c0",
+    navActive: "#ffffff", border: "#d8d8e0", white: "#ffffff",
+    error: "#dc4a3f", success: "#2596be", amber: "#e8842c", green: "#16a34a",
+    accent: "#8b5a9e",
+    chips: ["#2596be", "#8b5a9e", "#e8842c", "#f8f8fa", "#2a2035", "#ddf0f8"],
+    logoHtml: '<span style="color: #2596be;">Learning</span><span style="color: #8b5a9e;">for</span><span style="color: #e8842c;">Good</span>'
+  },
+  {
+    name: "2. Brand Blue Focus",
+    desc: "Led by the logo's teal-blue. Clean and professional with blue as the dominant colour. Orange used sparingly for highlights and CTAs. Feels trustworthy and modern.",
+    primary: "#2596be", primaryHover: "#1e7fa3", primaryLight: "#ddf0f8",
+    bg: "#f7f9fb", text: "#1e2d3a", textLight: "#5a6d7a", textMuted: "#8a9aaa",
+    surface: "#edf2f7", surfaceDark: "#dce4ec", navBg: "#152535", navText: "#8aabbf",
+    navActive: "#ffffff", border: "#d0dce5", white: "#ffffff",
+    error: "#dc4a3f", success: "#2596be", amber: "#e8842c", green: "#16a34a",
+    accent: "#e8842c",
+    chips: ["#2596be", "#f7f9fb", "#152535", "#e8842c", "#edf2f7", "#ddf0f8"],
+    logoHtml: '<span style="color: #2596be;">Learning</span><span style="color: #8b5a9e;">for</span><span style="color: #e8842c;">Good</span>'
+  },
+  {
+    name: "3. Brand Orange Focus",
+    desc: "Warm orange sidebar with blue as the primary action colour in the main content. Clean separation between navigation and workspace.",
+    primary: "#2596be", primaryHover: "#1e7fa3", primaryLight: "#ddf0f8",
+    bg: "#faf8f6", text: "#2a2520", textLight: "#6b6055", textMuted: "#9a9088",
+    surface: "#f2eeea", surfaceDark: "#e5dfd8", navBg: "#c26a1a", navText: "#fde8d4",
+    navActive: "#ffffff", border: "#ddd6cc", white: "#ffffff",
+    error: "#dc4a3f", success: "#2596be", amber: "#e8842c", green: "#16a34a",
+    accent: "#8b5a9e",
+    chips: ["#c26a1a", "#faf8f6", "#2596be", "#8b5a9e", "#f2eeea", "#ddf0f8"],
+    logoHtml: '<span style="color: #2596be;">Learning</span><span style="color: #8b5a9e;">for</span><span style="color: #e8842c;">Good</span>'
+  },
+
+  // === OTHER OPTIONS ===
+  {
+    name: "4. Forest Green",
+    desc: "The natural choice for a charity. Professional, trustworthy, calming. Pairs warm greys with deep greens.",
+    primary: "#2d6a4f", primaryHover: "#245840", primaryLight: "#d8efe4",
+    bg: "#f5f7f6", text: "#1a2e23", textLight: "#5a7068", textMuted: "#8fa59b",
+    surface: "#eaf0ec", surfaceDark: "#d8e2dc", navBg: "#1a2e23", navText: "#c8d8d0",
+    navActive: "#ffffff", border: "#d0ddd6", white: "#ffffff",
+    error: "#dc4a3f", success: "#2d6a4f", amber: "#d97706", green: "#16a34a",
+    accent: "#40916c",
+    chips: ["#2d6a4f", "#f5f7f6", "#1a2e23", "#eaf0ec", "#40916c", "#d8efe4"]
+  },
+  {
+    name: "5. Ocean Teal",
+    desc: "Fresh and modern. Teal conveys clarity and forward-thinking. Great contrast, very accessible.",
+    primary: "#0d7377", primaryHover: "#0a5f62", primaryLight: "#d4f0f0",
+    bg: "#f4f7f8", text: "#1a2b30", textLight: "#5a7580", textMuted: "#8fa5ad",
+    surface: "#e8eff2", surfaceDark: "#d4dee3", navBg: "#132a30", navText: "#b8cdd3",
+    navActive: "#ffffff", border: "#cddae0", white: "#ffffff",
+    error: "#dc4a3f", success: "#0d7377", amber: "#d97706", green: "#16a34a",
+    accent: "#14b8a6",
+    chips: ["#0d7377", "#f4f7f8", "#132a30", "#e8eff2", "#14b8a6", "#d4f0f0"]
+  },
+  {
+    name: "6. Warm Sage",
+    desc: "Soft and approachable. Muted sage with warm undertones. Feels human and non-corporate — perfect for a charity.",
+    primary: "#6b8f71", primaryHover: "#5a7c5f", primaryLight: "#e4ede5",
+    bg: "#faf8f5", text: "#2c3530", textLight: "#6b7a6f", textMuted: "#9aa89e",
+    surface: "#f0ede8", surfaceDark: "#e0ddd6", navBg: "#2c3530", navText: "#b0bab3",
+    navActive: "#ffffff", border: "#ddd8d0", white: "#ffffff",
+    error: "#c75c3a", success: "#6b8f71", amber: "#b8860b", green: "#5a8c5e",
+    accent: "#8fb596",
+    chips: ["#6b8f71", "#faf8f5", "#2c3530", "#f0ede8", "#8fb596", "#e4ede5"]
+  },
+  {
+    name: "7. Royal Blue",
+    desc: "Classic and trusted. Blue is universally associated with reliability. Clean and corporate-friendly.",
+    primary: "#2563eb", primaryHover: "#1d4ed8", primaryLight: "#dbeafe",
+    bg: "#f8fafc", text: "#1e293b", textLight: "#64748b", textMuted: "#94a3b8",
+    surface: "#f1f5f9", surfaceDark: "#e2e8f0", navBg: "#1e293b", navText: "#94a3b8",
+    navActive: "#ffffff", border: "#e2e8f0", white: "#ffffff",
+    error: "#ef4444", success: "#22c55e", amber: "#f59e0b", green: "#22c55e",
+    accent: "#3b82f6",
+    chips: ["#2563eb", "#f8fafc", "#1e293b", "#f1f5f9", "#3b82f6", "#dbeafe"]
+  },
+  {
+    name: "8. Plum & Gold",
+    desc: "Distinctive and warm. Deep plum with gold accents. Stands out from typical charity palettes while remaining professional.",
+    primary: "#6d4c8c", primaryHover: "#5a3d75", primaryLight: "#ede4f5",
+    bg: "#faf8fc", text: "#2a2035", textLight: "#6b5a7a", textMuted: "#9a8aaa",
+    surface: "#f0ecf4", surfaceDark: "#e0dae8", navBg: "#2a2035", navText: "#b0a5bb",
+    navActive: "#ffffff", border: "#ddd5e5", white: "#ffffff",
+    error: "#dc4a3f", success: "#5a8c5e", amber: "#c4952a", green: "#5a8c5e",
+    accent: "#c4952a",
+    chips: ["#6d4c8c", "#faf8fc", "#2a2035", "#f0ecf4", "#c4952a", "#ede4f5"]
+  }
+];
+
+function renderDashboard(p) {
+  return `
+    <div class="web-frame">
+      <div class="browser-bar">
+        <div class="browser-dots">
+          <div class="browser-dot red"></div>
+          <div class="browser-dot yellow"></div>
+          <div class="browser-dot green"></div>
+        </div>
+        <div class="browser-url">admin.learningforgood.org.uk/dashboard</div>
+      </div>
+      <div class="dashboard" style="background: ${p.bg};">
+        <!-- Sidebar -->
+        <div class="sidebar" style="background: ${p.navBg}; border-right: 1px solid ${p.border};">
+          <div class="sidebar-logo">${p.logoHtml || `<span style="color: ${p.white};">Learning</span><span style="color: ${p.accent};">forGood</span>`}</div>
+          <div class="nav-items">
+            <div class="nav-link active" style="color: ${p.navActive}; background: rgba(255,255,255,0.1);">
+              <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              Dashboard
+            </div>
+            <div class="nav-link" style="color: ${p.navText};">
+              <svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              Workshops
+            </div>
+            <div class="nav-link" style="color: ${p.navText};">
+              <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Charities
+            </div>
+            <div class="nav-link" style="color: ${p.navText};">
+              <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Alumni
+            </div>
+            <div class="nav-link" style="color: ${p.navText};">
+              <svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              Materials
+            </div>
+            <div class="nav-link" style="color: ${p.navText};">
+              <svg viewBox="0 0 24 24" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+              Analytics
+            </div>
+          </div>
+          <div class="sidebar-user" style="color: ${p.navText}; border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="sidebar-avatar" style="background: ${p.primary}; color: ${p.white};">E</div>
+            <div>
+              <div style="font-weight: 600; color: ${p.navActive};">Emma Niven</div>
+              <div style="font-size: 10px;">Super Admin</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content" style="color: ${p.text};">
+          <div class="greeting" style="color: ${p.text};">Good morning, Emma</div>
+          <div class="greeting-sub" style="color: ${p.textLight};">Here's what's happening with your workshops</div>
+
+          <!-- Stat Cards -->
+          <div class="cards-row">
+            <div class="stat-card" style="background: ${p.white}; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+              <div class="stat-label" style="color: ${p.textMuted};">Next Workshop</div>
+              <div class="stat-value" style="color: ${p.text};">13 Mar</div>
+              <div class="stat-sub" style="color: ${p.primary};">Assertiveness &bull; Travers Smith</div>
+            </div>
+            <div class="stat-card" style="background: ${p.white}; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+              <div class="stat-label" style="color: ${p.textMuted};">Seats Filled</div>
+              <div class="stat-value" style="color: ${p.text};">14<span style="font-size: 16px; color: ${p.textLight};">/18</span></div>
+              <div style="margin-top: 6px;">
+                <div class="progress-bar" style="background: ${p.surfaceDark};">
+                  <div class="progress-fill" style="width: 78%; background: ${p.primary};"></div>
+                </div>
+              </div>
+            </div>
+            <div class="stat-card" style="background: ${p.white}; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+              <div class="stat-label" style="color: ${p.textMuted};">Workshops This Year</div>
+              <div class="stat-value" style="color: ${p.text};">3<span style="font-size: 16px; color: ${p.textLight};">/8</span></div>
+              <div class="stat-sub" style="color: ${p.textLight};">5 remaining</div>
+            </div>
+          </div>
+
+          <!-- Action Items -->
+          <div class="action-items">
+            <div class="action-title" style="color: ${p.text};">Needs Your Attention</div>
+            <div class="action-item" style="background: ${p.white};">
+              <div class="action-dot" style="background: ${p.amber};"></div>
+              <span style="color: ${p.text};">3 charities haven't booked for <strong>Assertiveness</strong> (13 Mar)</span>
+            </div>
+            <div class="action-item" style="background: ${p.white};">
+              <div class="action-dot" style="background: ${p.amber};"></div>
+              <span style="color: ${p.text};">5 attendees haven't confirmed dietary requirements</span>
+            </div>
+            <div class="action-item" style="background: ${p.white};">
+              <div class="action-dot" style="background: ${p.green};"></div>
+              <span style="color: ${p.text};">Leading a Team is full &mdash; 2 on waitlist</span>
+            </div>
+          </div>
+
+          <!-- Upcoming Workshops Table -->
+          <table class="upcoming-table">
+            <thead>
+              <tr style="border-bottom: 1px solid ${p.border};">
+                <th style="color: ${p.textMuted};">Workshop</th>
+                <th style="color: ${p.textMuted};">Date</th>
+                <th style="color: ${p.textMuted};">Venue</th>
+                <th style="color: ${p.textMuted};">Bookings</th>
+                <th style="color: ${p.textMuted};">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid ${p.border};">
+                <td style="color: ${p.text}; font-weight: 600;">Assertiveness</td>
+                <td style="color: ${p.textLight};">13 Mar 2026</td>
+                <td style="color: ${p.textLight};">Travers Smith</td>
+                <td>
+                  <div class="progress-bar" style="background: ${p.surfaceDark};">
+                    <div class="progress-fill" style="width: 78%; background: ${p.primary};"></div>
+                  </div>
+                  <span style="font-size: 10px; color: ${p.textLight};">14/18</span>
+                </td>
+                <td><span class="status-badge" style="background: ${p.primaryLight}; color: ${p.primary};">Booking Open</span></td>
+              </tr>
+              <tr style="border-bottom: 1px solid ${p.border};">
+                <td style="color: ${p.text}; font-weight: 600;">Leading a Team</td>
+                <td style="color: ${p.textLight};">17 Apr 2026</td>
+                <td style="color: ${p.textLight};">McFarlanes</td>
+                <td>
+                  <div class="progress-bar" style="background: ${p.surfaceDark};">
+                    <div class="progress-fill" style="width: 100%; background: ${p.green};"></div>
+                  </div>
+                  <span style="font-size: 10px; color: ${p.textLight};">18/18</span>
+                </td>
+                <td><span class="status-badge" style="background: #dcfce7; color: #16a34a;">Full</span></td>
+              </tr>
+              <tr>
+                <td style="color: ${p.text}; font-weight: 600;">Looking After Yourself</td>
+                <td style="color: ${p.textLight};">22 May 2026</td>
+                <td style="color: ${p.textLight};">Travers Smith</td>
+                <td>
+                  <div class="progress-bar" style="background: ${p.surfaceDark};">
+                    <div class="progress-fill" style="width: 33%; background: ${p.accent};"></div>
+                  </div>
+                  <span style="font-size: 10px; color: ${p.textLight};">6/18</span>
+                </td>
+                <td><span class="status-badge" style="background: ${p.primaryLight}; color: ${p.primary};">Booking Open</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.querySelector('body');
+
+  palettes.forEach((p, i) => {
+    const section = document.createElement('div');
+    section.className = 'palette-section';
+
+    const chipsHTML = p.chips.map(c =>
+      `<div class="chip" style="background:${c};"></div>`
+    ).join('');
+
+    section.innerHTML = `
+      <div class="palette-header">
+        <div>
+          <div class="palette-label">${i + 1}. ${p.name}</div>
+          <div class="palette-desc">${p.desc}</div>
+        </div>
+        <div class="chips">${chipsHTML}</div>
+      </div>
+      ${renderDashboard(p)}
+    `;
+
+    body.appendChild(section);
+  });
+});
+</script>
+
+</body>
+</html>

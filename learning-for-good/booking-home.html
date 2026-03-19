@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Booking Portal — London Wildlife Trust</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    .portal-header-bar {
+      background: linear-gradient(135deg, #2a2035, #3a2d4a);
+      color: white;
+      padding: var(--sp-4) var(--sp-6);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .portal-header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+    }
+    .portal-logo {
+      font-size: var(--text-xl);
+      font-weight: var(--weight-extrabold);
+      letter-spacing: -0.5px;
+    }
+    .portal-logo .t { color: #2596be; }
+    .portal-logo .p { color: #8b5a9e; }
+    .portal-logo .o { color: #e8842c; }
+    .portal-header-title {
+      font-size: var(--text-base);
+      font-weight: var(--weight-semibold);
+      opacity: 0.95;
+      border-left: 1px solid rgba(255,255,255,0.2);
+      padding-left: var(--sp-4);
+    }
+    .portal-header-user {
+      font-size: var(--text-sm);
+      opacity: 0.8;
+    }
+    .portal-main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: var(--sp-6) var(--sp-6) var(--sp-12);
+    }
+    .charity-banner {
+      text-align: center;
+      padding: var(--sp-8) var(--sp-4);
+      margin-bottom: var(--sp-6);
+    }
+    .charity-name {
+      font-size: var(--text-3xl);
+      font-weight: var(--weight-extrabold);
+      color: var(--text);
+      margin-bottom: var(--sp-2);
+    }
+    .charity-sub {
+      font-size: var(--text-base);
+      color: var(--text-light);
+    }
+    .workshop-card-actions {
+      display: flex;
+      gap: var(--sp-2);
+    }
+    .waitlist-note {
+      font-size: var(--text-xs);
+      color: var(--warning);
+      margin-top: var(--sp-2);
+    }
+  </style>
+</head>
+<body class="portal-layout">
+
+  <!-- Header Bar -->
+  <header class="portal-header-bar">
+    <div class="portal-header-left">
+      <div class="portal-logo">
+        <span class="t">Learn</span><span class="p">ing</span> <span class="o">for Good</span>
+      </div>
+      <div class="portal-header-title">Booking Portal — London Wildlife Trust</div>
+    </div>
+    <div class="portal-header-user">Logged in as Jade Reilly</div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="portal-main">
+
+    <div class="charity-banner">
+      <h1 class="charity-name">London Wildlife Trust</h1>
+      <p class="charity-sub">Upcoming workshops available for your organisation</p>
+    </div>
+
+    <div class="section-header">
+      <h2 class="section-title">Upcoming Workshops</h2>
+    </div>
+
+    <!-- Workshop 1: Booking Open -->
+    <div class="workshop-card">
+      <div class="workshop-card-header">
+        <div class="workshop-card-title">Assertiveness and Constructive Negotiation</div>
+        <span class="badge badge--open">Booking Open</span>
+      </div>
+      <div class="workshop-card-meta">
+        <span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Wednesday 15 April 2026, 10:00 – 16:00
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Community Centre, Hackney
+        </span>
+      </div>
+      <div class="workshop-card-footer">
+        <div class="workshop-card-places">
+          <strong>1 of 3</strong> places booked
+          <div class="progress" style="width: 120px; margin-top: 4px;">
+            <div class="progress-fill progress-fill--primary" style="width: 33%;"></div>
+          </div>
+        </div>
+        <div class="workshop-card-actions">
+          <a href="booking-add-attendees.html" class="btn btn--primary">Book Places</a>
+          <a href="booking-manage.html" class="btn btn--outline">Manage Bookings</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop 2: Booking Open -->
+    <div class="workshop-card">
+      <div class="workshop-card-header">
+        <div class="workshop-card-title">Resilience and Wellbeing at Work</div>
+        <span class="badge badge--open">Booking Open</span>
+      </div>
+      <div class="workshop-card-meta">
+        <span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Tuesday 5 May 2026, 10:00 – 16:00
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          The Ecology Pavilion, Mile End
+        </span>
+      </div>
+      <div class="workshop-card-footer">
+        <div class="workshop-card-places">
+          <strong>2 of 3</strong> places booked
+          <div class="progress" style="width: 120px; margin-top: 4px;">
+            <div class="progress-fill progress-fill--warning" style="width: 66%;"></div>
+          </div>
+        </div>
+        <div class="workshop-card-actions">
+          <a href="#" class="btn btn--primary">Book Places</a>
+          <a href="#" class="btn btn--outline">Manage Bookings</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Workshop 3: Full -->
+    <div class="workshop-card">
+      <div class="workshop-card-header">
+        <div class="workshop-card-title">Managing Difficult Conversations</div>
+        <span class="badge badge--full">Full</span>
+      </div>
+      <div class="workshop-card-meta">
+        <span>
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Thursday 21 May 2026, 10:00 – 16:00
+        </span>
+        <span>
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Camley Street Natural Park, King's Cross
+        </span>
+      </div>
+      <div class="workshop-card-footer">
+        <div class="workshop-card-places">
+          <strong>3 of 3</strong> places booked
+          <div class="progress" style="width: 120px; margin-top: 4px;">
+            <div class="progress-fill progress-fill--success" style="width: 100%;"></div>
+          </div>
+          <div class="waitlist-note">1 person on waitlist</div>
+        </div>
+        <div class="workshop-card-actions">
+          <a href="#" class="btn btn--accent btn--sm">Join Waitlist</a>
+          <a href="#" class="btn btn--outline">Manage Bookings</a>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+</body>
+</html>
