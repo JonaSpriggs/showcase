@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS Design System - Style Guide</title>
+<style>
+  /* Style guide uses its own layout (not phone frame) */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --primary: #6b8f5e;
+    --primary-hover: #5a7c4e;
+    --primary-light: #e2e8dc;
+    --bg: #f7f5f0;
+    --text: #2d3a2e;
+    --text-light: #7a8272;
+    --text-muted: #9da393;
+    --surface: #eae7df;
+    --surface-dark: #ddd8cf;
+    --ui-bg: #e2e0d8;
+    --nav-bg: #eae7df;
+    --border: #ddd8cf;
+    --white: #ffffff;
+    --error: #c75c3a;
+    --error-light: #fce8e2;
+    --success: #6b8f5e;
+    --success-light: #e2e8dc;
+
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --radius-full: 9999px;
+    --shadow-sm: 0 1px 3px rgba(45, 58, 46, 0.06);
+    --shadow-md: 0 2px 8px rgba(45, 58, 46, 0.08);
+    --shadow-lg: 0 4px 16px rgba(45, 58, 46, 0.12);
+  }
+
+  body {
+    font-family: var(--font-family);
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+
+  /* Guide layout */
+  .guide-header {
+    background: var(--text);
+    color: var(--surface);
+    padding: 48px 40px 40px;
+  }
+  .guide-header h1 {
+    font-size: 40px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .guide-header h1 span { color: var(--primary); }
+  .guide-header p {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 500px;
+  }
+  .guide-nav {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 32px;
+    overflow-x: auto;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  .guide-nav a {
+    display: block;
+    padding: 16px 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+  }
+  .guide-nav a:hover { color: var(--text); }
+  .guide-nav a.active { color: var(--text); border-bottom-color: var(--primary); }
+
+  .guide-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 48px 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .guide-section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+    margin-bottom: 8px;
+  }
+  .section-heading {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .section-desc {
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: 32px;
+    max-width: 600px;
+  }
+
+  .subsection {
+    margin-bottom: 40px;
+  }
+  .subsection-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  /* Color swatches */
+  .color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 16px;
+  }
+  .color-swatch {
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    background: var(--white);
+  }
+  .swatch-color {
+    height: 80px;
+    display: flex;
+    align-items: flex-end;
+    padding: 8px 12px;
+  }
+  .swatch-info {
+    padding: 10px 12px;
+  }
+  .swatch-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .swatch-hex {
+    font-size: 12px;
+    color: var(--text-light);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .swatch-usage {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  /* Type samples */
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-meta {
+    flex-shrink: 0;
+    width: 120px;
+    text-align: right;
+  }
+  .type-size {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-light);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+  }
+  .type-token {
+    font-size: 11px;
+    color: var(--text-muted);
+  }
+
+  /* Button row */
+  .button-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+
+  /* Component showcase */
+  .showcase {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: 16px;
+  }
+  .showcase-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+  }
+  .showcase-dark {
+    background: var(--text);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+  }
+
+  /* Inline phone preview */
+  .phone-preview {
+    width: 390px;
+    background: var(--bg);
+    border-radius: 32px;
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  /* Generic component styles (duplicated from design.css for standalone viewing) */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-family);
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 150ms ease;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--primary);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+  }
+  .btn-primary:hover { background: var(--primary-hover); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-primary:disabled { background: var(--surface-dark); color: var(--text-muted); cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent;
+    color: var(--primary);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+    border: 2px solid var(--primary);
+  }
+  .btn-secondary:hover { background: var(--surface); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--text-light);
+    padding: 8px 12px;
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+  }
+  .btn-ghost:hover { background: var(--surface); color: var(--text); }
+  .btn-sm { padding: 8px 16px; font-size: 13px; border-radius: var(--radius-sm); }
+  .btn-full { width: 100%; }
+  .btn-icon {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 18px;
+  }
+  .btn-icon:hover { background: var(--surface-dark); }
+
+  .btn-danger {
+    background: var(--error);
+    color: var(--white);
+    padding: 12px 24px;
+    border-radius: var(--radius-md);
+    font-size: 15px;
+  }
+
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+  }
+
+  .input {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: var(--font-family);
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    outline: none;
+    transition: all 150ms ease;
+  }
+  .input::placeholder { color: var(--text-muted); }
+  .input:focus { border-color: var(--primary); background: var(--white); }
+  .input-error { border-color: var(--error); background: var(--error-light); }
+
+  .search-wrapper { position: relative; }
+  .search-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 16px;
+    pointer-events: none;
+  }
+  .search-input {
+    width: 100%;
+    padding: 12px 16px 12px 40px;
+    font-family: var(--font-family);
+    font-size: 13px;
+    color: var(--text);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-full);
+    outline: none;
+    transition: all 150ms ease;
+  }
+  .search-input::placeholder { color: var(--text-muted); }
+  .search-input:focus { border-color: var(--primary); background: var(--white); }
+
+  .textarea {
+    width: 100%;
+    padding: 14px 16px;
+    font-family: var(--font-family);
+    font-size: 15px;
+    color: var(--text);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-md);
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+  }
+  .textarea::placeholder { color: var(--text-muted); }
+  .textarea:focus { border-color: var(--primary); background: var(--white); }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-business { background: var(--primary); color: var(--white); }
+  .badge-new { background: var(--success); color: var(--white); }
+
+  .avatar {
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2px solid var(--primary);
+  }
+
+  .checkbox {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 150ms ease;
+    background: var(--white);
+  }
+  .checkbox.checked {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--white);
+    font-size: 13px;
+  }
+
+  /* Notification item */
+  .notif-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .notif-item img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary); }
+  .notif-text { flex: 1; font-size: 14px; color: var(--text); line-height: 1.4; }
+  .notif-text strong { font-weight: 700; }
+  .notif-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+  /* Shopping list item */
+  .shop-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .shop-item-info { flex: 1; }
+  .shop-item-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .shop-item-qty { font-size: 13px; color: var(--text-light); }
+  .shop-item.checked .shop-item-name {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  /* Card component */
+  .demo-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    max-width: 340px;
+  }
+  .demo-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+  .demo-card-body {
+    padding: 14px 16px 16px;
+  }
+  .demo-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .demo-card-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.5;
+  }
+
+  /* Compact card */
+  .compact-card {
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+    width: 160px;
+    flex-shrink: 0;
+  }
+  .compact-card img {
+    width: 100%;
+    height: 110px;
+    object-fit: cover;
+    display: block;
+  }
+  .compact-card-body {
+    padding: 10px 12px;
+  }
+  .compact-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .compact-card-meta {
+    font-size: 11px;
+    color: var(--text-light);
+  }
+
+  /* Cookbook card */
+  .cookbook-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+    width: 200px;
+    flex-shrink: 0;
+  }
+  .cookbook-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+  }
+  .cookbook-card-body {
+    padding: 12px 14px;
+  }
+  .cookbook-card-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+  }
+  .cookbook-card-creator {
+    font-size: 12px;
+    color: var(--text-light);
+    margin-bottom: 6px;
+  }
+  .cookbook-card-price {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  /* Nav demo */
+  .nav-demo {
+    background: var(--nav-bg);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0 12px;
+    border-radius: var(--radius-lg);
+    max-width: 390px;
+  }
+  .nav-demo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-light);
+    cursor: pointer;
+  }
+  .nav-demo-item.active { color: var(--text); }
+  .nav-demo-item.active .nav-demo-icon { color: var(--primary); }
+  .nav-demo-icon { font-size: 20px; }
+
+  /* Sub-tabs demo */
+  .tabs-demo {
+    display: flex;
+    border-bottom: 1px solid var(--border);
+    max-width: 390px;
+  }
+  .tab-demo {
+    flex: 1;
+    text-align: center;
+    padding: 14px 0 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-light);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .tab-demo.active {
+    color: var(--text);
+    border-bottom-color: var(--primary);
+  }
+
+  /* Bottom sheet demo */
+  .sheet-demo {
+    background: var(--white);
+    border-radius: var(--radius-xl) var(--radius-xl) var(--radius-lg) var(--radius-lg);
+    padding: 12px 20px 24px;
+    max-width: 390px;
+    box-shadow: var(--shadow-lg);
+  }
+  .sheet-handle {
+    width: 36px;
+    height: 4px;
+    background: var(--border);
+    border-radius: var(--radius-full);
+    margin: 0 auto 16px;
+  }
+  .sheet-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 15px;
+    color: var(--text);
+    cursor: pointer;
+  }
+  .sheet-option:last-child { border-bottom: none; }
+  .sheet-option-icon { font-size: 20px; width: 28px; text-align: center; }
+
+  /* Empty state demo */
+  .empty-demo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 32px;
+    text-align: center;
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    max-width: 340px;
+    box-shadow: var(--shadow-sm);
+  }
+  .empty-demo-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.6;
+  }
+  .empty-demo-title {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .empty-demo-desc {
+    font-size: 13px;
+    color: var(--text-light);
+    line-height: 1.6;
+    margin-bottom: 20px;
+    max-width: 240px;
+  }
+
+  /* Spacing visualization */
+  .spacing-row {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+  .spacing-block {
+    background: var(--primary);
+    opacity: 0.6;
+    border-radius: 4px;
+    height: 32px;
+  }
+  .spacing-label {
+    font-size: 12px;
+    color: var(--text-light);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    width: 80px;
+    flex-shrink: 0;
+  }
+
+  /* Radius demo */
+  .radius-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  .radius-box {
+    width: 80px;
+    height: 80px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .radius-label {
+    font-size: 11px;
+    color: var(--text-light);
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* Shadow demo */
+  .shadow-row {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .shadow-box {
+    width: 120px;
+    height: 80px;
+    background: var(--white);
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    color: var(--text-light);
+  }
+
+  /* Cards row */
+  .cards-row {
+    display: flex;
+    gap: 16px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="guide-header">
+  <h1><span>SOUS</span> Design System</h1>
+  <p>Interactive style guide. All visual building blocks for the SOUS app before any screens are built.</p>
+</div>
+
+<!-- Navigation -->
+<nav class="guide-nav">
+  <a href="#colors" class="active">Colors</a>
+  <a href="#typography">Typography</a>
+  <a href="#spacing">Spacing & Radius</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#inputs">Inputs</a>
+  <a href="#tags">Tags & Badges</a>
+  <a href="#cards">Cards</a>
+  <a href="#lists">Lists</a>
+  <a href="#navigation">Navigation</a>
+  <a href="#overlays">Overlays</a>
+  <a href="#empty">Empty States</a>
+</nav>
+
+<!-- ======================== COLORS ======================== -->
+<section class="guide-section" id="colors">
+  <div class="section-label">Foundation</div>
+  <h2 class="section-heading">Color Palette</h2>
+  <p class="section-desc">Earthy, natural tones. Sage green for actions, warm linen for backgrounds, forest for text.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Primary & Brand</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #6b8f5e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Primary Sage</div>
+          <div class="swatch-hex">#6b8f5e</div>
+          <div class="swatch-usage">Buttons, active states, accents</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #5a7c4e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Primary Hover</div>
+          <div class="swatch-hex">#5a7c4e</div>
+          <div class="swatch-usage">Button hover/pressed state</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #e2e8dc;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Primary Light</div>
+          <div class="swatch-hex">#e2e8dc</div>
+          <div class="swatch-usage">Highlights, progress bars</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Backgrounds & Surfaces</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #f7f5f0;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Background</div>
+          <div class="swatch-hex">#f7f5f0</div>
+          <div class="swatch-usage">Page backgrounds</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #ffffff; border-bottom: 1px solid #ddd8cf;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">White</div>
+          <div class="swatch-hex">#ffffff</div>
+          <div class="swatch-usage">Card backgrounds</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #eae7df;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface</div>
+          <div class="swatch-hex">#eae7df</div>
+          <div class="swatch-usage">Tags, input backgrounds, fills</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #ddd8cf;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface Dark</div>
+          <div class="swatch-hex">#ddd8cf</div>
+          <div class="swatch-usage">Disabled buttons, borders</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #e2e0d8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">UI Background</div>
+          <div class="swatch-hex">#e2e0d8</div>
+          <div class="swatch-usage">Elevated surfaces, cards</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #eae7df;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Nav Background</div>
+          <div class="swatch-hex">#eae7df</div>
+          <div class="swatch-usage">Bottom navigation bar</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #ddd8cf;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Border</div>
+          <div class="swatch-hex">#ddd8cf</div>
+          <div class="swatch-usage">Dividers, borders, outlines</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Text</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #2d3a2e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Primary</div>
+          <div class="swatch-hex">#2d3a2e</div>
+          <div class="swatch-usage">Headings, body text</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #7a8272;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Light</div>
+          <div class="swatch-hex">#7a8272</div>
+          <div class="swatch-usage">Captions, secondary text</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #9da393;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Muted</div>
+          <div class="swatch-hex">#9da393</div>
+          <div class="swatch-usage">Placeholders, disabled text</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Semantic</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #c75c3a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Error / Liked</div>
+          <div class="swatch-hex">#c75c3a</div>
+          <div class="swatch-usage">Errors, liked hearts, alerts</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #fce8e2;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Error Light</div>
+          <div class="swatch-hex">#fce8e2</div>
+          <div class="swatch-usage">Error input backgrounds</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #6b8f5e;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Success</div>
+          <div class="swatch-hex">#6b8f5e</div>
+          <div class="swatch-usage">Success states, completed</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #e2e8dc;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Success Light</div>
+          <div class="swatch-hex">#e2e8dc</div>
+          <div class="swatch-usage">Success backgrounds</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Warm Noir (Dark Mode Palette)</h3>
+    <div class="color-grid">
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #c49a5c;"><span style="color: white; font-size: 11px; font-weight: 600;"></span></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Primary (Dark)</div>
+          <div class="swatch-hex">#c49a5c</div>
+          <div class="swatch-usage">Accent, buttons in dark mode</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #e8dcc8;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text (Dark)</div>
+          <div class="swatch-hex">#e8dcc8</div>
+          <div class="swatch-usage">Primary text in dark mode</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #8a8272;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Light (Dark)</div>
+          <div class="swatch-hex">#8a8272</div>
+          <div class="swatch-usage">Secondary text in dark mode</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #6b6558;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Text Muted (Dark)</div>
+          <div class="swatch-hex">#6b6558</div>
+          <div class="swatch-usage">Muted elements in dark mode</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #242320;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Surface (Dark)</div>
+          <div class="swatch-hex">#242320</div>
+          <div class="swatch-usage">Cards, elevated surfaces</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #33312a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Border (Dark)</div>
+          <div class="swatch-hex">#33312a</div>
+          <div class="swatch-usage">Dividers, borders in dark mode</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #1c1b18;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Background (Dark)</div>
+          <div class="swatch-hex">#1c1b18</div>
+          <div class="swatch-usage">Dark mode background</div>
+        </div>
+      </div>
+      <div class="color-swatch">
+        <div class="swatch-color" style="background: #c75c3a;"></div>
+        <div class="swatch-info">
+          <div class="swatch-name">Error (Dark)</div>
+          <div class="swatch-hex">#c75c3a</div>
+          <div class="swatch-usage">Errors, alerts in dark mode</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== TYPOGRAPHY ======================== -->
+<section class="guide-section" id="typography">
+  <div class="section-label">Foundation</div>
+  <h2 class="section-heading">Typography</h2>
+  <p class="section-desc">System font stack for native feel. Six sizes from metadata to hero headings.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Scale</h3>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">28px</div><div class="type-token">--text-2xl</div></div>
+      <div style="font-size: 28px; font-weight: 800; letter-spacing: -0.5px;">SOUS Design System</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">22px</div><div class="type-token">--text-xl</div></div>
+      <div style="font-size: 22px; font-weight: 700;">Page Title</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">17px</div><div class="type-token">--text-lg</div></div>
+      <div style="font-size: 17px; font-weight: 700;">Card Title or Section Header</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">15px</div><div class="type-token">--text-base</div></div>
+      <div style="font-size: 15px; font-weight: 400;">Body text for labels, descriptions, and form content.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">13px</div><div class="type-token">--text-sm</div></div>
+      <div style="font-size: 13px; font-weight: 400; color: var(--text-light);">Caption text, secondary information, and subtitles.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">11px</div><div class="type-token">--text-xs</div></div>
+      <div style="font-size: 11px; font-weight: 400; color: var(--text-muted);">Timestamps, metadata, badge labels</div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Weights</h3>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">400</div><div class="type-token">regular</div></div>
+      <div style="font-size: 16px; font-weight: 400;">The quick brown fox jumps over the lazy dog</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">500</div><div class="type-token">medium</div></div>
+      <div style="font-size: 16px; font-weight: 500;">The quick brown fox jumps over the lazy dog</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">600</div><div class="type-token">semibold</div></div>
+      <div style="font-size: 16px; font-weight: 600;">The quick brown fox jumps over the lazy dog</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">700</div><div class="type-token">bold</div></div>
+      <div style="font-size: 16px; font-weight: 700;">The quick brown fox jumps over the lazy dog</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta"><div class="type-size">800</div><div class="type-token">extrabold</div></div>
+      <div style="font-size: 16px; font-weight: 800;">The quick brown fox jumps over the lazy dog</div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Text Colors</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px; font-size: 16px;">
+      <div style="color: var(--text); font-weight: 600;">Primary text - headings and important labels</div>
+      <div style="color: var(--text-light);">Light text - captions, descriptions, secondary info</div>
+      <div style="color: var(--text-muted);">Muted text - placeholders, timestamps, disabled</div>
+      <div style="color: var(--primary); font-weight: 600;">Primary color - links, accents, active</div>
+      <div style="color: var(--error);">Error text - validation messages, alerts</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== SPACING & RADIUS ======================== -->
+<section class="guide-section" id="spacing">
+  <div class="section-label">Foundation</div>
+  <h2 class="section-heading">Spacing & Radius</h2>
+  <p class="section-desc">4px base grid. Consistent spacing creates visual rhythm.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Spacing Scale</h3>
+    <div class="spacing-row"><div class="spacing-label">4px (sp-1)</div><div class="spacing-block" style="width: 4px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">8px (sp-2)</div><div class="spacing-block" style="width: 8px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">12px (sp-3)</div><div class="spacing-block" style="width: 12px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">16px (sp-4)</div><div class="spacing-block" style="width: 16px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">20px (sp-5)</div><div class="spacing-block" style="width: 20px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">24px (sp-6)</div><div class="spacing-block" style="width: 24px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">32px (sp-8)</div><div class="spacing-block" style="width: 32px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">40px (sp-10)</div><div class="spacing-block" style="width: 40px;"></div></div>
+    <div class="spacing-row"><div class="spacing-label">48px (sp-12)</div><div class="spacing-block" style="width: 48px;"></div></div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Border Radius</h3>
+    <div class="radius-row">
+      <div>
+        <div class="radius-box" style="border-radius: 8px;"></div>
+        <div class="radius-label">8px (sm)</div>
+      </div>
+      <div>
+        <div class="radius-box" style="border-radius: 12px;"></div>
+        <div class="radius-label">12px (md)</div>
+      </div>
+      <div>
+        <div class="radius-box" style="border-radius: 16px;"></div>
+        <div class="radius-label">16px (lg)</div>
+      </div>
+      <div>
+        <div class="radius-box" style="border-radius: 24px;"></div>
+        <div class="radius-label">24px (xl)</div>
+      </div>
+      <div>
+        <div class="radius-box" style="border-radius: 9999px;"></div>
+        <div class="radius-label">full (pill)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Shadows</h3>
+    <div class="shadow-row">
+      <div>
+        <div class="shadow-box" style="box-shadow: 0 1px 3px rgba(45,58,46,0.06);">sm</div>
+        <div class="radius-label">shadow-sm</div>
+      </div>
+      <div>
+        <div class="shadow-box" style="box-shadow: 0 2px 8px rgba(45,58,46,0.08);">md</div>
+        <div class="radius-label">shadow-md</div>
+      </div>
+      <div>
+        <div class="shadow-box" style="box-shadow: 0 4px 16px rgba(45,58,46,0.12);">lg</div>
+        <div class="radius-label">shadow-lg</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== BUTTONS ======================== -->
+<section class="guide-section" id="buttons">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">Buttons</h2>
+  <p class="section-desc">Three tiers: Primary for key actions, Secondary for alternatives, Ghost for subtle actions.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Primary</h3>
+    <div class="button-row">
+      <button class="btn btn-primary">Save Recipe</button>
+      <button class="btn btn-primary btn-sm">Follow</button>
+      <button class="btn btn-primary" disabled>Disabled</button>
+    </div>
+    <div class="button-row">
+      <button class="btn btn-primary btn-full" style="max-width: 340px;">Generate Shopping List</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Secondary (Outline)</h3>
+    <div class="button-row">
+      <button class="btn btn-secondary">Edit Profile</button>
+      <button class="btn btn-secondary btn-sm">Following</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Ghost</h3>
+    <div class="button-row">
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-ghost">View All</button>
+      <button class="btn btn-ghost">Clear</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Danger</h3>
+    <div class="button-row">
+      <button class="btn btn-danger">Delete Recipe</button>
+      <button class="btn btn-danger btn-sm">Remove</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Icon Buttons</h3>
+    <div class="button-row">
+      <button class="btn btn-icon">+</button>
+      <button class="btn btn-icon">...</button>
+      <button class="btn btn-icon" style="font-size: 16px;">X</button>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Social Login Buttons</h3>
+    <div style="display: flex; flex-direction: column; gap: 12px; max-width: 340px;">
+      <button class="btn btn-full" style="background: var(--white); color: var(--text); border: 2px solid var(--border); padding: 14px 24px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600;">Continue with Google</button>
+      <button class="btn btn-full" style="background: #2d3a2e; color: white; padding: 14px 24px; border-radius: var(--radius-md); font-size: 15px; font-weight: 600;">Continue with Apple</button>
+      <button class="btn btn-primary btn-full" style="padding: 14px 24px;">Sign in with Email</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== INPUTS ======================== -->
+<section class="guide-section" id="inputs">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">Form Inputs</h2>
+  <p class="section-desc">Linen-filled inputs that highlight sage on focus. Clean and warm.</p>
+
+  <div style="max-width: 380px; display: flex; flex-direction: column; gap: 24px;">
+    <div class="subsection">
+      <h3 class="subsection-title">Text Input</h3>
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <input class="input" placeholder="Recipe title" value="">
+        <input class="input" placeholder="Recipe title" value="Thai Green Curry">
+        <div>
+          <input class="input input-error" value="email@">
+          <div style="font-size: 11px; color: var(--error); margin-top: 4px;">Please enter a valid email address</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Search</h3>
+      <div class="search-wrapper">
+        <span class="search-icon">O</span>
+        <input class="search-input" placeholder="Search recipes, people, tags...">
+      </div>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Textarea</h3>
+      <textarea class="textarea" placeholder="Write a caption for your post..."></textarea>
+    </div>
+
+    <div class="subsection">
+      <h3 class="subsection-title">Add Item (Shopping List)</h3>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input class="input" placeholder="e.g. 500g chicken breast" style="flex: 1;">
+        <button class="btn btn-primary btn-sm" style="padding: 14px 16px;">+</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== TAGS & BADGES ======================== -->
+<section class="guide-section" id="tags">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">Tags & Badges</h2>
+  <p class="section-desc">Tags for recipe metadata, badges for user status.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Recipe Tags</h3>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <span class="tag">Thai</span>
+      <span class="tag">Italian</span>
+      <span class="tag">Vegan</span>
+      <span class="tag">High Protein</span>
+      <span class="tag">Under 30 min</span>
+      <span class="tag">Gluten-Free</span>
+      <span class="tag">One-Pot</span>
+      <span class="tag">Meal Prep</span>
+      <span class="tag">Beginner</span>
+      <span class="tag">Comfort Food</span>
+      <span class="tag">Date Night</span>
+      <span class="tag">BBQ</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Stat Pills</h3>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <span style="display: inline-flex; align-items: center; gap: 4px; background: var(--bg); padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--text-light);">4 servings</span>
+      <span style="display: inline-flex; align-items: center; gap: 4px; background: var(--bg); padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--text-light);">12 ingredients</span>
+      <span style="display: inline-flex; align-items: center; gap: 4px; background: var(--bg); padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--text-light);">35 min</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Badges</h3>
+    <div style="display: flex; gap: 12px; align-items: center;">
+      <span class="badge badge-business">Chef</span>
+      <span class="badge badge-business">Food Blogger</span>
+      <span class="badge badge-business">PT</span>
+      <span class="badge badge-new">New</span>
+      <span class="badge" style="background: var(--surface); color: var(--text);">Free Preview</span>
+      <span class="badge" style="background: var(--error); color: var(--white);">3</span>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Filter Chips (Discover)</h3>
+    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+      <span class="tag" style="cursor: pointer; background: var(--primary); color: var(--white);">All</span>
+      <span class="tag" style="cursor: pointer;">Healthy</span>
+      <span class="tag" style="cursor: pointer;">Quick Meals</span>
+      <span class="tag" style="cursor: pointer;">Pasta</span>
+      <span class="tag" style="cursor: pointer;">Chicken</span>
+      <span class="tag" style="cursor: pointer;">Vegetarian</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== CARDS ======================== -->
+<section class="guide-section" id="cards">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">Cards</h2>
+  <p class="section-desc">Recipe cards for feed and library, compact cards for discover and grids, cookbook cards for marketplace.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Feed Recipe Card (Full)</h3>
+    <div class="demo-card" style="max-width: 360px;">
+      <div style="display: flex; align-items: center; padding: 14px 16px; gap: 12px;">
+        <img class="avatar" style="width: 36px; height: 36px;" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="">
+        <div style="flex: 1;">
+          <div style="font-size: 14px; font-weight: 700;">Sarah Chen</div>
+          <div style="font-size: 11px; color: var(--text-light);">2 hours ago</div>
+        </div>
+        <span style="color: var(--text-light); cursor: pointer;">...</span>
+      </div>
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop" alt="" style="width: 100%; height: 220px; object-fit: cover; display: block;">
+      <div class="demo-card-body">
+        <div class="demo-card-title">Thai Green Curry with Jasmine Rice</div>
+        <div class="demo-card-desc" style="margin-bottom: 10px;">Finally perfected my green curry paste from scratch!</div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px;">
+          <span class="tag">Thai</span>
+          <span class="tag">35 min</span>
+          <span class="tag">Medium</span>
+        </div>
+        <div style="display: flex; gap: 8px; margin-bottom: 14px;">
+          <span style="background: var(--bg); padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--text-light);">4 servings</span>
+          <span style="background: var(--bg); padding: 5px 10px; border-radius: 8px; font-size: 12px; color: var(--text-light);">12 ingredients</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--border);">
+          <div style="display: flex; gap: 20px;">
+            <span style="font-size: 14px; color: var(--error); cursor: pointer;">&#9829; 234</span>
+            <span style="font-size: 14px; color: var(--text-light); cursor: pointer;">&#9993; 18</span>
+            <span style="font-size: 14px; color: var(--text-light); cursor: pointer;">&#8599;</span>
+          </div>
+          <span style="font-size: 14px; color: var(--primary); cursor: pointer; font-weight: 600;">Save</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Compact Recipe Cards (Discover / Grid)</h3>
+    <div class="cards-row">
+      <div class="compact-card">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=300&h=200&fit=crop" alt="">
+        <div class="compact-card-body">
+          <div class="compact-card-title">Margherita Pizza</div>
+          <div class="compact-card-meta">Chef Marco &middot; 20 min</div>
+        </div>
+      </div>
+      <div class="compact-card">
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=300&h=200&fit=crop" alt="">
+        <div class="compact-card-body">
+          <div class="compact-card-title">Buddha Bowl</div>
+          <div class="compact-card-meta">Emma Fitness &middot; 15 min</div>
+        </div>
+      </div>
+      <div class="compact-card">
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300&h=200&fit=crop" alt="">
+        <div class="compact-card-body">
+          <div class="compact-card-title">Green Curry</div>
+          <div class="compact-card-meta">Sarah Chen &middot; 35 min</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Cookbook Cards</h3>
+    <div class="cards-row">
+      <div class="cookbook-card">
+        <img src="https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=400&h=500&fit=crop" alt="">
+        <div class="cookbook-card-body">
+          <div class="cookbook-card-title">Italian Classics</div>
+          <div class="cookbook-card-creator">Chef Marco <span class="badge badge-business" style="font-size: 9px; padding: 2px 6px;">Chef</span></div>
+          <div class="cookbook-card-price">$14.99</div>
+        </div>
+      </div>
+      <div class="cookbook-card">
+        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=500&fit=crop" alt="">
+        <div class="cookbook-card-body">
+          <div class="cookbook-card-title">Meal Prep Pro</div>
+          <div class="cookbook-card-creator">Emma Fitness <span class="badge badge-business" style="font-size: 9px; padding: 2px 6px;">PT</span></div>
+          <div class="cookbook-card-price">$9.99</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Creator Card (Discover)</h3>
+    <div class="showcase" style="max-width: 340px; display: flex; gap: 14px; align-items: center;">
+      <img class="avatar" style="width: 56px; height: 56px;" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=120&h=120&fit=crop&crop=face" alt="">
+      <div style="flex: 1;">
+        <div style="display: flex; align-items: center; gap: 6px;">
+          <span style="font-size: 15px; font-weight: 700;">Chef Marco</span>
+          <span class="badge badge-business" style="font-size: 9px; padding: 2px 6px;">Chef</span>
+        </div>
+        <div style="font-size: 12px; color: var(--text-light);">Italian cuisine &middot; 2.4k followers</div>
+      </div>
+      <button class="btn btn-primary btn-sm">Follow</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== LISTS ======================== -->
+<section class="guide-section" id="lists">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">List Items</h2>
+  <p class="section-desc">Reusable list patterns for shopping lists, notifications, and ingredient rows.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Shopping List Items</h3>
+    <div class="showcase" style="max-width: 380px; padding: 0 20px;">
+      <div class="shop-item">
+        <div class="checkbox"></div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">Chicken Breast</div>
+          <div class="shop-item-qty">500g</div>
+        </div>
+      </div>
+      <div class="shop-item">
+        <div class="checkbox"></div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">Jasmine Rice</div>
+          <div class="shop-item-qty">300g</div>
+        </div>
+      </div>
+      <div class="shop-item checked">
+        <div class="checkbox checked">&#10003;</div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">Coconut Milk</div>
+          <div class="shop-item-qty">400ml &middot; 1 can</div>
+        </div>
+      </div>
+      <div class="shop-item checked">
+        <div class="checkbox checked">&#10003;</div>
+        <div class="shop-item-info">
+          <div class="shop-item-name">Lemongrass</div>
+          <div class="shop-item-qty">2 stalks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Notification Items</h3>
+    <div class="showcase" style="max-width: 380px; padding: 0 20px;">
+      <div class="notif-item">
+        <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="">
+        <div class="notif-text"><strong>Sarah Chen</strong> liked your Thai Green Curry recipe</div>
+        <div class="notif-time">2h</div>
+      </div>
+      <div class="notif-item">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="">
+        <div class="notif-text"><strong>Chef Marco</strong> started following you</div>
+        <div class="notif-time">5h</div>
+      </div>
+      <div class="notif-item">
+        <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="">
+        <div class="notif-text"><strong>Emma Fitness</strong> commented on your Buddha Bowl</div>
+        <div class="notif-time">1d</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Aisle Group Header</h3>
+    <div class="showcase" style="max-width: 380px;">
+      <div style="font-size: 13px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 1px; padding-bottom: 8px; border-bottom: 1px solid var(--border);">Dairy & Eggs</div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== NAVIGATION ======================== -->
+<section class="guide-section" id="navigation">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">Navigation</h2>
+  <p class="section-desc">Bottom tab bar, sub-tabs, and header patterns.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Bottom Tab Bar</h3>
+    <div class="nav-demo">
+      <div class="nav-demo-item active"><div class="nav-demo-icon">&#9776;</div><span>Feed</span></div>
+      <div class="nav-demo-item"><div class="nav-demo-icon">&#9733;</div><span>Recipes</span></div>
+      <div class="nav-demo-item"><div class="nav-demo-icon">&#9744;</div><span>Lists</span></div>
+      <div class="nav-demo-item"><div class="nav-demo-icon">&#9635;</div><span>Planner</span></div>
+      <div class="nav-demo-item"><div class="nav-demo-icon">&#9673;</div><span>Profile</span></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Sub-tabs</h3>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Feed</div>
+        <div class="tabs-demo">
+          <div class="tab-demo active">Following</div>
+          <div class="tab-demo">Discover</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Planner</div>
+        <div class="tabs-demo">
+          <div class="tab-demo active">Queue</div>
+          <div class="tab-demo">Week View</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">Recipe Library</div>
+        <div class="tabs-demo">
+          <div class="tab-demo active">My Recipes</div>
+          <div class="tab-demo">Saved</div>
+          <div class="tab-demo">Cookbooks</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Header Variants</h3>
+    <div style="display: flex; flex-direction: column; gap: 16px;">
+      <div class="showcase" style="max-width: 390px; padding: 8px 16px 12px; display: flex; justify-content: space-between; align-items: center;">
+        <div style="font-size: 28px; font-weight: 800; letter-spacing: -1px;"><span style="color: var(--primary);">SOUS</span></div>
+        <div style="display: flex; gap: 16px;">
+          <span style="font-size: 20px; cursor: pointer;">+</span>
+          <span style="font-size: 20px; cursor: pointer; position: relative;">&#128276;<span style="position: absolute; top: -4px; right: -8px; background: var(--error); color: white; font-size: 9px; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">3</span></span>
+        </div>
+      </div>
+      <div class="showcase" style="max-width: 390px; padding: 8px 16px 12px; display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 20px; cursor: pointer;">&#8592;</span>
+        <div style="font-size: 17px; font-weight: 700;">Shopping List</div>
+        <div style="display: flex; gap: 16px;">
+          <span style="font-size: 18px; cursor: pointer;">+</span>
+          <span style="font-size: 18px; cursor: pointer;">&#8599;</span>
+          <span style="font-size: 18px; cursor: pointer;">...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== OVERLAYS ======================== -->
+<section class="guide-section" id="overlays">
+  <div class="section-label">Components</div>
+  <h2 class="section-heading">Overlays & Sheets</h2>
+  <p class="section-desc">Bottom sheets for sort options, menus, and confirmations.</p>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Sort/Filter Sheet</h3>
+    <div class="sheet-demo">
+      <div class="sheet-handle"></div>
+      <div style="font-size: 17px; font-weight: 700; margin-bottom: 16px;">Sort by</div>
+      <div class="sheet-option"><div class="sheet-option-icon">&#9634;</div> Aisle</div>
+      <div class="sheet-option"><div class="sheet-option-icon">&#9733;</div> Recipe</div>
+      <div class="sheet-option"><div class="sheet-option-icon">A</div> A to Z</div>
+      <div class="sheet-option" style="color: var(--primary); font-weight: 600;"><div class="sheet-option-icon">&#9201;</div> Recently Added <span style="margin-left: auto; font-size: 18px;">&#10003;</span></div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Action Menu Sheet</h3>
+    <div class="sheet-demo">
+      <div class="sheet-handle"></div>
+      <div class="sheet-option"><div class="sheet-option-icon">&#8599;</div> Share</div>
+      <div class="sheet-option"><div class="sheet-option-icon">&#9113;</div> Print</div>
+      <div class="sheet-option"><div class="sheet-option-icon">&#10003;</div> Mark all complete</div>
+      <div class="sheet-option"><div class="sheet-option-icon">&#9862;</div> Show completed items</div>
+      <div class="sheet-option" style="color: var(--error);"><div class="sheet-option-icon">&#10005;</div> Clear all</div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <h3 class="subsection-title">Add to Shopping List Overlay</h3>
+    <div class="sheet-demo">
+      <div class="sheet-handle"></div>
+      <div style="font-size: 17px; font-weight: 700; margin-bottom: 4px;">Add to Shopping List</div>
+      <div style="font-size: 13px; color: var(--text-light); margin-bottom: 16px;">Select recipes to add ingredients from</div>
+
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border);">
+        <div class="checkbox checked">&#10003;</div>
+        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=80&h=80&fit=crop" alt="" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;">
+        <div style="flex: 1;">
+          <div style="font-size: 14px; font-weight: 600;">Thai Green Curry</div>
+          <div style="font-size: 12px; color: var(--text-light);">12 ingredients</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border);">
+        <div class="checkbox"></div>
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=80&h=80&fit=crop" alt="" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;">
+        <div style="flex: 1;">
+          <div style="font-size: 14px; font-weight: 600;">Margherita Pizza</div>
+          <div style="font-size: 12px; color: var(--text-light);">8 ingredients</div>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 12px; padding: 12px 0;">
+        <div class="checkbox checked">&#10003;</div>
+        <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=80&h=80&fit=crop" alt="" style="width: 44px; height: 44px; border-radius: 8px; object-fit: cover;">
+        <div style="flex: 1;">
+          <div style="font-size: 14px; font-weight: 600;">Buddha Bowl</div>
+          <div style="font-size: 12px; color: var(--text-light);">10 ingredients</div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-full" style="margin-top: 16px; padding: 14px;">Add 22 Ingredients</button>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== EMPTY STATES ======================== -->
+<section class="guide-section" id="empty">
+  <div class="section-label">Patterns</div>
+  <h2 class="section-heading">Empty States</h2>
+  <p class="section-desc">Friendly, helpful states that guide users to take action.</p>
+
+  <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#127869;</div>
+      <div class="empty-demo-title">No recipes yet</div>
+      <div class="empty-demo-desc">Create your first recipe or save one from the feed to get started.</div>
+      <button class="btn btn-primary btn-sm">Create Recipe</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128240;</div>
+      <div class="empty-demo-title">Your feed is empty</div>
+      <div class="empty-demo-desc">Follow people to see their recipes here. Check out Discover to find creators.</div>
+      <button class="btn btn-primary btn-sm">Discover Creators</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128722;</div>
+      <div class="empty-demo-title">Shopping list is empty</div>
+      <div class="empty-demo-desc">Add ingredients from your meal plan or type items manually.</div>
+      <button class="btn btn-primary btn-sm">Go to Planner</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128197;</div>
+      <div class="empty-demo-title">No meals planned</div>
+      <div class="empty-demo-desc">Add recipes to your queue to start planning your week.</div>
+      <button class="btn btn-primary btn-sm">Browse Recipes</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128278;</div>
+      <div class="empty-demo-title">Queue is empty</div>
+      <div class="empty-demo-desc">Add recipes here when building your meal plan. Assign to days or keep them queued.</div>
+      <button class="btn btn-primary btn-sm">Add Recipes</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128516;</div>
+      <div class="empty-demo-title">No notifications</div>
+      <div class="empty-demo-desc">When people interact with your recipes, you'll see it here.</div>
+      <button class="btn btn-ghost">Back to Feed</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128278;</div>
+      <div class="empty-demo-title">No saved recipes</div>
+      <div class="empty-demo-desc">Save recipes from the feed and they'll appear here.</div>
+      <button class="btn btn-primary btn-sm">Discover Recipes</button>
+    </div>
+
+    <div class="empty-demo">
+      <div class="empty-demo-icon">&#128218;</div>
+      <div class="empty-demo-title">No cookbooks yet</div>
+      <div class="empty-demo-desc">Cookbooks you purchase from creators will show up here.</div>
+      <button class="btn btn-primary btn-sm">Browse Cookbooks</button>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

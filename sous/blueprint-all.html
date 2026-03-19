@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - All Palettes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { font-family: var(--font); background: #2a2a26; padding: 32px 20px 60px; }
+  h1 { text-align: center; font-size: 32px; font-weight: 800; color: #f0ebe4; margin-bottom: 4px; letter-spacing: -0.5px; }
+  h1 span { color: #d4a024; }
+  .subtitle { text-align: center; font-size: 14px; color: #8a8a80; margin-bottom: 12px; }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #d4a024;
+    text-align: center;
+    margin: 48px 0 24px;
+    padding-top: 48px;
+    border-top: 1px solid #3a3a35;
+  }
+  .section-title:first-of-type { border-top: none; padding-top: 0; margin-top: 32px; }
+  .grid {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 2400px;
+    margin: 0 auto;
+  }
+  .wrap { display: flex; flex-direction: column; align-items: center; }
+  .label { font-size: 16px; font-weight: 700; margin-bottom: 4px; text-align: center; color: #e0ddd5; }
+  .desc { font-size: 12px; color: #8a8a80; margin-bottom: 14px; text-align: center; max-width: 760px; line-height: 1.5; }
+  .phones { display: flex; gap: 16px; }
+
+  /* Phone frame */
+  .phone { width: 360px; height: 780px; border-radius: 36px; position: relative; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.3); display: flex; flex-direction: column; }
+  .sb { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px 6px; font-size: 11px; font-weight: 700; height: 40px; flex-shrink: 0; }
+  .sb svg { width: 16px; height: 12px; }
+  .hdr { display: flex; justify-content: space-between; align-items: center; padding: 6px 16px 10px; height: 48px; flex-shrink: 0; }
+  .logo { font-size: 26px; font-weight: 800; letter-spacing: -1px; }
+  .hdr-actions { display: flex; gap: 12px; align-items: center; }
+  .hi { width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; border-radius: 50%; }
+  .hi svg { width: 20px; height: 20px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .nb { position: absolute; top: -2px; right: -4px; min-width: 14px; height: 14px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; color: white; padding: 0 3px; }
+  .hi.plus-btn { width: 32px; height: 32px; }
+  .stabs { display: flex; height: 44px; flex-shrink: 0; }
+  .stab { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
+  .strip { height: 4px; width: 100%; flex-shrink: 0; }
+  .content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 32px 28px; text-align: center; }
+  .ei { font-size: 42px; opacity: 0.35; margin-bottom: 14px; }
+  .et { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+  .ed { font-size: 12px; line-height: 1.6; margin-bottom: 20px; max-width: 220px; }
+  .cta { padding: 10px 24px; border-radius: 10px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font); }
+  .bnav { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; padding: 6px 0 24px; height: 72px; }
+  .ni { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 10px; font-weight: 500; cursor: pointer; padding: 4px 8px; position: relative; }
+  .ni svg { width: 20px; height: 20px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ni.active::after { content: ''; width: 4px; height: 4px; border-radius: 50%; margin-top: 1px; }
+  .nav-avatar { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; border: 2px solid #555; }
+  .ni.active .nav-avatar { border-color: currentColor; }
+
+  /* Pill active for ReciMe style */
+  .pill-active .ni.active svg { position: relative; z-index: 1; }
+  .pill-active .ni.active::before { content: ''; position: absolute; top: 0; width: 40px; height: 32px; border-radius: 10px; z-index: 0; }
+  .pill-active .ni.active::after { display: none; }
+  .pill-active .ni.active span { font-weight: 700; }
+
+  .chips { display: flex; gap: 5px; margin-top: 10px; justify-content: center; }
+  .chip { width: 24px; height: 24px; border-radius: 5px; border: 2px solid rgba(255,255,255,0.1); }
+
+  /* ============ RECIPE DETAIL STYLES ============ */
+  .recipe-scroll { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+  .recipe-hero { width: 100%; height: 220px; object-fit: cover; flex-shrink: 0; }
+  .recipe-body { flex: 1; padding: 16px 20px 80px; overflow: hidden; }
+  .recipe-tags { display: flex; gap: 6px; margin-bottom: 10px; flex-wrap: wrap; }
+  .recipe-tag { font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 12px; }
+  .recipe-title { font-size: 22px; font-weight: 800; line-height: 1.2; margin-bottom: 4px; }
+  .recipe-author { font-size: 12px; margin-bottom: 12px; }
+  .recipe-meta { display: flex; gap: 16px; margin-bottom: 14px; }
+  .recipe-meta-item { display: flex; align-items: center; gap: 4px; font-size: 11px; }
+  .recipe-meta-item svg { width: 14px; height: 14px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .recipe-desc { font-size: 12px; line-height: 1.6; margin-bottom: 14px; }
+  .recipe-section-title { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .recipe-ingredient { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 12px; border-bottom: 1px solid transparent; }
+  .recipe-ingredient .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .recipe-ingredient .qty { font-weight: 700; min-width: 36px; }
+  .recipe-actions { display: flex; gap: 10px; margin-bottom: 14px; }
+  .recipe-action-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 10px; border-radius: 10px; font-size: 12px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font); }
+  .recipe-action-btn svg { width: 16px; height: 16px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  /* Back button on recipe detail */
+  .recipe-back { position: absolute; top: 46px; left: 16px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; backdrop-filter: blur(8px); }
+  .recipe-back svg { width: 18px; height: 18px; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .recipe-save { position: absolute; top: 46px; right: 16px; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 2; backdrop-filter: blur(8px); }
+  .recipe-save svg { width: 18px; height: 18px; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* ============ LIGHT PALETTES ============ */
+
+  /* A: Current Cream & Gold */
+  .la .phone { background: #fdf6ec; }
+  .la .sb { color: #424b30; } .la .sb svg { fill: #424b30; }
+  .la .hdr { background: #fdf6ec; } .la .logo { color: #d4a024; }
+  .la .hi svg { stroke: #424b30; } .la .nb { background: #e74c3c; }
+  .la .stabs { background: #fdf6ec; border-bottom: 1px solid #e8d5bc; }
+  .la .stab { color: #72865b; } .la .stab.active { color: #424b30; border-bottom-color: #d4a024; }
+  .la .et { color: #424b30; } .la .ed { color: #72865b; }
+  .la .cta { background: #d4a024; color: #fff; }
+  .la .bnav { background: #f8eed9; border-top: 1px solid #e8d5bc; }
+  .la .ni { color: #A8A79D; } .la .ni svg { stroke: #A8A79D; }
+  .la .ni.active { color: #424b30; } .la .ni.active svg { stroke: #d4a024; }
+  .la .ni.active::after { background: #d4a024; }
+  .la .strip { background: #f5e6d3; }
+  .la .recipe-title { color: #424b30; } .la .recipe-author { color: #72865b; }
+  .la .recipe-tag { background: #f5e6d3; color: #424b30; }
+  .la .recipe-meta-item { color: #72865b; } .la .recipe-meta-item svg { stroke: #d4a024; }
+  .la .recipe-desc { color: #72865b; }
+  .la .recipe-section-title { color: #424b30; }
+  .la .recipe-ingredient { color: #424b30; border-bottom-color: #f0e4d0; }
+  .la .recipe-ingredient .dot { background: #d4a024; }
+  .la .recipe-ingredient .qty { color: #d4a024; }
+  .la .recipe-action-btn.primary { background: #d4a024; color: #fff; }
+  .la .recipe-action-btn.secondary { background: #f5e6d3; color: #424b30; }
+  .la .recipe-back, .la .recipe-save { background: rgba(253,246,236,0.85); }
+  .la .recipe-back svg, .la .recipe-save svg { stroke: #424b30; }
+
+  /* B: ReciMe White + Gold */
+  .lb .phone { background: #ffffff; }
+  .lb .sb { color: #2c2c2c; } .lb .sb svg { fill: #2c2c2c; }
+  .lb .hdr { background: #ffffff; } .lb .logo { color: #d4a024; }
+  .lb .hi svg { stroke: #2c2c2c; } .lb .nb { background: #e74c3c; }
+  .lb .hi.plus-btn { background: #fce4cc; border-radius: 50%; }
+  .lb .hi.plus-btn svg { stroke: #d4a024; }
+  .lb .stabs { background: #fff; border-bottom: 1px solid #eee; }
+  .lb .stab { color: #b0b0b0; } .lb .stab.active { color: #2c2c2c; border-bottom-color: #d4a024; }
+  .lb .et { color: #2c2c2c; } .lb .ed { color: #999; }
+  .lb .cta { background: #d4a024; color: #fff; }
+  .lb .bnav { background: #faf6f1; border-top: 1px solid #eee; }
+  .lb .ni { color: #b0b0b0; } .lb .ni svg { stroke: #b0b0b0; }
+  .lb .ni.active { color: #2c2c2c; } .lb .ni.active svg { stroke: #d4a024; }
+  .lb .ni.active::before { background: #fce4cc; }
+  .lb .ni.active span { color: #d4a024; }
+  .lb .strip { background: #faf5ee; }
+  .lb .recipe-title { color: #2c2c2c; } .lb .recipe-author { color: #999; }
+  .lb .recipe-tag { background: #fce4cc; color: #2c2c2c; }
+  .lb .recipe-meta-item { color: #999; } .lb .recipe-meta-item svg { stroke: #d4a024; }
+  .lb .recipe-desc { color: #777; }
+  .lb .recipe-section-title { color: #2c2c2c; }
+  .lb .recipe-ingredient { color: #2c2c2c; border-bottom-color: #f0f0f0; }
+  .lb .recipe-ingredient .dot { background: #d4a024; }
+  .lb .recipe-ingredient .qty { color: #d4a024; }
+  .lb .recipe-action-btn.primary { background: #d4a024; color: #fff; }
+  .lb .recipe-action-btn.secondary { background: #faf5ee; color: #2c2c2c; }
+  .lb .recipe-back, .lb .recipe-save { background: rgba(255,255,255,0.85); }
+  .lb .recipe-back svg, .lb .recipe-save svg { stroke: #2c2c2c; }
+
+  /* C: Forest & Sage */
+  .lc .phone { background: #f7f5f0; }
+  .lc .sb { color: #2d3a2e; } .lc .sb svg { fill: #2d3a2e; }
+  .lc .hdr { background: #f7f5f0; } .lc .logo { color: #6b8f5e; }
+  .lc .hi svg { stroke: #2d3a2e; } .lc .nb { background: #c75c3a; }
+  .lc .stabs { background: #f7f5f0; border-bottom: 1px solid #ddd8cf; }
+  .lc .stab { color: #9da393; } .lc .stab.active { color: #2d3a2e; border-bottom-color: #6b8f5e; }
+  .lc .ei { color: #6b8f5e; } .lc .et { color: #2d3a2e; } .lc .ed { color: #7a8272; }
+  .lc .cta { background: #6b8f5e; color: #fff; }
+  .lc .bnav { background: #eae7df; border-top: 1px solid #ddd8cf; }
+  .lc .ni { color: #b0ada3; } .lc .ni svg { stroke: #b0ada3; }
+  .lc .ni.active { color: #2d3a2e; } .lc .ni.active svg { stroke: #6b8f5e; }
+  .lc .ni.active::after { background: #6b8f5e; }
+  .lc .strip { background: #eae7df; }
+  .lc .recipe-title { color: #2d3a2e; } .lc .recipe-author { color: #7a8272; }
+  .lc .recipe-tag { background: #e2e8dc; color: #2d3a2e; }
+  .lc .recipe-meta-item { color: #7a8272; } .lc .recipe-meta-item svg { stroke: #6b8f5e; }
+  .lc .recipe-desc { color: #7a8272; }
+  .lc .recipe-section-title { color: #2d3a2e; }
+  .lc .recipe-ingredient { color: #2d3a2e; border-bottom-color: #e2e0d8; }
+  .lc .recipe-ingredient .dot { background: #6b8f5e; }
+  .lc .recipe-ingredient .qty { color: #6b8f5e; }
+  .lc .recipe-action-btn.primary { background: #6b8f5e; color: #fff; }
+  .lc .recipe-action-btn.secondary { background: #eae7df; color: #2d3a2e; }
+  .lc .recipe-back, .lc .recipe-save { background: rgba(247,245,240,0.85); }
+  .lc .recipe-back svg, .lc .recipe-save svg { stroke: #2d3a2e; }
+
+  /* D: Blush & Terracotta */
+  .ld .phone { background: #fefcfa; }
+  .ld .sb { color: #2a2a2a; } .ld .sb svg { fill: #2a2a2a; }
+  .ld .hdr { background: #fefcfa; } .ld .logo { color: #c47d5a; }
+  .ld .hi svg { stroke: #2a2a2a; } .ld .nb { background: #c47d5a; }
+  .ld .stabs { background: #fefcfa; border-bottom: 1px solid #eae5e0; }
+  .ld .stab { color: #b8b0a8; } .ld .stab.active { color: #2a2a2a; border-bottom-color: #c47d5a; }
+  .ld .ei { color: #c47d5a; } .ld .et { color: #2a2a2a; } .ld .ed { color: #8a847e; }
+  .ld .cta { background: #c47d5a; color: #fff; }
+  .ld .bnav { background: #f5f0eb; border-top: 1px solid #eae5e0; }
+  .ld .ni { color: #c0b8b0; } .ld .ni svg { stroke: #c0b8b0; }
+  .ld .ni.active { color: #2a2a2a; } .ld .ni.active svg { stroke: #c47d5a; }
+  .ld .ni.active::after { background: #c47d5a; }
+  .ld .strip { background: #f5f0eb; }
+  .ld .recipe-title { color: #2a2a2a; } .ld .recipe-author { color: #8a847e; }
+  .ld .recipe-tag { background: #f5ece5; color: #2a2a2a; }
+  .ld .recipe-meta-item { color: #8a847e; } .ld .recipe-meta-item svg { stroke: #c47d5a; }
+  .ld .recipe-desc { color: #8a847e; }
+  .ld .recipe-section-title { color: #2a2a2a; }
+  .ld .recipe-ingredient { color: #2a2a2a; border-bottom-color: #f0ebe5; }
+  .ld .recipe-ingredient .dot { background: #c47d5a; }
+  .ld .recipe-ingredient .qty { color: #c47d5a; }
+  .ld .recipe-action-btn.primary { background: #c47d5a; color: #fff; }
+  .ld .recipe-action-btn.secondary { background: #f5f0eb; color: #2a2a2a; }
+  .ld .recipe-back, .ld .recipe-save { background: rgba(254,252,250,0.85); }
+  .ld .recipe-back svg, .ld .recipe-save svg { stroke: #2a2a2a; }
+
+  /* E: Mint & White */
+  .le .phone { background: #ffffff; }
+  .le .sb { color: #1a2e1a; } .le .sb svg { fill: #1a2e1a; }
+  .le .hdr { background: #fff; } .le .logo { color: #5a9e6f; }
+  .le .hi svg { stroke: #1a2e1a; } .le .nb { background: #e07b5a; }
+  .le .stabs { background: #fff; border-bottom: 1px solid #e5ebe5; }
+  .le .stab { color: #a3b5a3; } .le .stab.active { color: #1a2e1a; border-bottom-color: #5a9e6f; }
+  .le .ei { color: #5a9e6f; } .le .et { color: #1a2e1a; } .le .ed { color: #6d846d; }
+  .le .cta { background: #5a9e6f; color: #fff; }
+  .le .bnav { background: #f4f8f4; border-top: 1px solid #e5ebe5; }
+  .le .ni { color: #b0bdb0; } .le .ni svg { stroke: #b0bdb0; }
+  .le .ni.active { color: #1a2e1a; } .le .ni.active svg { stroke: #5a9e6f; }
+  .le .ni.active::after { background: #5a9e6f; }
+  .le .strip { background: #f0f5f0; }
+  .le .recipe-title { color: #1a2e1a; } .le .recipe-author { color: #6d846d; }
+  .le .recipe-tag { background: #e5f0e8; color: #1a2e1a; }
+  .le .recipe-meta-item { color: #6d846d; } .le .recipe-meta-item svg { stroke: #5a9e6f; }
+  .le .recipe-desc { color: #6d846d; }
+  .le .recipe-section-title { color: #1a2e1a; }
+  .le .recipe-ingredient { color: #1a2e1a; border-bottom-color: #eaf0ea; }
+  .le .recipe-ingredient .dot { background: #5a9e6f; }
+  .le .recipe-ingredient .qty { color: #5a9e6f; }
+  .le .recipe-action-btn.primary { background: #5a9e6f; color: #fff; }
+  .le .recipe-action-btn.secondary { background: #f0f5f0; color: #1a2e1a; }
+  .le .recipe-back, .le .recipe-save { background: rgba(255,255,255,0.85); }
+  .le .recipe-back svg, .le .recipe-save svg { stroke: #1a2e1a; }
+
+  /* F: Olive & Gold */
+  .lf .phone { background: #faf9f5; }
+  .lf .sb { color: #2c3322; } .lf .sb svg { fill: #2c3322; }
+  .lf .hdr { background: #faf9f5; } .lf .logo { color: #8a7a3a; }
+  .lf .hi svg { stroke: #2c3322; } .lf .nb { background: #c75c3a; }
+  .lf .stabs { background: #faf9f5; border-bottom: 1px solid #ddd9cc; }
+  .lf .stab { color: #9a977e; } .lf .stab.active { color: #2c3322; border-bottom-color: #6b7a42; }
+  .lf .ei { color: #6b7a42; } .lf .et { color: #2c3322; } .lf .ed { color: #70724f; }
+  .lf .cta { background: #6b7a42; color: #fff; }
+  .lf .bnav { background: #f0ede3; border-top: 1px solid #ddd9cc; }
+  .lf .ni { color: #b5b2a0; } .lf .ni svg { stroke: #b5b2a0; }
+  .lf .ni.active { color: #2c3322; } .lf .ni.active svg { stroke: #6b7a42; }
+  .lf .ni.active::after { background: #8a7a3a; }
+  .lf .strip { background: #f0ede3; }
+  .lf .recipe-title { color: #2c3322; } .lf .recipe-author { color: #70724f; }
+  .lf .recipe-tag { background: #e8e5d5; color: #2c3322; }
+  .lf .recipe-meta-item { color: #70724f; } .lf .recipe-meta-item svg { stroke: #6b7a42; }
+  .lf .recipe-desc { color: #70724f; }
+  .lf .recipe-section-title { color: #2c3322; }
+  .lf .recipe-ingredient { color: #2c3322; border-bottom-color: #e8e5d8; }
+  .lf .recipe-ingredient .dot { background: #6b7a42; }
+  .lf .recipe-ingredient .qty { color: #8a7a3a; }
+  .lf .recipe-action-btn.primary { background: #6b7a42; color: #fff; }
+  .lf .recipe-action-btn.secondary { background: #f0ede3; color: #2c3322; }
+  .lf .recipe-back, .lf .recipe-save { background: rgba(250,249,245,0.85); }
+  .lf .recipe-back svg, .lf .recipe-save svg { stroke: #2c3322; }
+
+  /* ============ DARK PALETTES ============ */
+
+  /* D1: Charcoal & Gold */
+  .dk1 .phone { background: #2B2B26; }
+  .dk1 .sb { color: #fbecda; } .dk1 .sb svg { fill: #fbecda; }
+  .dk1 .hdr { background: #2B2B26; } .dk1 .logo { color: #d4a024; }
+  .dk1 .hi svg { stroke: #fbecda; } .dk1 .nb { background: #e74c3c; }
+  .dk1 .stabs { background: #2B2B26; border-bottom: 1px solid #4C4B43; }
+  .dk1 .stab { color: #75746C; } .dk1 .stab.active { color: #fbecda; border-bottom-color: #d4a024; }
+  .dk1 .et { color: #fbecda; } .dk1 .ed { color: #A8A79D; }
+  .dk1 .cta { background: #d4a024; color: #2B2B26; }
+  .dk1 .bnav { background: #353530; border-top: 1px solid #4C4B43; }
+  .dk1 .ni { color: #75746C; } .dk1 .ni svg { stroke: #75746C; }
+  .dk1 .ni.active { color: #fbecda; } .dk1 .ni.active svg { stroke: #d4a024; }
+  .dk1 .ni.active::after { background: #d4a024; }
+  .dk1 .strip { background: #353530; }
+  .dk1 .recipe-title { color: #fbecda; } .dk1 .recipe-author { color: #A8A79D; }
+  .dk1 .recipe-tag { background: #3a3a34; color: #fbecda; }
+  .dk1 .recipe-meta-item { color: #A8A79D; } .dk1 .recipe-meta-item svg { stroke: #d4a024; }
+  .dk1 .recipe-desc { color: #A8A79D; }
+  .dk1 .recipe-section-title { color: #fbecda; }
+  .dk1 .recipe-ingredient { color: #fbecda; border-bottom-color: #3a3a34; }
+  .dk1 .recipe-ingredient .dot { background: #d4a024; }
+  .dk1 .recipe-ingredient .qty { color: #d4a024; }
+  .dk1 .recipe-action-btn.primary { background: #d4a024; color: #2B2B26; }
+  .dk1 .recipe-action-btn.secondary { background: #3a3a34; color: #fbecda; }
+  .dk1 .recipe-back, .dk1 .recipe-save { background: rgba(43,43,38,0.85); }
+  .dk1 .recipe-back svg, .dk1 .recipe-save svg { stroke: #fbecda; }
+
+  /* D2: True Black & Gold */
+  .dk2 .phone { background: #000000; }
+  .dk2 .sb { color: #e8e0d6; } .dk2 .sb svg { fill: #e8e0d6; }
+  .dk2 .hdr { background: #000; } .dk2 .logo { color: #d4a024; }
+  .dk2 .hi svg { stroke: #e8e0d6; } .dk2 .nb { background: #e74c3c; }
+  .dk2 .stabs { background: #000; border-bottom: 1px solid #222; }
+  .dk2 .stab { color: #555; } .dk2 .stab.active { color: #e8e0d6; border-bottom-color: #d4a024; }
+  .dk2 .et { color: #e8e0d6; } .dk2 .ed { color: #777; }
+  .dk2 .cta { background: #d4a024; color: #000; }
+  .dk2 .bnav { background: #0a0a0a; border-top: 1px solid #222; }
+  .dk2 .ni { color: #555; } .dk2 .ni svg { stroke: #555; }
+  .dk2 .ni.active { color: #e8e0d6; } .dk2 .ni.active svg { stroke: #d4a024; }
+  .dk2 .ni.active::after { background: #d4a024; }
+  .dk2 .strip { background: #0a0a0a; }
+  .dk2 .recipe-title { color: #e8e0d6; } .dk2 .recipe-author { color: #777; }
+  .dk2 .recipe-tag { background: #1a1a1a; color: #e8e0d6; }
+  .dk2 .recipe-meta-item { color: #777; } .dk2 .recipe-meta-item svg { stroke: #d4a024; }
+  .dk2 .recipe-desc { color: #777; }
+  .dk2 .recipe-section-title { color: #e8e0d6; }
+  .dk2 .recipe-ingredient { color: #e8e0d6; border-bottom-color: #1a1a1a; }
+  .dk2 .recipe-ingredient .dot { background: #d4a024; }
+  .dk2 .recipe-ingredient .qty { color: #d4a024; }
+  .dk2 .recipe-action-btn.primary { background: #d4a024; color: #000; }
+  .dk2 .recipe-action-btn.secondary { background: #1a1a1a; color: #e8e0d6; }
+  .dk2 .recipe-back, .dk2 .recipe-save { background: rgba(0,0,0,0.85); }
+  .dk2 .recipe-back svg, .dk2 .recipe-save svg { stroke: #e8e0d6; }
+
+  /* D3: Forest Night */
+  .dk3 .phone { background: #1a2118; }
+  .dk3 .sb { color: #d4ddd0; } .dk3 .sb svg { fill: #d4ddd0; }
+  .dk3 .hdr { background: #1a2118; } .dk3 .logo { color: #7ab87a; }
+  .dk3 .hi svg { stroke: #d4ddd0; } .dk3 .nb { background: #e07b5a; }
+  .dk3 .stabs { background: #1a2118; border-bottom: 1px solid #2d3a2a; }
+  .dk3 .stab { color: #566856; } .dk3 .stab.active { color: #d4ddd0; border-bottom-color: #7ab87a; }
+  .dk3 .ei { color: #7ab87a; } .dk3 .et { color: #d4ddd0; } .dk3 .ed { color: #8a9a85; }
+  .dk3 .cta { background: #7ab87a; color: #1a2118; }
+  .dk3 .bnav { background: #212b1f; border-top: 1px solid #2d3a2a; }
+  .dk3 .ni { color: #4a5a48; } .dk3 .ni svg { stroke: #4a5a48; }
+  .dk3 .ni.active { color: #d4ddd0; } .dk3 .ni.active svg { stroke: #7ab87a; }
+  .dk3 .ni.active::after { background: #7ab87a; }
+  .dk3 .strip { background: #212b1f; }
+  .dk3 .recipe-title { color: #d4ddd0; } .dk3 .recipe-author { color: #8a9a85; }
+  .dk3 .recipe-tag { background: #253025; color: #d4ddd0; }
+  .dk3 .recipe-meta-item { color: #8a9a85; } .dk3 .recipe-meta-item svg { stroke: #7ab87a; }
+  .dk3 .recipe-desc { color: #8a9a85; }
+  .dk3 .recipe-section-title { color: #d4ddd0; }
+  .dk3 .recipe-ingredient { color: #d4ddd0; border-bottom-color: #253025; }
+  .dk3 .recipe-ingredient .dot { background: #7ab87a; }
+  .dk3 .recipe-ingredient .qty { color: #7ab87a; }
+  .dk3 .recipe-action-btn.primary { background: #7ab87a; color: #1a2118; }
+  .dk3 .recipe-action-btn.secondary { background: #253025; color: #d4ddd0; }
+  .dk3 .recipe-back, .dk3 .recipe-save { background: rgba(26,33,24,0.85); }
+  .dk3 .recipe-back svg, .dk3 .recipe-save svg { stroke: #d4ddd0; }
+
+  /* D4: Warm Noir */
+  .dk4 .phone { background: #1c1b18; }
+  .dk4 .sb { color: #e8dcc8; } .dk4 .sb svg { fill: #e8dcc8; }
+  .dk4 .hdr { background: #1c1b18; } .dk4 .logo { color: #c49a5c; }
+  .dk4 .hi svg { stroke: #e8dcc8; } .dk4 .nb { background: #c75c3a; }
+  .dk4 .stabs { background: #1c1b18; border-bottom: 1px solid #33312a; }
+  .dk4 .stab { color: #6b6558; } .dk4 .stab.active { color: #e8dcc8; border-bottom-color: #c49a5c; }
+  .dk4 .ei { color: #c49a5c; } .dk4 .et { color: #e8dcc8; } .dk4 .ed { color: #8a8272; }
+  .dk4 .cta { background: #c49a5c; color: #1c1b18; }
+  .dk4 .bnav { background: #242320; border-top: 1px solid #33312a; }
+  .dk4 .ni { color: #5a5548; } .dk4 .ni svg { stroke: #5a5548; }
+  .dk4 .ni.active { color: #e8dcc8; } .dk4 .ni.active svg { stroke: #c49a5c; }
+  .dk4 .ni.active::after { background: #c49a5c; }
+  .dk4 .strip { background: #242320; }
+  .dk4 .recipe-title { color: #e8dcc8; } .dk4 .recipe-author { color: #8a8272; }
+  .dk4 .recipe-tag { background: #2a2820; color: #e8dcc8; }
+  .dk4 .recipe-meta-item { color: #8a8272; } .dk4 .recipe-meta-item svg { stroke: #c49a5c; }
+  .dk4 .recipe-desc { color: #8a8272; }
+  .dk4 .recipe-section-title { color: #e8dcc8; }
+  .dk4 .recipe-ingredient { color: #e8dcc8; border-bottom-color: #2a2820; }
+  .dk4 .recipe-ingredient .dot { background: #c49a5c; }
+  .dk4 .recipe-ingredient .qty { color: #c49a5c; }
+  .dk4 .recipe-action-btn.primary { background: #c49a5c; color: #1c1b18; }
+  .dk4 .recipe-action-btn.secondary { background: #2a2820; color: #e8dcc8; }
+  .dk4 .recipe-back, .dk4 .recipe-save { background: rgba(28,27,24,0.85); }
+  .dk4 .recipe-back svg, .dk4 .recipe-save svg { stroke: #e8dcc8; }
+</style>
+</head>
+<body>
+
+<h1><span>SOUS</span> All Palettes</h1>
+<p class="subtitle">10 options — 6 light, 4 dark. Each shows empty feed + recipe detail with content.</p>
+
+<!-- Reusable SVG snippets as JS template to avoid repeating 10x -->
+<script>
+// Status bar HTML
+const SB = `<div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>`;
+
+// Header HTML
+const HDR = `<div class="hdr"><div class="logo"><span>SOUS</span></div><div class="hdr-actions"><div class="hi"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="hi"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="nb">3</div></div></div></div>`;
+
+// Header with plus button (for B)
+const HDR_PLUS = `<div class="hdr"><div class="logo"><span>SOUS</span></div><div class="hdr-actions"><div class="hi plus-btn"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div><div class="hi"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="nb">3</div></div></div></div>`;
+
+// Sub-tabs
+const STABS = `<div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>`;
+
+// Bottom nav
+const BNAV = `<div class="bnav"><div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div><div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div><div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div><div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div><div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div></div>`;
+
+// Bottom nav for recipe page (Recipes tab active)
+const BNAV_RECIPE = `<div class="bnav"><div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div><div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div><div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div><div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div><div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div></div>`;
+
+// Recipe detail phone content
+function recipePhone(emoji) {
+  return `${SB}
+    <div class="recipe-back"><svg viewBox="0 0 24 24" stroke="currentColor"><polyline points="15 18 9 12 15 6"/></svg></div>
+    <div class="recipe-save"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></div>
+    <div class="recipe-scroll">
+      <img class="recipe-hero" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=720&h=440&fit=crop" alt="Recipe">
+      <div class="recipe-body">
+        <div class="recipe-tags">
+          <span class="recipe-tag">Healthy</span>
+          <span class="recipe-tag">Quick</span>
+          <span class="recipe-tag">Vegetarian</span>
+        </div>
+        <div class="recipe-title">Mediterranean Grain Bowl</div>
+        <div class="recipe-author">by Chef Sarah Mitchell</div>
+        <div class="recipe-meta">
+          <div class="recipe-meta-item"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 25 min</div>
+          <div class="recipe-meta-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 2</div>
+          <div class="recipe-meta-item"><svg viewBox="0 0 24 24" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Easy</div>
+        </div>
+        <div class="recipe-actions">
+          <button class="recipe-action-btn primary"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Add to Plan</button>
+          <button class="recipe-action-btn secondary"><svg viewBox="0 0 24 24" stroke="currentColor"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>Share</button>
+        </div>
+        <div class="recipe-section-title">Ingredients</div>
+        <div class="recipe-ingredient"><div class="dot"></div><span class="qty">1 cup</span> quinoa, cooked</div>
+        <div class="recipe-ingredient"><div class="dot"></div><span class="qty">1/2 cup</span> cherry tomatoes, halved</div>
+        <div class="recipe-ingredient"><div class="dot"></div><span class="qty">1/3 cup</span> cucumber, diced</div>
+        <div class="recipe-ingredient"><div class="dot"></div><span class="qty">1/4 cup</span> kalamata olives</div>
+        <div class="recipe-ingredient"><div class="dot"></div><span class="qty">2 tbsp</span> feta cheese, crumbled</div>
+      </div>
+    </div>
+    ${BNAV_RECIPE}`;
+}
+
+// Feed phone content
+function feedPhone(emoji) {
+  return `${SB}
+    ${HDR}
+    ${STABS}
+    <div class="strip"></div>
+    <div class="content"><div class="ei">${emoji}</div><div class="et">Your feed is empty</div><div class="ed">Follow people to see their recipes here.</div><button class="cta">Discover Creators</button></div>
+    ${BNAV}`;
+}
+
+function feedPhonePlus(emoji) {
+  return `${SB}
+    ${HDR_PLUS}
+    ${STABS}
+    <div class="strip"></div>
+    <div class="content"><div class="ei">${emoji}</div><div class="et">Your feed is empty</div><div class="ed">Follow people to see their recipes here.</div><button class="cta">Discover Creators</button></div>
+    ${BNAV}`;
+}
+
+// Build all palettes
+const palettes = [
+  { section: 'light', title: 'Light Mode' },
+  { cls: 'la', label: 'A: Cream & Gold', desc: 'Your current warm palette. Cozy and distinctive.', emoji: '&#9675;', chips: ['#fdf6ec','#d4a024','#424b30','#f8eed9'] },
+  { cls: 'lb pill-active', label: 'B: ReciMe White + Gold', desc: 'Clean white, peach active pill. Airy and professional.', emoji: '&#9675;', chips: ['#ffffff','#d4a024','#2c2c2c','#fce4cc'], plus: true },
+  { cls: 'lc', label: 'C: Forest & Sage', desc: 'Muted sage green, linen background. Earthy farmers\' market.', emoji: '&#127807;', chips: ['#f7f5f0','#6b8f5e','#2d3a2e','#eae7df'] },
+  { cls: 'le', label: 'E: Mint & White', desc: 'Clean white, bright mint green. Modern wellness feel.', emoji: '&#127811;', chips: ['#ffffff','#5a9e6f','#1a2e1a','#f4f8f4'] },
+  { cls: 'lf', label: 'F: Olive & Gold', desc: 'Warm parchment, deep olive + gold. Leather-bound journal.', emoji: '&#127810;', chips: ['#faf9f5','#6b7a42','#8a7a3a','#f0ede3'] },
+  { cls: 'ld', label: 'D: Blush & Terracotta', desc: 'Near-white, warm terracotta. Sophisticated and premium.', emoji: '&#10022;', chips: ['#fefcfa','#c47d5a','#2a2a2a','#f5f0eb'] },
+  { section: 'dark', title: 'Dark Mode' },
+  { cls: 'dk1', label: 'D1: Charcoal & Gold', desc: 'Your existing dark colors. Familiar and warm.', emoji: '&#9675;', chips: ['#2B2B26','#d4a024','#fbecda','#353530'] },
+  { cls: 'dk2', label: 'D2: True Black & Gold (OLED)', desc: 'Pure black, max contrast, luxurious gold. Battery-saving.', emoji: '&#9675;', chips: ['#000000','#d4a024','#e8e0d6','#0a0a0a'] },
+  { cls: 'dk3', label: 'D3: Forest Night', desc: 'Deep forest green, bright sage accent. Natural and calming.', emoji: '&#127811;', chips: ['#1a2118','#7ab87a','#d4ddd0','#212b1f'] },
+  { cls: 'dk4', label: 'D4: Warm Noir', desc: 'Dark warm brown + muted gold. Candlelit kitchen feel.', emoji: '&#10022;', chips: ['#1c1b18','#c49a5c','#e8dcc8','#242320'] },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const body = document.querySelector('body');
+  let currentGrid;
+
+  palettes.forEach(p => {
+    if (p.section) {
+      const st = document.createElement('div');
+      st.className = 'section-title';
+      st.textContent = p.title;
+      body.appendChild(st);
+      currentGrid = document.createElement('div');
+      currentGrid.className = 'grid';
+      body.appendChild(currentGrid);
+      return;
+    }
+
+    const wrap = document.createElement('div');
+    wrap.className = `wrap ${p.cls}`;
+
+    const chipsHTML = p.chips.map(c => `<div class="chip" style="background:${c};"></div>`).join('');
+
+    wrap.innerHTML = `
+      <div class="label">${p.label}</div>
+      <div class="desc">${p.desc}</div>
+      <div class="phones">
+        <div class="phone">${p.plus ? feedPhonePlus(p.emoji) : feedPhone(p.emoji)}</div>
+        <div class="phone">${recipePhone(p.emoji)}</div>
+      </div>
+      <div class="chips">${chipsHTML}</div>
+    `;
+
+    currentGrid.appendChild(wrap);
+  });
+});
+</script>
+
+</body>
+</html>

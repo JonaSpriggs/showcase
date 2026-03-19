@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Active Cooking (Timeline)</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  /* No bottom nav padding, full screen flex layout */
+  .phone-frame {
+    padding-bottom: 0;
+    height: var(--phone-height);
+    min-height: unset;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Toggle pills */
+  .cook-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 16px;
+    background: var(--surface);
+    border-radius: 999px;
+    margin: 8px auto;
+    width: fit-content;
+  }
+  .cook-toggle-pill {
+    padding: 6px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: inherit;
+    background: transparent;
+    color: var(--text-light);
+  }
+  .cook-toggle-pill.active {
+    background: var(--white);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+
+  /* Compact Gantt */
+  .gantt-compact {
+    padding: 8px 16px;
+  }
+  .gantt-row-compact {
+    display: flex;
+    align-items: center;
+    height: 28px;
+  }
+  .gantt-label-compact {
+    width: 50px;
+    font-size: 10px;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .gantt-track-compact {
+    flex: 1;
+    position: relative;
+    height: 20px;
+  }
+  .gantt-bar-compact {
+    position: absolute;
+    height: 16px;
+    border-radius: 4px;
+    top: 2px;
+  }
+  .gantt-bar-compact.completed {
+    opacity: 0.3;
+  }
+  .gantt-bar-compact.current {
+    box-shadow: 0 0 8px rgba(107, 143, 94, 0.5);
+    border: 1.5px solid var(--primary);
+  }
+
+  /* Time axis */
+  .gantt-time-axis {
+    display: flex;
+    padding: 0 0 0 50px;
+    margin-top: 2px;
+  }
+  .gantt-time-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    flex: 1;
+  }
+
+  /* Divider */
+  .cook-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 0 16px;
+  }
+
+  /* Step card */
+  .cook-step-card {
+    background: var(--white);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(45,58,46,0.08);
+    padding: 20px;
+    margin: 12px 16px;
+    position: relative;
+  }
+  .cook-step-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .cook-step-label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text-light);
+  }
+  .cook-timer-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cook-timer-btn svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--primary);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .cook-step-text {
+    font-size: var(--text-lg);
+    line-height: var(--leading-relaxed);
+    color: var(--text);
+    margin-bottom: 12px;
+  }
+  .cook-time-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    padding: 4px 10px;
+    border-radius: var(--radius-full);
+  }
+
+  /* Dot navigation */
+  .cook-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 0;
+    align-items: center;
+  }
+  .cook-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border);
+  }
+  .cook-dot.active {
+    background: var(--primary);
+    width: 10px;
+    height: 10px;
+  }
+
+  /* Done button area */
+  .cook-done-area {
+    padding: 0 16px 24px;
+  }
+
+  /* Timer overlays */
+  .timer-stack {
+    position: absolute;
+    right: 8px;
+    top: 45%;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 10;
+  }
+  .timer-pill {
+    background: var(--primary);
+    color: #fff;
+    border-radius: 12px;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 56px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  .timer-pill-label {
+    font-size: 9px;
+    opacity: 0.8;
+    font-weight: 600;
+  }
+  .timer-pill-time {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* Recipe title bar */
+  .cook-title-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 16px 0;
+  }
+  .cook-title {
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+  }
+  .cook-close-x {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .cook-close-x svg {
+    width: 18px;
+    height: 18px;
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame" style="position: relative;">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="9" y="0" width="3" height="12" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="currentColor" opacity="0.3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.5 2 3.2 3 1.5 4.7L0 3.2C2.1 1.2 4.9 0 8 0s5.9 1.2 8 3.2l-1.5 1.5C12.8 3 10.5 2 8 2z" fill="currentColor"/><path d="M8 6c-1.7 0-3.2.7-4.3 1.8L2.2 6.3C3.7 4.9 5.7 4 8 4s4.3.9 5.8 2.3l-1.5 1.5C11.2 6.7 9.7 6 8 6z" fill="currentColor"/><circle cx="8" cy="10" r="2" fill="currentColor"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="21" height="10" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="22" y="4" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.4"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="currentColor"/></svg>
+    </div>
+  </div>
+
+  <!-- Title bar with close -->
+  <div class="cook-title-bar">
+    <span class="cook-title">Mediterranean Grain Bowl</span>
+    <a class="cook-close-x" href="recipe-detail-full.html">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </a>
+  </div>
+
+  <!-- Toggle pills -->
+  <div class="cook-toggle">
+    <a href="cook-active.html" style="text-decoration:none;"><button class="cook-toggle-pill">Steps</button></a>
+    <button class="cook-toggle-pill active">Timeline</button>
+  </div>
+
+  <!-- Compact Gantt Chart -->
+  <div class="gantt-compact">
+    <!-- Step 1 - completed -->
+    <div class="gantt-row-compact">
+      <div class="gantt-label-compact">Step 1</div>
+      <div class="gantt-track-compact">
+        <div class="gantt-bar-compact completed" style="left: 0%; width: 28%; background: var(--primary);"></div>
+      </div>
+    </div>
+    <!-- Step 2 - completed -->
+    <div class="gantt-row-compact">
+      <div class="gantt-label-compact">Step 2</div>
+      <div class="gantt-track-compact">
+        <div class="gantt-bar-compact completed" style="left: 8%; width: 36%; background: #e8a54b;"></div>
+      </div>
+    </div>
+    <!-- Step 3 - current -->
+    <div class="gantt-row-compact">
+      <div class="gantt-label-compact" style="color: var(--text); font-weight: 600;">Step 3</div>
+      <div class="gantt-track-compact">
+        <div class="gantt-bar-compact current" style="left: 32%; width: 24%; background: var(--primary);"></div>
+      </div>
+    </div>
+    <!-- Step 4 -->
+    <div class="gantt-row-compact">
+      <div class="gantt-label-compact">Step 4</div>
+      <div class="gantt-track-compact">
+        <div class="gantt-bar-compact" style="left: 48%; width: 20%; background: #e8a54b;"></div>
+      </div>
+    </div>
+    <!-- Step 5 -->
+    <div class="gantt-row-compact">
+      <div class="gantt-label-compact">Step 5</div>
+      <div class="gantt-track-compact">
+        <div class="gantt-bar-compact" style="left: 60%; width: 22%; background: var(--primary);"></div>
+      </div>
+    </div>
+    <!-- Step 6 -->
+    <div class="gantt-row-compact">
+      <div class="gantt-label-compact">Step 6</div>
+      <div class="gantt-track-compact">
+        <div class="gantt-bar-compact" style="left: 76%; width: 24%; background: #c75c3a;"></div>
+      </div>
+    </div>
+    <!-- Time axis -->
+    <div class="gantt-time-axis">
+      <span class="gantt-time-label">0m</span>
+      <span class="gantt-time-label">5m</span>
+      <span class="gantt-time-label">10m</span>
+      <span class="gantt-time-label">15m</span>
+      <span class="gantt-time-label">20m</span>
+      <span class="gantt-time-label">25m</span>
+    </div>
+  </div>
+
+  <!-- Divider -->
+  <div class="cook-divider"></div>
+
+  <!-- Step Card -->
+  <div class="cook-step-card">
+    <div class="cook-step-header">
+      <span class="cook-step-label">Step 3 of 6</span>
+      <button class="cook-timer-btn">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      </button>
+    </div>
+    <p class="cook-step-text">In a large bowl, combine the cooled quinoa with all the prepared vegetables. Add crumbled feta cheese and toss gently.</p>
+    <div class="cook-time-pill">
+      <svg width="12" height="12" viewBox="0 0 24 24" style="stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      5 min
+    </div>
+  </div>
+
+  <!-- Dot navigation -->
+  <div class="cook-dots">
+    <div class="cook-dot"></div>
+    <div class="cook-dot"></div>
+    <div class="cook-dot active"></div>
+    <div class="cook-dot"></div>
+    <div class="cook-dot"></div>
+    <div class="cook-dot"></div>
+  </div>
+
+  <!-- Done Cooking button -->
+  <div class="cook-done-area">
+    <a class="btn btn-primary btn-full" href="recipe-detail-full.html" style="text-decoration: none;">Done Cooking</a>
+  </div>
+
+  <!-- Timer overlays -->
+  <div class="timer-stack">
+    <div class="timer-pill">
+      <span class="timer-pill-label">Step 1</span>
+      <span class="timer-pill-time">4:32</span>
+    </div>
+    <div class="timer-pill">
+      <span class="timer-pill-label">Step 2</span>
+      <span class="timer-pill-time">12:01</span>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

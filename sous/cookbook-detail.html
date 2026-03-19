@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Mediterranean Essentials</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  .nav-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
+  .nav-item.active .nav-avatar { border-color: var(--primary); }
+  .nav-icon svg { stroke-width: 1.8; }
+  .nav-item { font-size: 11px; font-weight: 500; letter-spacing: 0.2px; }
+  .nav-item.active { font-weight: 600; }
+  .nav-item.active::after { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--primary); margin-top: 2px; }
+
+  /* Hero */
+  .hero-wrap { position: relative; }
+  .hero-image {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-btn-back {
+    position: absolute;
+    top: 52px;
+    left: 16px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.35);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+  }
+  .hero-btn-back svg {
+    width: 20px;
+    height: 20px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Content */
+  .cb-content { padding: var(--sp-4); }
+
+  .cb-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--weight-bold);
+    line-height: var(--leading-tight);
+    margin-bottom: var(--sp-3);
+  }
+  .cb-creator {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
+  }
+  .cb-creator-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+  }
+  .cb-creator-info {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+  }
+  .cb-creator-name {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+  }
+
+  .cb-description {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    line-height: var(--leading-relaxed);
+    margin-bottom: var(--sp-4);
+  }
+
+  /* Stats row */
+  .stats-row {
+    display: flex;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-4);
+  }
+
+  /* Price & CTA */
+  .price-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    margin-bottom: var(--sp-3);
+  }
+  .price {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+  }
+
+  /* Preview recipe card */
+  .preview-card {
+    display: flex;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
+    background: var(--white);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--sp-3);
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    align-items: center;
+  }
+  .preview-card-img {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-sm);
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .preview-card-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    margin-bottom: 4px;
+  }
+  .preview-card-meta {
+    font-size: var(--text-xs);
+    color: var(--text-light);
+  }
+  .preview-badge {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: var(--success);
+    color: var(--white);
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+  }
+
+  /* Locked recipe list */
+  .locked-group-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    margin-bottom: var(--sp-2);
+    margin-top: var(--sp-3);
+  }
+  .locked-recipe {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--sp-3) 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .locked-recipe:last-child { border-bottom: none; }
+  .locked-recipe-name {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+  .locked-recipe svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Status Bar -->
+  <div class="status-bar" style="position: absolute; top: 0; left: 0; right: 0; z-index: 10; background: transparent; color: #fff;">
+    <span class="time">9:41</span>
+    <div class="status-icons" style="color: #fff;">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="9" y="0" width="3" height="12" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="currentColor" opacity="0.3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.5 2 3.2 3 1.5 4.7L0 3.2C2.1 1.2 4.9 0 8 0s5.9 1.2 8 3.2l-1.5 1.5C12.8 3 10.5 2 8 2z" fill="currentColor"/><path d="M8 6c-1.7 0-3.2.7-4.3 1.8L2.2 6.3C3.7 4.9 5.7 4 8 4s4.3.9 5.8 2.3l-1.5 1.5C11.2 6.7 9.7 6 8 6z" fill="currentColor"/><circle cx="8" cy="10" r="2" fill="currentColor"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="21" height="10" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="22" y="4" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.4"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="currentColor"/></svg>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero-wrap">
+    <img class="hero-image" src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?w=800&h=500&fit=crop" alt="Mediterranean Essentials">
+    <a class="hero-btn-back" href="recipes-cookbooks.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    </a>
+  </div>
+
+  <!-- Content -->
+  <div class="cb-content">
+
+    <h1 class="cb-title">Mediterranean Essentials</h1>
+
+    <div class="cb-creator">
+      <img class="cb-creator-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=60&h=60&fit=crop&crop=face" alt="Chef Sarah Mitchell">
+      <div class="cb-creator-info">
+        <span class="cb-creator-name">Chef Sarah Mitchell</span>
+        <span class="badge badge-business">Pro</span>
+      </div>
+    </div>
+
+    <p class="cb-description">A curated collection of authentic Mediterranean recipes perfected over 15 years. From quick weeknight dinners to weekend feasts, each recipe celebrates fresh ingredients and bold flavors.</p>
+
+    <!-- Stats -->
+    <div class="stats-row">
+      <span class="stat">18 recipes</span>
+      <span class="stat">342 purchased</span>
+      <span class="stat">
+        <svg width="12" height="12" viewBox="0 0 24 24" style="stroke: var(--text-light); fill: none; stroke-width: 2;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        4.8
+      </span>
+    </div>
+
+    <!-- Price & Buy -->
+    <div class="price-row">
+      <span class="price">$9.99</span>
+    </div>
+    <button class="btn btn-primary btn-full" style="margin-bottom: var(--sp-3);">Buy Cookbook</button>
+    <button class="btn btn-ghost btn-full" style="margin-bottom: var(--sp-4);">Watch Trailer</button>
+
+    <div class="divider"></div>
+
+    <!-- Preview Recipes -->
+    <div class="section-title">Preview Recipes</div>
+
+    <a class="preview-card" href="recipe-detail-full.html">
+      <img class="preview-card-img" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=200&h=200&fit=crop" alt="Mediterranean Grain Bowl">
+      <div>
+        <div class="preview-card-title">Mediterranean Grain Bowl</div>
+        <div class="preview-card-meta">25 min  |  2 servings  |  Easy</div>
+      </div>
+      <span class="preview-badge">Preview</span>
+    </a>
+
+    <a class="preview-card" href="recipe-detail-full.html">
+      <img class="preview-card-img" src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=200&h=200&fit=crop" alt="Lemon Herb Salmon">
+      <div>
+        <div class="preview-card-title">Lemon Herb Salmon</div>
+        <div class="preview-card-meta">30 min  |  2 servings  |  Medium</div>
+      </div>
+      <span class="preview-badge">Preview</span>
+    </a>
+
+    <div class="divider"></div>
+
+    <!-- All Recipes (Locked) -->
+    <div class="section-title">All Recipes</div>
+
+    <div class="locked-group-title">Quick Weeknights</div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Greek Chicken Souvlaki</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Shakshuka</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Falafel Wraps</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Tabbouleh Salad</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+
+    <div class="locked-group-title">Weekend Feasts</div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Slow-Roasted Lamb Shoulder</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Seafood Paella</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+    <div class="locked-recipe">
+      <span class="locked-recipe-name">Stuffed Vine Leaves</span>
+      <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    </div>
+
+    <!-- Spacer -->
+    <div style="height: var(--sp-8);"></div>
+
+  </div>
+
+  <!-- Bottom Nav -->
+  <div class="bottom-nav">
+    <a class="nav-item" href="feed-following.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span>Feed</span></a>
+    <a class="nav-item active" href="recipes-library.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><span>Recipes</span></a>
+    <a class="nav-item" href="shopping-list.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div><span>Lists</span></a>
+    <a class="nav-item" href="planner.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span>Planner</span></a>
+    <a class="nav-item" href="profile.html"><div class="nav-icon"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"></div><span>Profile</span></a>
+  </div>
+
+</div>
+</body>
+</html>

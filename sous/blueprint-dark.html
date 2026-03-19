@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Dark Mode Palettes</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { font-family: var(--font); background: #1a1a18; padding: 32px 20px 60px; }
+  h1 { text-align: center; font-size: 28px; font-weight: 800; color: #f0ebe4; margin-bottom: 6px; }
+  h1 span { color: #d4a024; }
+  .subtitle { text-align: center; font-size: 14px; color: #8a8a80; margin-bottom: 40px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 40px; max-width: 1800px; margin: 0 auto; }
+  .wrap { display: flex; flex-direction: column; align-items: center; }
+  .label { font-size: 18px; font-weight: 700; margin-bottom: 4px; text-align: center; color: #e0ddd5; }
+  .desc { font-size: 13px; color: #8a8a80; margin-bottom: 16px; text-align: center; max-width: 380px; line-height: 1.5; }
+  .phone { width: 390px; height: 844px; border-radius: 40px; position: relative; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.4); display: flex; flex-direction: column; }
+  .sb { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px 8px; font-size: 11px; font-weight: 700; height: 44px; flex-shrink: 0; }
+  .sb svg { width: 16px; height: 12px; }
+  .hdr { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px 12px; height: 52px; flex-shrink: 0; }
+  .logo { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+  .hdr-actions { display: flex; gap: 14px; align-items: center; }
+  .hdr-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; border-radius: 50%; }
+  .hdr-icon svg { width: 22px; height: 22px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .notif-badge { position: absolute; top: -2px; right: -4px; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; padding: 0 4px; }
+  .stabs { display: flex; height: 48px; flex-shrink: 0; }
+  .stab { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
+  .strip { height: 1px; width: 100%; flex-shrink: 0; }
+  .content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; }
+  .ei { font-size: 48px; opacity: 0.4; margin-bottom: 16px; }
+  .et { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .ed { font-size: 13px; line-height: 1.6; margin-bottom: 24px; max-width: 240px; }
+  .cta { padding: 12px 28px; border-radius: 12px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font); }
+  .bnav { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; padding: 8px 0 28px; height: 80px; }
+  .ni { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: 500; cursor: pointer; padding: 4px 10px; position: relative; }
+  .ni svg { width: 22px; height: 22px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ni.active::after { content: ''; width: 4px; height: 4px; border-radius: 50%; margin-top: 1px; }
+  .nav-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 2px solid #555; }
+  .ni.active .nav-avatar { border-color: currentColor; }
+  .chips { display: flex; gap: 6px; margin-top: 12px; justify-content: center; }
+  .chip { width: 28px; height: 28px; border-radius: 6px; border: 2px solid rgba(255,255,255,0.1); }
+
+  /* ============================================
+     D1: Charcoal & Gold (Your existing dark colors)
+     ============================================ */
+  .d1 .phone { background: #2B2B26; }
+  .d1 .sb { background: #2B2B26; color: #fbecda; }
+  .d1 .sb svg { fill: #fbecda; }
+  .d1 .hdr { background: #2B2B26; }
+  .d1 .logo { color: #fbecda; }
+  .d1 .logo span { color: #d4a024; }
+  .d1 .hdr-icon svg { stroke: #fbecda; }
+  .d1 .notif-badge { background: #e74c3c; }
+  .d1 .stabs { background: #2B2B26; border-bottom: 1px solid #4C4B43; }
+  .d1 .stab { color: #75746C; }
+  .d1 .stab.active { color: #fbecda; border-bottom-color: #d4a024; }
+  .d1 .et { color: #fbecda; }
+  .d1 .ed { color: #A8A79D; }
+  .d1 .cta { background: #d4a024; color: #2B2B26; }
+  .d1 .bnav { background: #353530; border-top: 1px solid #4C4B43; }
+  .d1 .ni { color: #75746C; }
+  .d1 .ni svg { stroke: #75746C; }
+  .d1 .ni.active { color: #fbecda; }
+  .d1 .ni.active svg { stroke: #d4a024; }
+  .d1 .ni.active::after { background: #d4a024; }
+  .d1 .strip { background: #353530; }
+
+  /* ============================================
+     D2: True Black & Gold (OLED-friendly)
+     ============================================ */
+  .d2 .phone { background: #000000; }
+  .d2 .sb { background: #000000; color: #e8e0d6; }
+  .d2 .sb svg { fill: #e8e0d6; }
+  .d2 .hdr { background: #000000; }
+  .d2 .logo { color: #e8e0d6; }
+  .d2 .logo span { color: #d4a024; }
+  .d2 .hdr-icon svg { stroke: #e8e0d6; }
+  .d2 .notif-badge { background: #e74c3c; }
+  .d2 .stabs { background: #000000; border-bottom: 1px solid #222; }
+  .d2 .stab { color: #555; }
+  .d2 .stab.active { color: #e8e0d6; border-bottom-color: #d4a024; }
+  .d2 .et { color: #e8e0d6; }
+  .d2 .ed { color: #777; }
+  .d2 .cta { background: #d4a024; color: #000; }
+  .d2 .bnav { background: #0a0a0a; border-top: 1px solid #222; }
+  .d2 .ni { color: #555; }
+  .d2 .ni svg { stroke: #555; }
+  .d2 .ni.active { color: #e8e0d6; }
+  .d2 .ni.active svg { stroke: #d4a024; }
+  .d2 .ni.active::after { background: #d4a024; }
+  .d2 .strip { background: #0a0a0a; }
+
+  /* ============================================
+     D3: Forest Night (Dark green tones)
+     ============================================ */
+  .d3 .phone { background: #1a2118; }
+  .d3 .sb { background: #1a2118; color: #d4ddd0; }
+  .d3 .sb svg { fill: #d4ddd0; }
+  .d3 .hdr { background: #1a2118; }
+  .d3 .logo { color: #d4ddd0; }
+  .d3 .logo span { color: #7ab87a; }
+  .d3 .hdr-icon svg { stroke: #d4ddd0; }
+  .d3 .notif-badge { background: #e07b5a; }
+  .d3 .stabs { background: #1a2118; border-bottom: 1px solid #2d3a2a; }
+  .d3 .stab { color: #566856; }
+  .d3 .stab.active { color: #d4ddd0; border-bottom-color: #7ab87a; }
+  .d3 .ei { color: #7ab87a; }
+  .d3 .et { color: #d4ddd0; }
+  .d3 .ed { color: #8a9a85; }
+  .d3 .cta { background: #7ab87a; color: #1a2118; }
+  .d3 .bnav { background: #212b1f; border-top: 1px solid #2d3a2a; }
+  .d3 .ni { color: #4a5a48; }
+  .d3 .ni svg { stroke: #4a5a48; }
+  .d3 .ni.active { color: #d4ddd0; }
+  .d3 .ni.active svg { stroke: #7ab87a; }
+  .d3 .ni.active::after { background: #7ab87a; }
+  .d3 .strip { background: #212b1f; }
+
+  /* ============================================
+     D4: Warm Noir (Dark with warm cream accents)
+     ============================================ */
+  .d4 .phone { background: #1c1b18; }
+  .d4 .sb { background: #1c1b18; color: #e8dcc8; }
+  .d4 .sb svg { fill: #e8dcc8; }
+  .d4 .hdr { background: #1c1b18; }
+  .d4 .logo { color: #e8dcc8; }
+  .d4 .logo span { color: #c49a5c; }
+  .d4 .hdr-icon svg { stroke: #e8dcc8; }
+  .d4 .notif-badge { background: #c75c3a; }
+  .d4 .stabs { background: #1c1b18; border-bottom: 1px solid #33312a; }
+  .d4 .stab { color: #6b6558; }
+  .d4 .stab.active { color: #e8dcc8; border-bottom-color: #c49a5c; }
+  .d4 .ei { color: #c49a5c; }
+  .d4 .et { color: #e8dcc8; }
+  .d4 .ed { color: #8a8272; }
+  .d4 .cta { background: #c49a5c; color: #1c1b18; }
+  .d4 .bnav { background: #242320; border-top: 1px solid #33312a; }
+  .d4 .ni { color: #5a5548; }
+  .d4 .ni svg { stroke: #5a5548; }
+  .d4 .ni.active { color: #e8dcc8; }
+  .d4 .ni.active svg { stroke: #c49a5c; }
+  .d4 .ni.active::after { background: #c49a5c; }
+  .d4 .strip { background: #242320; }
+</style>
+</head>
+<body>
+
+<h1>S<span>OUS</span> Dark Mode</h1>
+<p class="subtitle">4 dark palettes. Pick your night-time vibe.</p>
+
+<div class="grid">
+
+  <!-- D1: Charcoal & Gold -->
+  <div class="wrap d1">
+    <div class="label">D1: Charcoal & Gold</div>
+    <div class="desc">Your existing dark mode colors (jet + black olive). Familiar, warm. Gold pops nicely against the dark grey-green.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>
+      <div class="strip"></div>
+      <div class="content">
+        <div class="ei">&#9675;</div>
+        <div class="et">Your feed is empty</div>
+        <div class="ed">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #2B2B26;"></div>
+      <div class="chip" style="background: #d4a024;"></div>
+      <div class="chip" style="background: #fbecda;"></div>
+      <div class="chip" style="background: #75746C;"></div>
+      <div class="chip" style="background: #353530;"></div>
+      <div class="chip" style="background: #4C4B43;"></div>
+    </div>
+  </div>
+
+  <!-- D2: True Black & Gold -->
+  <div class="wrap d2">
+    <div class="label">D2: True Black & Gold (OLED)</div>
+    <div class="desc">Pure black for OLED screens. Maximum contrast, gold feels luxurious. Battery-saving on mobile. Sleek and premium.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>
+      <div class="strip"></div>
+      <div class="content">
+        <div class="ei">&#9675;</div>
+        <div class="et">Your feed is empty</div>
+        <div class="ed">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #000000;"></div>
+      <div class="chip" style="background: #d4a024;"></div>
+      <div class="chip" style="background: #e8e0d6;"></div>
+      <div class="chip" style="background: #555;"></div>
+      <div class="chip" style="background: #0a0a0a;"></div>
+      <div class="chip" style="background: #222;"></div>
+    </div>
+  </div>
+
+  <!-- D3: Forest Night -->
+  <div class="wrap d3">
+    <div class="label">D3: Forest Night (Dark Green)</div>
+    <div class="desc">Deep forest floor background with bright sage-green accent. Organic and calming. Natural companion to the green light themes.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>
+      <div class="strip"></div>
+      <div class="content">
+        <div class="ei">&#127811;</div>
+        <div class="et">Your feed is empty</div>
+        <div class="ed">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #1a2118;"></div>
+      <div class="chip" style="background: #7ab87a;"></div>
+      <div class="chip" style="background: #d4ddd0;"></div>
+      <div class="chip" style="background: #566856;"></div>
+      <div class="chip" style="background: #212b1f;"></div>
+      <div class="chip" style="background: #e07b5a;"></div>
+    </div>
+  </div>
+
+  <!-- D4: Warm Noir -->
+  <div class="wrap d4">
+    <div class="label">D4: Warm Noir (Dark + Cream)</div>
+    <div class="desc">Very dark warm brown with muted gold accent. Like a candlelit kitchen. Cozy dark mode that doesn't feel cold or techy.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>
+      <div class="strip"></div>
+      <div class="content">
+        <div class="ei">&#10022;</div>
+        <div class="et">Your feed is empty</div>
+        <div class="ed">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #1c1b18;"></div>
+      <div class="chip" style="background: #c49a5c;"></div>
+      <div class="chip" style="background: #e8dcc8;"></div>
+      <div class="chip" style="background: #6b6558;"></div>
+      <div class="chip" style="background: #242320;"></div>
+      <div class="chip" style="background: #c75c3a;"></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

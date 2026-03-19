@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Green Palettes (Side by Side)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root { --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { font-family: var(--font); background: #e8e4dc; padding: 32px 20px 60px; }
+  h1 { text-align: center; font-size: 28px; font-weight: 800; color: #2d3a2e; margin-bottom: 6px; }
+  .subtitle { text-align: center; font-size: 14px; color: #6d846d; margin-bottom: 40px; }
+  .grid { display: flex; gap: 40px; justify-content: center; flex-wrap: wrap; }
+  .wrap { display: flex; flex-direction: column; align-items: center; }
+  .label { font-size: 18px; font-weight: 700; margin-bottom: 4px; text-align: center; }
+  .desc { font-size: 13px; color: #6d846d; margin-bottom: 16px; text-align: center; max-width: 380px; line-height: 1.5; }
+  .phone { width: 390px; height: 844px; border-radius: 40px; position: relative; overflow: hidden; box-shadow: 0 8px 40px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
+  .sb { display: flex; justify-content: space-between; align-items: center; padding: 14px 24px 8px; font-size: 11px; font-weight: 700; height: 44px; flex-shrink: 0; }
+  .sb svg { width: 16px; height: 12px; }
+  .hdr { display: flex; justify-content: space-between; align-items: center; padding: 8px 16px 12px; height: 52px; flex-shrink: 0; }
+  .logo { font-size: 28px; font-weight: 800; letter-spacing: -1px; }
+  .hdr-actions { display: flex; gap: 14px; align-items: center; }
+  .hdr-icon { width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; position: relative; cursor: pointer; border-radius: 50%; }
+  .hdr-icon svg { width: 22px; height: 22px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .notif-badge { position: absolute; top: -2px; right: -4px; min-width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: white; padding: 0 4px; }
+  .stabs { display: flex; height: 48px; flex-shrink: 0; }
+  .stab { flex: 1; display: flex; align-items: center; justify-content: center; font-size: 15px; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; }
+  .strip { height: 6px; width: 100%; flex-shrink: 0; }
+  .content { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; }
+  .ei { font-size: 48px; opacity: 0.35; margin-bottom: 16px; }
+  .et { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .ed { font-size: 13px; line-height: 1.6; margin-bottom: 24px; max-width: 240px; }
+  .cta { padding: 12px 28px; border-radius: 12px; font-size: 15px; font-weight: 600; border: none; cursor: pointer; font-family: var(--font); }
+  .bnav { position: absolute; bottom: 0; left: 0; right: 0; display: flex; justify-content: space-around; align-items: center; padding: 8px 0 28px; height: 80px; }
+  .ni { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; font-weight: 500; cursor: pointer; padding: 4px 10px; position: relative; }
+  .ni svg { width: 22px; height: 22px; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+  .ni.active::after { content: ''; width: 4px; height: 4px; border-radius: 50%; margin-top: 1px; }
+  .nav-avatar { width: 22px; height: 22px; border-radius: 50%; object-fit: cover; border: 2px solid #ccc; }
+  .ni.active .nav-avatar { border-color: currentColor; }
+  .chips { display: flex; gap: 6px; margin-top: 12px; justify-content: center; }
+  .chip { width: 28px; height: 28px; border-radius: 6px; border: 2px solid rgba(0,0,0,0.08); }
+
+  /* E: Mint & White */
+  .pe .phone { background: #ffffff; }
+  .pe .sb { background: #ffffff; color: #1a2e1a; }
+  .pe .sb svg { fill: #1a2e1a; }
+  .pe .hdr { background: #ffffff; }
+  .pe .logo { color: #1a2e1a; }
+  .pe .logo span { color: #5a9e6f; }
+  .pe .hdr-icon svg { stroke: #1a2e1a; }
+  .pe .notif-badge { background: #e07b5a; }
+  .pe .stabs { background: #ffffff; border-bottom: 1px solid #e5ebe5; }
+  .pe .stab { color: #a3b5a3; }
+  .pe .stab.active { color: #1a2e1a; border-bottom-color: #5a9e6f; }
+  .pe .ei { color: #5a9e6f; }
+  .pe .et { color: #1a2e1a; }
+  .pe .ed { color: #6d846d; }
+  .pe .cta { background: #5a9e6f; color: #fff; }
+  .pe .bnav { background: #f4f8f4; border-top: 1px solid #e5ebe5; }
+  .pe .ni { color: #b0bdb0; }
+  .pe .ni svg { stroke: #b0bdb0; }
+  .pe .ni.active { color: #1a2e1a; }
+  .pe .ni.active svg { stroke: #5a9e6f; }
+  .pe .ni.active::after { background: #5a9e6f; }
+  .pe .strip { background: #f0f5f0; }
+
+  /* F: Olive & Gold */
+  .pf .phone { background: #faf9f5; }
+  .pf .sb { background: #faf9f5; color: #2c3322; }
+  .pf .sb svg { fill: #2c3322; }
+  .pf .hdr { background: #faf9f5; }
+  .pf .logo { color: #2c3322; }
+  .pf .logo span { color: #8a7a3a; }
+  .pf .hdr-icon svg { stroke: #2c3322; }
+  .pf .notif-badge { background: #c75c3a; }
+  .pf .stabs { background: #faf9f5; border-bottom: 1px solid #ddd9cc; }
+  .pf .stab { color: #9a977e; }
+  .pf .stab.active { color: #2c3322; border-bottom-color: #6b7a42; }
+  .pf .ei { color: #6b7a42; }
+  .pf .et { color: #2c3322; }
+  .pf .ed { color: #70724f; }
+  .pf .cta { background: #6b7a42; color: #fff; }
+  .pf .bnav { background: #f0ede3; border-top: 1px solid #ddd9cc; }
+  .pf .ni { color: #b5b2a0; }
+  .pf .ni svg { stroke: #b5b2a0; }
+  .pf .ni.active { color: #2c3322; }
+  .pf .ni.active svg { stroke: #6b7a42; }
+  .pf .ni.active::after { background: #8a7a3a; }
+  .pf .strip { background: #f0ede3; }
+</style>
+</head>
+<body>
+
+<h1>Green Palettes</h1>
+<p class="subtitle">Mint & White (fresh) vs Olive & Gold (rich) — side by side.</p>
+
+<div class="grid">
+
+  <!-- E: Mint & White -->
+  <div class="wrap pe">
+    <div class="label" style="color: #1a2e1a;">E: Mint & White (Fresh)</div>
+    <div class="desc">Clean white, bright mint green, modern wellness. Light and airy.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>
+      <div class="strip"></div>
+      <div class="content">
+        <div class="ei">&#127811;</div>
+        <div class="et">Your feed is empty</div>
+        <div class="ed">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #ffffff;"></div>
+      <div class="chip" style="background: #5a9e6f;"></div>
+      <div class="chip" style="background: #1a2e1a;"></div>
+      <div class="chip" style="background: #6d846d;"></div>
+      <div class="chip" style="background: #f4f8f4;"></div>
+      <div class="chip" style="background: #e07b5a;"></div>
+    </div>
+  </div>
+
+  <!-- F: Olive & Gold -->
+  <div class="wrap pf">
+    <div class="label" style="color: #2c3322;">F: Olive & Gold (Rich)</div>
+    <div class="desc">Warm parchment, deep olive + gold highlights. Leather-bound recipe journal.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs"><div class="stab active">Following</div><div class="stab">Discover</div></div>
+      <div class="strip"></div>
+      <div class="content">
+        <div class="ei">&#127810;</div>
+        <div class="et">Your feed is empty</div>
+        <div class="ed">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="ni active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="ni"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="ni"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #faf9f5;"></div>
+      <div class="chip" style="background: #6b7a42;"></div>
+      <div class="chip" style="background: #8a7a3a;"></div>
+      <div class="chip" style="background: #2c3322;"></div>
+      <div class="chip" style="background: #f0ede3;"></div>
+      <div class="chip" style="background: #c75c3a;"></div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

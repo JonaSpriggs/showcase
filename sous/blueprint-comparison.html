@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Blueprint Comparison (4 Palettes)</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  body {
+    font-family: var(--font);
+    background: #f0ebe4;
+    padding: 32px 20px 60px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 800;
+    color: #424b30;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+  }
+  h1 span { color: #d4a024; }
+  .subtitle {
+    text-align: center;
+    font-size: 14px;
+    color: #72865b;
+    margin-bottom: 40px;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+    gap: 40px;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  .blueprint-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .blueprint-label {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .blueprint-desc {
+    font-size: 13px;
+    color: #72865b;
+    margin-bottom: 16px;
+    text-align: center;
+    max-width: 380px;
+    line-height: 1.5;
+  }
+
+  /* Shared phone frame */
+  .phone {
+    width: 390px;
+    height: 844px;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.15);
+  }
+
+  /* Status bar */
+  .sb {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 24px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    height: 44px;
+  }
+  .sb-icons { display: flex; gap: 4px; align-items: center; }
+  .sb-icons svg { width: 16px; height: 12px; }
+
+  /* Header */
+  .hdr {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px 12px;
+    height: 52px;
+  }
+  .logo {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+  }
+  .hdr-actions {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+  }
+  .hdr-icon {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    border-radius: 50%;
+  }
+  .hdr-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .notif-badge {
+    position: absolute;
+    top: -2px;
+    right: -4px;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: white;
+    padding: 0 4px;
+  }
+
+  /* Sub-tabs */
+  .stabs {
+    display: flex;
+    height: 48px;
+  }
+  .stab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+
+  /* Content area */
+  .content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    text-align: center;
+  }
+  .empty-icon {
+    font-size: 48px;
+    opacity: 0.35;
+    margin-bottom: 16px;
+  }
+  .empty-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .empty-desc {
+    font-size: 13px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    max-width: 240px;
+  }
+  .cta {
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font);
+  }
+
+  /* Bottom nav */
+  .bnav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 0 28px;
+    height: 80px;
+  }
+  .bnav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    padding: 4px 10px;
+    position: relative;
+  }
+  .bnav-item svg {
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .bnav-item.active::after {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    margin-top: 1px;
+  }
+
+  /* Nav profile avatar */
+  .nav-avatar {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ccc;
+  }
+  .bnav-item.active .nav-avatar { border-color: currentColor; }
+
+  /* ============================================
+     PALETTE E: Mint & White (Fresh Green)
+     ============================================ */
+  .pe .phone { background: #ffffff; }
+  .pe .sb { background: #ffffff; color: #1a2e1a; }
+  .pe .sb-icons svg { fill: #1a2e1a; }
+  .pe .hdr { background: #ffffff; }
+  .pe .logo { color: #1a2e1a; }
+  .pe .logo span { color: #5a9e6f; }
+  .pe .hdr-icon svg { stroke: #1a2e1a; }
+  .pe .notif-badge { background: #e07b5a; }
+  .pe .stabs { background: #ffffff; border-bottom: 1px solid #e5ebe5; }
+  .pe .stab { color: #a3b5a3; }
+  .pe .stab.active { color: #1a2e1a; border-bottom-color: #5a9e6f; }
+  .pe .content { background: #ffffff; }
+  .pe .empty-icon { color: #5a9e6f; }
+  .pe .empty-title { color: #1a2e1a; }
+  .pe .empty-desc { color: #6d846d; }
+  .pe .cta { background: #5a9e6f; color: #fff; }
+  .pe .bnav { background: #f4f8f4; border-top: 1px solid #e5ebe5; }
+  .pe .bnav-item { color: #b0bdb0; }
+  .pe .bnav-item svg { stroke: #b0bdb0; }
+  .pe .bnav-item.active { color: #1a2e1a; }
+  .pe .bnav-item.active svg { stroke: #5a9e6f; }
+  .pe .bnav-item.active::after { background: #5a9e6f; }
+  .pe .divider-strip { background: #f0f5f0; }
+
+  /* ============================================
+     PALETTE F: Deep Olive & Gold (Rich Green)
+     ============================================ */
+  .pf .phone { background: #faf9f5; }
+  .pf .sb { background: #faf9f5; color: #2c3322; }
+  .pf .sb-icons svg { fill: #2c3322; }
+  .pf .hdr { background: #faf9f5; }
+  .pf .logo { color: #2c3322; }
+  .pf .logo span { color: #8a7a3a; }
+  .pf .hdr-icon svg { stroke: #2c3322; }
+  .pf .notif-badge { background: #c75c3a; }
+  .pf .stabs { background: #faf9f5; border-bottom: 1px solid #ddd9cc; }
+  .pf .stab { color: #9a977e; }
+  .pf .stab.active { color: #2c3322; border-bottom-color: #6b7a42; }
+  .pf .content { background: #faf9f5; }
+  .pf .empty-icon { color: #6b7a42; }
+  .pf .empty-title { color: #2c3322; }
+  .pf .empty-desc { color: #70724f; }
+  .pf .cta { background: #6b7a42; color: #fff; }
+  .pf .bnav { background: #f0ede3; border-top: 1px solid #ddd9cc; }
+  .pf .bnav-item { color: #b5b2a0; }
+  .pf .bnav-item svg { stroke: #b5b2a0; }
+  .pf .bnav-item.active { color: #2c3322; }
+  .pf .bnav-item.active svg { stroke: #6b7a42; }
+  .pf .bnav-item.active::after { background: #8a7a3a; }
+  .pf .divider-strip { background: #f0ede3; }
+
+  /* ReciMe-style active pill behind icon */
+  .pill-active .bnav-item.active svg {
+    position: relative;
+    z-index: 1;
+  }
+  .pill-active .bnav-item.active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 44px;
+    height: 36px;
+    border-radius: 12px;
+    z-index: 0;
+  }
+  .pill-active .bnav-item.active::after { display: none; }
+  .pill-active .bnav-item.active span { font-weight: 700; }
+
+  /* Aisle divider strip like ReciMe */
+  .divider-strip {
+    height: 6px;
+    width: 100%;
+  }
+
+  /* ============================================
+     PALETTE A: Current (Cream & Gold)
+     ============================================ */
+  .pa .phone { background: #fdf6ec; }
+  .pa .sb { background: #fdf6ec; color: #424b30; }
+  .pa .sb-icons svg { fill: #424b30; }
+  .pa .hdr { background: #fdf6ec; }
+  .pa .logo { color: #424b30; }
+  .pa .logo span { color: #d4a024; }
+  .pa .hdr-icon svg { stroke: #424b30; }
+  .pa .notif-badge { background: #e74c3c; }
+  .pa .stabs { background: #fdf6ec; border-bottom: 1px solid #e8d5bc; }
+  .pa .stab { color: #72865b; }
+  .pa .stab.active { color: #424b30; border-bottom-color: #d4a024; }
+  .pa .empty-title { color: #424b30; }
+  .pa .empty-desc { color: #72865b; }
+  .pa .cta { background: #d4a024; color: #fff; }
+  .pa .bnav { background: #f8eed9; border-top: 1px solid #e8d5bc; }
+  .pa .bnav-item { color: #A8A79D; }
+  .pa .bnav-item svg { stroke: #A8A79D; }
+  .pa .bnav-item.active { color: #424b30; }
+  .pa .bnav-item.active svg { stroke: #d4a024; }
+  .pa .bnav-item.active::after { background: #d4a024; }
+  .pa .divider-strip { background: #f5e6d3; }
+
+  /* ============================================
+     PALETTE B: ReciMe-inspired (White + Warm Accents)
+     ============================================ */
+  .pb .phone { background: #ffffff; }
+  .pb .sb { background: #ffffff; color: #2c2c2c; }
+  .pb .sb-icons svg { fill: #2c2c2c; }
+  .pb .hdr { background: #ffffff; }
+  .pb .logo { color: #2c2c2c; }
+  .pb .logo span { color: #d4a024; }
+  .pb .hdr-icon svg { stroke: #2c2c2c; }
+  .pb .hdr-icon.plus-btn {
+    background: #fce4cc;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+  }
+  .pb .hdr-icon.plus-btn svg { stroke: #d4a024; }
+  .pb .notif-badge { background: #e74c3c; }
+  .pb .stabs { background: #ffffff; border-bottom: 1px solid #eee; }
+  .pb .stab { color: #b0b0b0; }
+  .pb .stab.active { color: #2c2c2c; border-bottom-color: #d4a024; }
+  .pb .content { background: #ffffff; }
+  .pb .empty-title { color: #2c2c2c; }
+  .pb .empty-desc { color: #999; }
+  .pb .cta { background: #d4a024; color: #fff; }
+  .pb .bnav { background: #faf6f1; border-top: 1px solid #eee; }
+  .pb .bnav-item { color: #b0b0b0; }
+  .pb .bnav-item svg { stroke: #b0b0b0; }
+  .pb .bnav-item.active { color: #2c2c2c; }
+  .pb .bnav-item.active svg { stroke: #d4a024; }
+  .pb .bnav-item.active::before { background: #fce4cc; }
+  .pb .bnav-item.active span { color: #d4a024; }
+  .pb .divider-strip { background: #faf5ee; }
+
+  /* ============================================
+     PALETTE C: Forest & Sage (Earthy, Moody)
+     ============================================ */
+  .pc .phone { background: #f7f5f0; }
+  .pc .sb { background: #f7f5f0; color: #2d3a2e; }
+  .pc .sb-icons svg { fill: #2d3a2e; }
+  .pc .hdr { background: #f7f5f0; }
+  .pc .logo { color: #2d3a2e; }
+  .pc .logo span { color: #6b8f5e; }
+  .pc .hdr-icon svg { stroke: #2d3a2e; }
+  .pc .notif-badge { background: #c75c3a; }
+  .pc .stabs { background: #f7f5f0; border-bottom: 1px solid #ddd8cf; }
+  .pc .stab { color: #9da393; }
+  .pc .stab.active { color: #2d3a2e; border-bottom-color: #6b8f5e; }
+  .pc .content { background: #f7f5f0; }
+  .pc .empty-icon { color: #6b8f5e; }
+  .pc .empty-title { color: #2d3a2e; }
+  .pc .empty-desc { color: #7a8272; }
+  .pc .cta { background: #6b8f5e; color: #fff; }
+  .pc .bnav { background: #eae7df; border-top: 1px solid #ddd8cf; }
+  .pc .bnav-item { color: #b0ad a3; }
+  .pc .bnav-item svg { stroke: #b0ada3; }
+  .pc .bnav-item.active { color: #2d3a2e; }
+  .pc .bnav-item.active svg { stroke: #6b8f5e; }
+  .pc .bnav-item.active::after { background: #6b8f5e; }
+  .pc .divider-strip { background: #eae7df; }
+
+  /* ============================================
+     PALETTE D: Blush & Charcoal (Modern, Bold)
+     ============================================ */
+  .pd .phone { background: #fefcfa; }
+  .pd .sb { background: #fefcfa; color: #2a2a2a; }
+  .pd .sb-icons svg { fill: #2a2a2a; }
+  .pd .hdr { background: #fefcfa; }
+  .pd .logo { color: #2a2a2a; }
+  .pd .logo span { color: #c47d5a; }
+  .pd .hdr-icon svg { stroke: #2a2a2a; }
+  .pd .notif-badge { background: #c47d5a; }
+  .pd .stabs { background: #fefcfa; border-bottom: 1px solid #eae5e0; }
+  .pd .stab { color: #b8b0a8; }
+  .pd .stab.active { color: #2a2a2a; border-bottom-color: #c47d5a; }
+  .pd .content { background: #fefcfa; }
+  .pd .empty-icon { color: #c47d5a; }
+  .pd .empty-title { color: #2a2a2a; }
+  .pd .empty-desc { color: #8a847e; }
+  .pd .cta { background: #c47d5a; color: #fff; }
+  .pd .bnav { background: #f5f0eb; border-top: 1px solid #eae5e0; }
+  .pd .bnav-item { color: #c0b8b0; }
+  .pd .bnav-item svg { stroke: #c0b8b0; }
+  .pd .bnav-item.active { color: #2a2a2a; }
+  .pd .bnav-item.active svg { stroke: #c47d5a; }
+  .pd .bnav-item.active::after { background: #c47d5a; }
+  .pd .divider-strip { background: #f5f0eb; }
+
+  /* Color chip row */
+  .chips {
+    display: flex;
+    gap: 6px;
+    margin-top: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .chip {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    border: 2px solid rgba(0,0,0,0.08);
+  }
+</style>
+</head>
+<body>
+
+<h1>S<span>OUS</span> Blueprint Comparison</h1>
+<p class="subtitle">6 color palettes side by side. Same layout, different vibes. Pick your favourite.</p>
+
+<div class="grid">
+
+  <!-- ===== PALETTE A: Current ===== -->
+  <div class="blueprint-wrapper pa">
+    <div class="blueprint-label" style="color: #424b30;">A: Current (Cream & Gold)</div>
+    <div class="blueprint-desc">Your existing warm cream palette. Cozy and distinctive but heavier on color.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div class="sb-icons"><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs">
+        <div class="stab active">Following</div>
+        <div class="stab">Discover</div>
+      </div>
+      <div class="divider-strip"></div>
+      <div class="content">
+        <div class="empty-icon">&#9675;</div>
+        <div class="empty-title">Your feed is empty</div>
+        <div class="empty-desc">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="bnav-item"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #fdf6ec;" title="Background"></div>
+      <div class="chip" style="background: #d4a024;" title="Primary"></div>
+      <div class="chip" style="background: #424b30;" title="Text"></div>
+      <div class="chip" style="background: #72865b;" title="Text Light"></div>
+      <div class="chip" style="background: #f8eed9;" title="Nav"></div>
+      <div class="chip" style="background: #e8d5bc;" title="Border"></div>
+    </div>
+  </div>
+
+  <!-- ===== PALETTE B: ReciMe-inspired ===== -->
+  <div class="blueprint-wrapper pb pill-active">
+    <div class="blueprint-label" style="color: #2c2c2c;">B: ReciMe-Inspired (White + Gold)</div>
+    <div class="blueprint-desc">Clean white base, warm gold accent, subtle cream dividers. Active nav gets a peach pill like ReciMe. Airy and professional.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div class="sb-icons"><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon plus-btn"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs">
+        <div class="stab active">Following</div>
+        <div class="stab">Discover</div>
+      </div>
+      <div class="divider-strip"></div>
+      <div class="content">
+        <div class="empty-icon">&#9675;</div>
+        <div class="empty-title">Your feed is empty</div>
+        <div class="empty-desc">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="bnav-item"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #ffffff;" title="Background"></div>
+      <div class="chip" style="background: #d4a024;" title="Primary"></div>
+      <div class="chip" style="background: #2c2c2c;" title="Text"></div>
+      <div class="chip" style="background: #999;" title="Text Light"></div>
+      <div class="chip" style="background: #faf6f1;" title="Nav"></div>
+      <div class="chip" style="background: #fce4cc;" title="Active Pill"></div>
+    </div>
+  </div>
+
+  <!-- ===== PALETTE C: Forest & Sage ===== -->
+  <div class="blueprint-wrapper pc">
+    <div class="blueprint-label" style="color: #2d3a2e;">C: Forest & Sage (Earthy)</div>
+    <div class="blueprint-desc">Muted greens as the primary color. Off-white linen background. Feels organic, grounded, like a farmers' market cookbook.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div class="sb-icons"><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs">
+        <div class="stab active">Following</div>
+        <div class="stab">Discover</div>
+      </div>
+      <div class="divider-strip"></div>
+      <div class="content">
+        <div class="empty-icon">&#127807;</div>
+        <div class="empty-title">Your feed is empty</div>
+        <div class="empty-desc">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="bnav-item"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #f7f5f0;" title="Background"></div>
+      <div class="chip" style="background: #6b8f5e;" title="Primary"></div>
+      <div class="chip" style="background: #2d3a2e;" title="Text"></div>
+      <div class="chip" style="background: #7a8272;" title="Text Light"></div>
+      <div class="chip" style="background: #eae7df;" title="Nav"></div>
+      <div class="chip" style="background: #c75c3a;" title="Notification"></div>
+    </div>
+  </div>
+
+  <!-- ===== PALETTE D: Blush & Charcoal ===== -->
+  <div class="blueprint-wrapper pd">
+    <div class="blueprint-label" style="color: #2a2a2a;">D: Blush & Terracotta (Modern)</div>
+    <div class="blueprint-desc">Near-white base, warm terracotta accent. Sophisticated and modern, feels premium. Great for a marketplace/creator platform.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div class="sb-icons"><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs">
+        <div class="stab active">Following</div>
+        <div class="stab">Discover</div>
+      </div>
+      <div class="divider-strip"></div>
+      <div class="content">
+        <div class="empty-icon">&#10022;</div>
+        <div class="empty-title">Your feed is empty</div>
+        <div class="empty-desc">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="bnav-item"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #fefcfa;" title="Background"></div>
+      <div class="chip" style="background: #c47d5a;" title="Primary"></div>
+      <div class="chip" style="background: #2a2a2a;" title="Text"></div>
+      <div class="chip" style="background: #8a847e;" title="Text Light"></div>
+      <div class="chip" style="background: #f5f0eb;" title="Nav"></div>
+      <div class="chip" style="background: #eae5e0;" title="Border"></div>
+    </div>
+  </div>
+
+  </div>
+
+  <!-- ===== PALETTE E: Mint & White (Fresh Green) ===== -->
+  <div class="blueprint-wrapper pe">
+    <div class="blueprint-label" style="color: #1a2e1a;">E: Mint & White (Fresh)</div>
+    <div class="blueprint-desc">Clean white base with fresh mint-green accent. Light, airy, health-focused. Like a modern wellness app meets recipe book.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div class="sb-icons"><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs">
+        <div class="stab active">Following</div>
+        <div class="stab">Discover</div>
+      </div>
+      <div class="divider-strip"></div>
+      <div class="content">
+        <div class="empty-icon">&#127811;</div>
+        <div class="empty-title">Your feed is empty</div>
+        <div class="empty-desc">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="bnav-item"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #ffffff;" title="Background"></div>
+      <div class="chip" style="background: #5a9e6f;" title="Primary"></div>
+      <div class="chip" style="background: #1a2e1a;" title="Text"></div>
+      <div class="chip" style="background: #6d846d;" title="Text Light"></div>
+      <div class="chip" style="background: #f4f8f4;" title="Nav"></div>
+      <div class="chip" style="background: #e07b5a;" title="Notification"></div>
+    </div>
+  </div>
+
+  <!-- ===== PALETTE F: Deep Olive & Gold (Rich Green) ===== -->
+  <div class="blueprint-wrapper pf">
+    <div class="blueprint-label" style="color: #2c3322;">F: Olive & Gold (Rich)</div>
+    <div class="blueprint-desc">Warm parchment base with deep olive green and gold highlights. Feels like a leather-bound recipe journal. Rich and premium.</div>
+    <div class="phone">
+      <div class="sb"><span>9:41</span><div class="sb-icons"><svg viewBox="0 0 16 12"><path d="M1 8h2v4H1zM5 5h2v7H5zM9 2h2v10H9zM13 0h2v12h-2z"/></svg></div></div>
+      <div class="hdr">
+        <div class="logo">S<span>OUS</span></div>
+        <div class="hdr-actions">
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
+          <div class="hdr-icon"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><div class="notif-badge">3</div></div>
+        </div>
+      </div>
+      <div class="stabs">
+        <div class="stab active">Following</div>
+        <div class="stab">Discover</div>
+      </div>
+      <div class="divider-strip"></div>
+      <div class="content">
+        <div class="empty-icon">&#127810;</div>
+        <div class="empty-title">Your feed is empty</div>
+        <div class="empty-desc">Follow people to see their recipes here.</div>
+        <button class="cta">Discover Creators</button>
+      </div>
+      <div class="bnav">
+        <div class="bnav-item active"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><span>Feed</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>Recipes</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg><span>Lists</span></div>
+        <div class="bnav-item"><svg viewBox="0 0 24 24" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span>Planner</span></div>
+        <div class="bnav-item"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"><span>Profile</span></div>
+      </div>
+    </div>
+    <div class="chips">
+      <div class="chip" style="background: #faf9f5;" title="Background"></div>
+      <div class="chip" style="background: #6b7a42;" title="Primary (Olive)"></div>
+      <div class="chip" style="background: #8a7a3a;" title="Gold Accent"></div>
+      <div class="chip" style="background: #2c3322;" title="Text"></div>
+      <div class="chip" style="background: #f0ede3;" title="Nav"></div>
+      <div class="chip" style="background: #c75c3a;" title="Notification"></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

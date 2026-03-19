@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Complete Search & Discover Design</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  body {
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    padding: 40px 20px;
+    background: #ddd8cf;
+  }
+
+  .comparison-title { font-size: 32px; font-weight: 800; color: var(--text); text-align: center; margin-bottom: 8px; }
+  .comparison-subtitle { font-size: 16px; color: var(--text-light); text-align: center; max-width: 700px; line-height: 1.5; margin-bottom: 20px; }
+
+  .section-divider { width: 100%; max-width: 1400px; border-top: 2px solid var(--border); padding-top: 32px; margin-top: 16px; }
+  .section-divider h2 { font-size: 24px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .section-divider p { font-size: 14px; color: var(--text-light); margin-bottom: 24px; line-height: 1.5; }
+
+  .phone-row { display: flex; gap: 32px; justify-content: center; flex-wrap: wrap; }
+  .phone-col { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .phone-label { font-size: 15px; font-weight: 700; color: var(--primary); text-transform: uppercase; letter-spacing: 1px; }
+  .phone-desc { font-size: 13px; color: var(--text-light); text-align: center; max-width: 340px; line-height: 1.4; }
+  .phone-frame { padding-bottom: 0; min-height: auto; height: 844px; overflow-y: auto; overflow-x: hidden; }
+
+  /* Search wrapper */
+  .search-wrapper { position: relative; }
+  .search-wrapper > svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; z-index: 2; }
+
+  /* Back header */
+  .back-header { display: flex; align-items: center; gap: var(--sp-2); padding: 8px var(--sp-4) 4px; height: var(--header-height); }
+  .back-header > svg { width: 22px; height: 22px; stroke: var(--text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; flex-shrink: 0; }
+  .back-header .search-wrapper { flex: 1; }
+
+  /* Page header */
+  .page-header { display: flex; align-items: center; gap: var(--sp-3); padding: 8px var(--sp-4) 4px; height: var(--header-height); }
+  .page-header > svg { width: 22px; height: 22px; stroke: var(--text); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; cursor: pointer; flex-shrink: 0; }
+  .page-header-title { font-size: var(--text-lg); font-weight: var(--weight-bold); color: var(--text); flex: 1; }
+
+  /* Result tabs */
+  .result-tabs { display: flex; border-bottom: 1px solid var(--border); background: var(--bg); }
+  .result-tab { flex: 1; text-align: center; padding: 12px 0 10px; font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--text-muted); border-bottom: 2px solid transparent; cursor: pointer; }
+  .result-tab.active { color: var(--text); border-bottom-color: var(--primary); }
+
+  /* Autosuggest dropdown */
+  .autosuggest { position: absolute; top: 100%; left: 0; right: 0; background: var(--white); border-radius: 0 0 var(--radius-md) var(--radius-md); box-shadow: var(--shadow-lg); z-index: 10; border: 1px solid var(--border); border-top: none; }
+  .autosuggest-section-title { font-size: 10px; font-weight: var(--weight-bold); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; padding: 10px 14px 4px; }
+  .autosuggest-item { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; text-decoration: none; color: inherit; }
+  .autosuggest-item:hover { background: var(--surface); }
+  .autosuggest-item img { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; }
+  .autosuggest-item img.recipe-thumb { border-radius: var(--radius-sm); }
+  .autosuggest-item-info { flex: 1; }
+  .autosuggest-item-name { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--text); }
+  .autosuggest-item-name mark { background: none; color: var(--primary); font-weight: var(--weight-bold); }
+  .autosuggest-item-detail { font-size: 11px; color: var(--text-muted); }
+  .autosuggest-item .tag-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); display: flex; align-items: center; justify-content: center; font-size: 16px; }
+
+  /* Recent searches */
+  .recent-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px 4px; }
+  .recent-header-title { font-size: 10px; font-weight: var(--weight-bold); color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; }
+  .recent-header-clear { font-size: 11px; color: var(--primary); font-weight: var(--weight-semibold); cursor: pointer; }
+  .recent-search-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; text-decoration: none; color: inherit; }
+  .recent-search-item:hover { background: var(--surface); }
+  .recent-search-icon { width: 36px; height: 36px; border-radius: 50%; background: var(--surface); display: flex; align-items: center; justify-content: center; }
+  .recent-search-icon svg { width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .recent-search-text { font-size: var(--text-sm); color: var(--text); font-weight: var(--weight-medium); }
+  .recent-search-remove { margin-left: auto; font-size: var(--text-xs); color: var(--text-muted); cursor: pointer; padding: 4px; }
+
+  /* Recipe result card */
+  .recipe-result { display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; }
+  .recipe-result:hover { background: var(--surface); }
+  .recipe-result-img { width: 80px; height: 80px; border-radius: var(--radius-md); object-fit: cover; flex-shrink: 0; }
+  .recipe-result-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .recipe-result-title { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--text); margin-bottom: 4px; }
+  .recipe-result-meta { font-size: var(--text-xs); color: var(--text-muted); margin-bottom: 6px; }
+  .recipe-result-tags { display: flex; gap: 4px; flex-wrap: wrap; }
+  .recipe-result-tag { font-size: 10px; padding: 3px 8px; background: var(--primary-light); color: var(--text-light); border-radius: var(--radius-full); font-weight: var(--weight-medium); }
+  .recipe-result-creator { font-size: var(--text-xs); color: var(--text-light); display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+  .recipe-result-creator img { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; }
+
+  /* Account result */
+  .account-result { display: flex; align-items: center; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; }
+  .account-result:hover { background: var(--surface); }
+  .account-result-info { flex: 1; }
+  .account-result-name { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--text); }
+  .account-result-handle { font-size: var(--text-xs); color: var(--text-muted); }
+  .account-result-bio { font-size: var(--text-xs); color: var(--text-light); margin-top: 2px; }
+  .account-result-mutual { font-size: 10px; color: var(--primary); font-weight: var(--weight-medium); margin-top: 3px; }
+  .follow-btn-sm { padding: 6px 16px; background: var(--primary); color: #fff; font-size: var(--text-xs); font-weight: var(--weight-semibold); border-radius: var(--radius-full); border: none; cursor: pointer; font-family: var(--font-family); flex-shrink: 0; }
+  .follow-btn-sm.following { background: var(--surface); color: var(--text-light); }
+
+  /* Cookbook result */
+  .cookbook-result { display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; }
+  .cookbook-result:hover { background: var(--surface); }
+  .cookbook-result-img { width: 64px; height: 80px; border-radius: var(--radius-sm); object-fit: cover; flex-shrink: 0; box-shadow: var(--shadow-sm); }
+  .cookbook-result-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cookbook-result-title { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--text); margin-bottom: 2px; }
+  .cookbook-result-creator { font-size: var(--text-xs); color: var(--text-muted); margin-bottom: 4px; }
+  .cookbook-result-meta { font-size: var(--text-xs); color: var(--text-light); }
+  .cookbook-price { font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--primary); flex-shrink: 0; align-self: center; }
+
+  /* Section headers in results */
+  .results-section-header { display: flex; justify-content: space-between; align-items: center; padding: var(--sp-3) var(--sp-4) var(--sp-1); background: var(--bg); }
+  .results-section-title { font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+  .results-section-more { font-size: var(--text-xs); color: var(--primary); font-weight: var(--weight-semibold); cursor: pointer; text-decoration: none; }
+
+  /* Related tags */
+  .related-tags { display: flex; gap: var(--sp-2); padding: var(--sp-2) var(--sp-4) var(--sp-3); flex-wrap: wrap; }
+  .related-tag { font-size: var(--text-xs); padding: 6px 14px; background: var(--surface); color: var(--text); border-radius: var(--radius-full); font-weight: var(--weight-medium); cursor: pointer; text-decoration: none; transition: background var(--transition-fast); }
+  .related-tag:hover { background: var(--primary-light); }
+
+  /* Tag hero */
+  .tag-hero { padding: var(--sp-4) var(--sp-4) var(--sp-3); text-align: center; border-bottom: 1px solid var(--border); }
+  .tag-hero-name { font-size: var(--text-2xl); font-weight: var(--weight-extrabold); color: var(--primary); margin-bottom: var(--sp-1); }
+  .tag-hero-count { font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--sp-3); }
+  .tag-hero-related { display: flex; gap: var(--sp-2); justify-content: center; flex-wrap: wrap; }
+  .related-pill { font-size: var(--text-xs); padding: 5px 12px; background: var(--surface); color: var(--text); border-radius: var(--radius-full); font-weight: var(--weight-medium); cursor: pointer; text-decoration: none; }
+  .related-pill:hover { background: var(--primary-light); }
+
+  /* Filter bar */
+  .filter-bar { display: flex; gap: var(--sp-2); padding: var(--sp-3) var(--sp-4); overflow-x: auto; border-bottom: 1px solid var(--border); scrollbar-width: none; }
+  .filter-bar::-webkit-scrollbar { display: none; }
+  .filter-chip { display: inline-flex; align-items: center; gap: 4px; padding: 6px 14px; background: var(--surface); color: var(--text); border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: var(--weight-semibold); cursor: pointer; white-space: nowrap; border: 1.5px solid transparent; flex-shrink: 0; }
+  .filter-chip:hover { background: var(--surface-dark); }
+  .filter-chip.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+  /* Sort bar */
+  .sort-bar { display: flex; justify-content: space-between; align-items: center; padding: var(--sp-2) var(--sp-4); background: var(--bg); }
+  .sort-bar-count { font-size: var(--text-xs); color: var(--text-muted); }
+  .sort-bar-select { font-size: var(--text-xs); color: var(--primary); font-weight: var(--weight-semibold); cursor: pointer; display: flex; align-items: center; gap: 4px; }
+  .sort-bar-select svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Recipe grid */
+  .recipe-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: var(--border); }
+  .recipe-grid-item { position: relative; aspect-ratio: 1; overflow: hidden; cursor: pointer; background: var(--white); }
+  .recipe-grid-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .recipe-grid-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 6px 8px; background: linear-gradient(transparent, rgba(0,0,0,0.7)); color: #fff; }
+  .recipe-grid-title { font-size: 11px; font-weight: var(--weight-semibold); line-height: var(--leading-tight); }
+  .recipe-grid-meta { font-size: 10px; opacity: 0.8; margin-top: 2px; }
+
+  /* View toggle */
+  .view-toggle { display: flex; gap: 0; background: var(--surface); border-radius: var(--radius-sm); padding: 2px; }
+  .view-toggle-btn { padding: 5px 10px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .view-toggle-btn.active { background: var(--white); box-shadow: var(--shadow-sm); }
+  .view-toggle-btn svg { width: 16px; height: 16px; stroke: var(--text-light); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .view-toggle-btn.active svg { stroke: var(--text); }
+
+  /* Cookbook card expanded */
+  .cookbook-card { display: flex; gap: var(--sp-3); padding: var(--sp-3) var(--sp-4); border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; }
+  .cookbook-card:hover { background: var(--surface); }
+  .cookbook-card-img { width: 72px; height: 96px; border-radius: var(--radius-sm); object-fit: cover; flex-shrink: 0; box-shadow: var(--shadow-sm); }
+  .cookbook-card-info { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .cookbook-card-title { font-size: var(--text-base); font-weight: var(--weight-semibold); color: var(--text); margin-bottom: 2px; }
+  .cookbook-card-creator { font-size: var(--text-xs); color: var(--text-muted); margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .cookbook-card-creator img { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; }
+  .cookbook-card-desc { font-size: var(--text-xs); color: var(--text-light); line-height: var(--leading-normal); margin-bottom: 6px; }
+  .cookbook-card-footer { display: flex; align-items: center; gap: var(--sp-3); }
+  .cookbook-card-price { font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--primary); }
+  .cookbook-card-stat { font-size: 10px; color: var(--text-muted); display: flex; align-items: center; gap: 3px; }
+  .cookbook-card-stat svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .cookbook-card-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+
+  /* ===== INGREDIENT FILTER STYLES ===== */
+  .ingredient-entry-card {
+    margin: var(--sp-3) var(--sp-4);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+  }
+  .ingredient-entry-header {
+    display: flex; align-items: center; gap: var(--sp-3);
+    padding: var(--sp-4) var(--sp-4) var(--sp-2);
+  }
+  .ingredient-entry-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-md);
+    background: var(--primary-light); display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .ingredient-entry-text { flex: 1; }
+  .ingredient-entry-title { font-size: var(--text-base); font-weight: var(--weight-bold); color: var(--text); }
+  .ingredient-entry-sub { font-size: var(--text-xs); color: var(--text-muted); margin-top: 2px; }
+
+  /* Ingredient search bar */
+  .ingredient-search-area { padding: var(--sp-3) var(--sp-4) var(--sp-3); }
+  .ingredient-search-bar {
+    display: flex; align-items: center; gap: var(--sp-2);
+    background: var(--surface); border-radius: var(--radius-full); padding: 8px 14px;
+    border: 2px solid transparent; transition: all var(--transition-fast);
+  }
+  .ingredient-search-bar.focused { border-color: var(--primary); background: var(--white); }
+  .ingredient-search-bar svg { width: 16px; height: 16px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .ingredient-search-bar input { border: none; background: none; font-size: var(--text-sm); color: var(--text); outline: none; flex: 1; font-family: var(--font-family); }
+  .ingredient-search-bar input::placeholder { color: var(--text-muted); }
+
+  /* Selected ingredient chips */
+  .ingredient-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 var(--sp-4) var(--sp-3); }
+  .ingredient-chip {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 6px 12px; background: var(--primary); color: #fff;
+    border-radius: var(--radius-full); font-size: var(--text-xs); font-weight: var(--weight-semibold);
+    font-family: var(--font-family);
+  }
+  .ingredient-chip-remove { cursor: pointer; opacity: 0.8; font-size: 14px; line-height: 1; }
+  .ingredient-chip-remove:hover { opacity: 1; }
+
+  /* Result count banner */
+  .result-count-banner {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: var(--sp-2) var(--sp-4);
+    background: var(--primary-light); border-bottom: 1px solid var(--border);
+  }
+  .result-count-text { font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--text); }
+  .result-count-sub { font-size: var(--text-xs); color: var(--text-light); }
+
+  /* Ingredient suggestion list */
+  .ingredient-suggest { border-top: 1px solid var(--border); }
+  .ingredient-suggest-item {
+    display: flex; align-items: center; gap: var(--sp-3);
+    padding: 10px var(--sp-4); border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .ingredient-suggest-item:hover { background: var(--surface); }
+  .ingredient-suggest-icon { font-size: 20px; width: 32px; text-align: center; }
+  .ingredient-suggest-info { flex: 1; }
+  .ingredient-suggest-name { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--text); }
+  .ingredient-suggest-name mark { background: none; color: var(--primary); font-weight: var(--weight-bold); }
+  .ingredient-suggest-cat { font-size: 10px; color: var(--text-muted); }
+  .ingredient-suggest-count { font-size: var(--text-xs); color: var(--text-muted); font-weight: var(--weight-medium); }
+  .ingredient-suggest-add { color: var(--primary); font-size: 18px; font-weight: bold; flex-shrink: 0; }
+
+  /* Match indicator on grid */
+  .match-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--primary); color: #fff;
+    font-size: 10px; font-weight: var(--weight-bold);
+    padding: 3px 8px; border-radius: var(--radius-full);
+  }
+
+  .rec-badge { display: inline-block; background: var(--primary); color: #fff; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-full); margin-left: 8px; vertical-align: middle; }
+  .phone-frame .bottom-nav { display: none; }
+
+  /* Cookbook grid */
+  .cookbook-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+  }
+  .cookbook-grid-item {
+    background: var(--white); border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm); overflow: hidden; cursor: pointer;
+    text-decoration: none; color: inherit; transition: box-shadow var(--transition-fast);
+  }
+  .cookbook-grid-item:hover { box-shadow: var(--shadow-md); }
+  .cookbook-grid-cover {
+    width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block;
+  }
+  .cookbook-grid-body { padding: var(--sp-2) var(--sp-3) var(--sp-3); }
+  .cookbook-grid-title {
+    font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--text);
+    line-height: var(--leading-tight); margin-bottom: 3px;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+  }
+  .cookbook-grid-author {
+    font-size: 10px; color: var(--text-muted); margin-bottom: 6px;
+    display: flex; align-items: center; gap: 4px;
+  }
+  .cookbook-grid-author img { width: 14px; height: 14px; border-radius: 50%; object-fit: cover; }
+  .cookbook-grid-footer {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cookbook-grid-price {
+    font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--primary);
+  }
+  .cookbook-grid-recipes {
+    font-size: 10px; color: var(--text-muted);
+  }
+
+  /* Discover home styles */
+  .search-section { padding: var(--sp-3) var(--sp-4); }
+
+  .ingredient-cta {
+    margin: 0 var(--sp-4) var(--sp-3);
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    padding: var(--sp-3) var(--sp-4);
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow var(--transition-fast);
+  }
+  .ingredient-cta:hover { box-shadow: var(--shadow-lg); }
+  .ingredient-cta-icon {
+    width: 44px; height: 44px; border-radius: var(--radius-md);
+    background: var(--primary-light); display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .ingredient-cta-text { flex: 1; }
+  .ingredient-cta-title { font-size: var(--text-sm); font-weight: var(--weight-bold); color: var(--text); }
+  .ingredient-cta-sub { font-size: var(--text-xs); color: var(--text-muted); margin-top: 1px; }
+  .ingredient-cta-arrow { color: var(--text-muted); font-size: 18px; flex-shrink: 0; }
+  .ingredient-cta-arrow svg { width: 18px; height: 18px; stroke: var(--text-muted); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  /* Horizontal scroll sections */
+  .h-scroll { display: flex; gap: var(--sp-3); overflow-x: auto; padding: 0 var(--sp-4) var(--sp-2); scrollbar-width: none; }
+  .h-scroll::-webkit-scrollbar { display: none; }
+  .popular-card { min-width: 160px; border-radius: var(--radius-md); overflow: hidden; background: var(--white); box-shadow: var(--shadow-sm); flex-shrink: 0; }
+  .popular-card img { width: 160px; height: 120px; object-fit: cover; display: block; }
+  .popular-card-body { padding: var(--sp-2) var(--sp-3); }
+  .popular-card-title { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--text); line-height: var(--leading-tight); margin-bottom: 4px; }
+  .popular-card-saves { font-size: var(--text-xs); color: var(--text-muted); display: flex; align-items: center; gap: 4px; }
+  .popular-card-saves svg { width: 12px; height: 12px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .creator-card { min-width: 140px; background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); padding: var(--sp-4) var(--sp-3); display: flex; flex-direction: column; align-items: center; text-align: center; flex-shrink: 0; text-decoration: none; }
+  .creator-card:hover { box-shadow: var(--shadow-md); }
+  .creator-name { font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--text); margin-top: var(--sp-2); }
+  .creator-recipes { font-size: var(--text-xs); color: var(--text-muted); margin-bottom: var(--sp-3); }
+  .follow-btn { display: inline-flex; align-items: center; padding: 6px 16px; background: var(--primary); color: #fff; font-size: var(--text-xs); font-weight: var(--weight-semibold); border-radius: var(--radius-full); border: none; cursor: pointer; font-family: var(--font-family); }
+  .tag-grid { display: flex; flex-wrap: wrap; gap: var(--sp-2); padding: 0 var(--sp-4); }
+</style>
+</head>
+<body>
+
+<div class="comparison-title">SOUS — Search & Discover</div>
+<div class="comparison-subtitle">Complete design for search, discovery, tag browsing, and ingredient-based filtering.</div>
+
+<!-- ============================================== -->
+<!-- SECTION 0: DISCOVER HOME -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>0. Discover Home — Entry Points</h2>
+  <p>The Discover tab with the "Search by Ingredients" card prominently placed below the search bar. Two entry points into search: text search bar and ingredient search card.</p>
+</div>
+
+<div class="phone-row">
+  <div class="phone-col">
+    <div class="phone-label">Discover Home</div>
+    <div class="phone-desc">Search bar at top, then ingredient search CTA card, then Popular, Creators, Tags — the full browse experience.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <!-- Header -->
+      <div class="header">
+        <span class="header-logo">SOUS</span>
+        <div class="header-actions">
+          <a class="header-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></a>
+          <a class="header-icon" style="position:relative;"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg><span class="notification-badge">3</span></a>
+        </div>
+      </div>
+
+      <!-- Sub-tabs -->
+      <div class="sub-tabs">
+        <a class="sub-tab">Following</a>
+        <a class="sub-tab active">Discover</a>
+      </div>
+
+      <!-- Search bar -->
+      <div class="search-section">
+        <div class="search-wrapper">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" placeholder="Search recipes, creators, tags...">
+        </div>
+      </div>
+
+      <!-- INGREDIENT SEARCH CTA -->
+      <a class="ingredient-cta">
+        <div class="ingredient-cta-icon">🥘</div>
+        <div class="ingredient-cta-text">
+          <div class="ingredient-cta-title">Search by Ingredients</div>
+          <div class="ingredient-cta-sub">Find recipes with what you have</div>
+        </div>
+        <div class="ingredient-cta-arrow"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
+      </a>
+
+      <!-- Popular This Week -->
+      <div class="section" style="padding-bottom: 0;">
+        <div class="section-title" style="padding: 0 var(--sp-4);">Popular This Week</div>
+      </div>
+      <div style="padding: var(--sp-3) 0;">
+        <div class="h-scroll">
+          <div class="popular-card"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=320&h=240&fit=crop" alt=""><div class="popular-card-body"><div class="popular-card-title">Sourdough Margherita Pizza</div><div class="popular-card-saves"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> 342 saves</div></div></div>
+          <div class="popular-card"><img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=320&h=240&fit=crop" alt=""><div class="popular-card-body"><div class="popular-card-title">Fluffy Ricotta Pancakes</div><div class="popular-card-saves"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> 278 saves</div></div></div>
+          <div class="popular-card"><img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=320&h=240&fit=crop" alt=""><div class="popular-card-body"><div class="popular-card-title">Thai Mango Salad</div><div class="popular-card-saves"><svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> 215 saves</div></div></div>
+        </div>
+      </div>
+
+      <!-- Top Creators -->
+      <div class="section" style="padding-bottom: 0;">
+        <div class="section-title" style="padding: 0 var(--sp-4);">Top Creators</div>
+      </div>
+      <div style="padding: var(--sp-3) 0;">
+        <div class="h-scroll">
+          <a class="creator-card"><img class="avatar avatar-lg" src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=128&h=128&fit=crop&crop=face" alt=""><div class="creator-name">Chef Marcus</div><div class="creator-recipes">128 recipes</div><button class="follow-btn">Follow</button></a>
+          <a class="creator-card"><img class="avatar avatar-lg" src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=128&h=128&fit=crop&crop=face" alt=""><div class="creator-name">Jake Bakes</div><div class="creator-recipes">87 recipes</div><button class="follow-btn">Follow</button></a>
+          <a class="creator-card"><img class="avatar avatar-lg" src="https://images.unsplash.com/photo-1583394293214-28ez09c26f70d?w=128&h=128&fit=crop&crop=face" alt=""><div class="creator-name">Sarah Chen</div><div class="creator-recipes">64 recipes</div><button class="follow-btn">Follow</button></a>
+        </div>
+      </div>
+
+      <!-- Browse by Tag (Featured Tags) -->
+      <div class="section">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--sp-3);">
+          <div class="section-title" style="margin-bottom:0;">Browse by Tag</div>
+          <a style="font-size:var(--text-xs);color:var(--primary);font-weight:var(--weight-semibold);text-decoration:none;">See all →</a>
+        </div>
+        <div class="tag-grid">
+          <a class="tag">🇮🇹 Italian</a><a class="tag">🥗 Vegetarian</a><a class="tag">⚡ Under 30 min</a><a class="tag">📦 Meal Prep</a><a class="tag">🌱 Vegan</a><a class="tag">🍳 Breakfast</a><a class="tag">💰 Budget</a><a class="tag">🥘 Comfort Food</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 1: SEARCH BAR STATES -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>1. Search Bar States</h2>
+  <p><strong>Before typing:</strong> recent searches. <strong>While typing:</strong> auto-suggest with People, Recipes, Tags sections.</p>
+</div>
+
+<div class="phone-row">
+  <!-- Before typing -->
+  <div class="phone-col">
+    <div class="phone-label">Before Typing</div>
+    <div class="phone-desc">Tap search → recent searches appear. Tap to re-run or start typing.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="back-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <div class="search-wrapper">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" placeholder="Search recipes, creators, tags..." style="border-color: var(--primary); background: var(--white);">
+          <div class="autosuggest">
+            <div class="recent-header"><span class="recent-header-title">Recent Searches</span><span class="recent-header-clear">Clear all</span></div>
+            <a class="recent-search-item"><div class="recent-search-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span class="recent-search-text">chicken curry</span><span class="recent-search-remove">&times;</span></a>
+            <a class="recent-search-item"><div class="recent-search-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span class="recent-search-text">Gordon Ramsay</span><span class="recent-search-remove">&times;</span></a>
+            <a class="recent-search-item"><div class="recent-search-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span class="recent-search-text">healthy meal prep</span><span class="recent-search-remove">&times;</span></a>
+            <a class="recent-search-item"><div class="recent-search-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span class="recent-search-text">pasta carbonara</span><span class="recent-search-remove">&times;</span></a>
+            <a class="recent-search-item"><div class="recent-search-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span class="recent-search-text">#vegetarian</span><span class="recent-search-remove">&times;</span></a>
+            <a class="recent-search-item"><div class="recent-search-icon"><svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg></div><span class="recent-search-text">Chef Marcus</span><span class="recent-search-remove">&times;</span></a>
+          </div>
+        </div>
+      </div>
+      <div style="opacity: 0.3; pointer-events: none; padding: var(--sp-4);">
+        <div class="section-title">Popular This Week</div>
+        <div style="height: 160px; background: var(--surface); border-radius: var(--radius-md); margin-bottom: var(--sp-4);"></div>
+        <div class="section-title">Top Creators</div>
+        <div style="height: 140px; background: var(--surface); border-radius: var(--radius-md);"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- While typing -->
+  <div class="phone-col">
+    <div class="phone-label">While Typing</div>
+    <div class="phone-desc">Typing "chicken" — auto-suggest with People, Recipes, Tags.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="back-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <div class="search-wrapper">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" class="search-input" value="chicken" style="border-color: var(--primary); background: var(--white);">
+          <div class="autosuggest">
+            <div class="autosuggest-section-title">People</div>
+            <a class="autosuggest-item"><img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=72&h=72&fit=crop&crop=face" alt=""><div class="autosuggest-item-info"><div class="autosuggest-item-name"><mark>Chicken</mark> Charlie</div><div class="autosuggest-item-detail">@chickenchef · 2 mutual follows</div></div></a>
+            <div class="autosuggest-section-title">Recipes</div>
+            <a class="autosuggest-item"><img class="recipe-thumb" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=72&h=72&fit=crop" alt=""><div class="autosuggest-item-info"><div class="autosuggest-item-name">Butter <mark>Chicken</mark></div><div class="autosuggest-item-detail">by Chef Marcus · 156 saves</div></div></a>
+            <a class="autosuggest-item"><img class="recipe-thumb" src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=72&h=72&fit=crop" alt=""><div class="autosuggest-item-info"><div class="autosuggest-item-name"><mark>Chicken</mark> Tikka Masala</div><div class="autosuggest-item-detail">by Sarah Chen · 98 saves</div></div></a>
+            <a class="autosuggest-item"><img class="recipe-thumb" src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=72&h=72&fit=crop" alt=""><div class="autosuggest-item-info"><div class="autosuggest-item-name">Thai <mark>Chicken</mark> Curry</div><div class="autosuggest-item-detail">by Alex Rivera · 87 saves</div></div></a>
+            <div class="autosuggest-section-title">Tags</div>
+            <a class="autosuggest-item"><div class="tag-icon">#</div><div class="autosuggest-item-info"><div class="autosuggest-item-name">#<mark>chicken</mark></div><div class="autosuggest-item-detail">234 recipes</div></div></a>
+            <a class="autosuggest-item"><div class="tag-icon">#</div><div class="autosuggest-item-info"><div class="autosuggest-item-name">#<mark>chicken</mark>-wings</div><div class="autosuggest-item-detail">52 recipes</div></div></a>
+          </div>
+        </div>
+      </div>
+      <div style="opacity: 0.3; pointer-events: none; padding: var(--sp-4);">
+        <div class="section-title">Popular This Week</div>
+        <div style="height: 160px; background: var(--surface); border-radius: var(--radius-md);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 2: SEARCH RESULTS (Option C) -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>2. Search Results — "chicken curry"</h2>
+  <p>Two tabs: <strong>Discover</strong> (smart-sectioned: Tags, Recipes grid, Cookbooks) and <strong>Accounts</strong>. App auto-picks the right tab.</p>
+</div>
+
+<div class="phone-row">
+  <!-- Discover tab -->
+  <div class="phone-col">
+    <div class="phone-label">Discover Tab</div>
+    <div class="phone-desc">Related tags, recipe grid (default), cookbooks — all in one scroll.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="back-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <div class="search-wrapper"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" class="search-input" value="chicken curry" readonly></div>
+      </div>
+      <div class="result-tabs"><div class="result-tab active">Discover</div><div class="result-tab">Accounts</div></div>
+
+      <div class="results-section-header"><span class="results-section-title">Related Tags</span></div>
+      <div class="related-tags">
+        <a class="related-tag">#curry</a><a class="related-tag">#indian</a><a class="related-tag">#chicken</a><a class="related-tag">#spicy</a><a class="related-tag">#comfort-food</a>
+      </div>
+
+      <div class="results-section-header"><span class="results-section-title">Recipes</span><a class="results-section-more">See all 23 &rarr;</a></div>
+      <div class="recipe-grid">
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Butter Chicken Curry</div><div class="recipe-grid-meta">Chef Marcus · 156 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Thai Green Chicken Curry</div><div class="recipe-grid-meta">Alex Rivera · 87 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chicken Tikka Masala</div><div class="recipe-grid-meta">Sarah Chen · 98 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Japanese Katsu Curry</div><div class="recipe-grid-meta">Chef Marcus · 64 saves</div></div></div>
+      </div>
+
+      <div class="results-section-header" style="margin-top: var(--sp-2);"><span class="results-section-title">Cookbooks</span><a class="results-section-more">See all 3 &rarr;</a></div>
+      <a class="cookbook-result"><img class="cookbook-result-img" src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=128&h=160&fit=crop" alt=""><div class="cookbook-result-info"><div class="cookbook-result-title">Indian Classics</div><div class="cookbook-result-creator">by Chef Marcus · 18 recipes</div><div class="cookbook-result-meta">Authentic curry recipes from across India</div></div><span class="cookbook-price">$4.99</span></a>
+      <a class="cookbook-result"><img class="cookbook-result-img" src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=128&h=160&fit=crop" alt=""><div class="cookbook-result-info"><div class="cookbook-result-title">30-Min Curry Night</div><div class="cookbook-result-creator">by Sarah Chen · 12 recipes</div><div class="cookbook-result-meta">Quick weeknight curries</div></div><span class="cookbook-price">$2.99</span></a>
+    </div>
+  </div>
+
+  <!-- Accounts tab -->
+  <div class="phone-col">
+    <div class="phone-label">Accounts Tab</div>
+    <div class="phone-desc">Query "gor" — ranked by mutual follows, then follower count.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="back-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <div class="search-wrapper"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" class="search-input" value="gor" readonly></div>
+      </div>
+      <div class="result-tabs"><div class="result-tab">Discover</div><div class="result-tab active">Accounts</div></div>
+
+      <a class="account-result"><img class="avatar avatar-md" src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=80&h=80&fit=crop&crop=face" alt=""><div class="account-result-info"><div class="account-result-name"><span style="color:var(--primary);font-weight:700">Gor</span>don Ramsay</div><div class="account-result-handle">@gordonramsay · 1.2M followers</div><div class="account-result-bio">Chef, restaurateur & TV personality</div><div class="account-result-mutual">Followed by Chef Marcus & 2 others</div></div><button class="follow-btn-sm">Follow</button></a>
+      <a class="account-result"><img class="avatar avatar-md" src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=80&h=80&fit=crop&crop=face" alt=""><div class="account-result-info"><div class="account-result-name"><span style="color:var(--primary);font-weight:700">Gor</span>don Smith</div><div class="account-result-handle">@gordonsmith_cooks · 845 followers</div><div class="account-result-bio">Home cook sharing weeknight dinners</div><div class="account-result-mutual">Followed by Sarah Chen & Alex Rivera</div></div><button class="follow-btn-sm">Follow</button></a>
+      <a class="account-result"><img class="avatar avatar-md" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt=""><div class="account-result-info"><div class="account-result-name"><span style="color:var(--primary);font-weight:700">Gor</span>geous Plates</div><div class="account-result-handle">@gorgeousplates · 2.3K followers</div><div class="account-result-bio">Food styling & plating inspiration</div></div><button class="follow-btn-sm">Follow</button></a>
+      <a class="account-result"><img class="avatar avatar-md" src="https://images.unsplash.com/photo-1595273670150-bd0c3c392e46?w=80&h=80&fit=crop&crop=face" alt=""><div class="account-result-info"><div class="account-result-name">Gre<span style="color:var(--primary);font-weight:700">gor</span>y's Grill</div><div class="account-result-handle">@gregorysgrill · 412 followers</div><div class="account-result-bio">BBQ & grilling recipes from Texas</div></div><button class="follow-btn-sm following">Following</button></a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 3: TAG PAGE -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>3. Tag Page — #curry</h2>
+  <p>Redesigned hero: tag name in header, stats below, <strong>Related tags</strong> (navigate away — outlined style) clearly separated from <strong>Filter</strong> chips (narrow in place — filled style). Grid and list views.</p>
+</div>
+
+<div class="phone-row">
+
+  <!-- GRID VIEW -->
+  <div class="phone-col">
+    <div class="phone-label">Grid View (Default)</div>
+    <div class="phone-desc">Related = outlined with → (navigate away, includes Recipes/Cookbooks counts). Filters = filled (narrow in place). View toggle in filter bar.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <!-- Header with tag name + stats -->
+      <div style="display:flex;align-items:center;gap:var(--sp-3);padding:8px var(--sp-4) 0;height:var(--header-height);">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;cursor:pointer;flex-shrink:0;"><polyline points="15 18 9 12 15 6"/></svg>
+        <div style="flex:1;display:flex;align-items:baseline;gap:var(--sp-2);">
+          <span style="font-size:var(--text-xl);font-weight:var(--weight-extrabold);color:var(--primary);">🍛 curry</span>
+          <span style="font-size:var(--text-xs);color:var(--text-muted);font-weight:var(--weight-medium);">· 87 recipes · 3 cookbooks</span>
+        </div>
+      </div>
+
+      <!-- Related tags (outlined — navigational) -->
+      <div style="padding:var(--sp-3) var(--sp-4) 0;">
+        <span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;">Related</span>
+      </div>
+      <div style="display:flex;gap:6px;padding:6px var(--sp-4) var(--sp-3);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);">
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--primary);color:var(--primary);border-radius:var(--radius-full);font-weight:var(--weight-semibold);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">📖 Recipes (87) →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--primary);color:var(--primary);border-radius:var(--radius-full);font-weight:var(--weight-semibold);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">📚 Cookbooks (3) →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🇮🇹 Italian →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🇹🇭 Thai →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🥘 Comfort Food →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🍽️ Dinner →</a>
+      </div>
+
+      <!-- Filter chips + view toggle — toggle pinned right, chips scroll in remaining space -->
+      <div style="display:flex;align-items:center;border-bottom:1px solid var(--border);padding:var(--sp-3) 0;">
+        <div style="flex:1;min-width:0;overflow-x:auto;display:flex;gap:var(--sp-2);padding-left:var(--sp-4);scrollbar-width:none;">
+          <div class="filter-chip active">All</div><div class="filter-chip">⚡ Under 30 min</div><div class="filter-chip">🥗 Vegetarian</div><div class="filter-chip">🌱 Vegan</div><div class="filter-chip">💰 Budget</div>
+        </div>
+        <div style="flex-shrink:0;padding:0 var(--sp-3) 0 var(--sp-3);border-left:1px solid var(--border);">
+          <div class="view-toggle"><div class="view-toggle-btn"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><div class="view-toggle-btn active"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div></div>
+        </div>
+      </div>
+
+      <!-- Sort bar (no recipe count — already in header) -->
+      <div class="sort-bar">
+        <span class="sort-bar-count"></span>
+        <span class="sort-bar-select">Most Popular <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+
+      <!-- Recipe grid -->
+      <div class="recipe-grid">
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Butter Chicken Curry</div><div class="recipe-grid-meta">Chef Marcus · 156 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Thai Green Curry</div><div class="recipe-grid-meta">Alex Rivera · 87 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chicken Tikka Masala</div><div class="recipe-grid-meta">Sarah Chen · 98 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Japanese Katsu Curry</div><div class="recipe-grid-meta">Chef Marcus · 64 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Slow Cooker Lamb Curry</div><div class="recipe-grid-meta">Jake Bakes · 45 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chickpea Spinach Curry</div><div class="recipe-grid-meta">Mia's Kitchen · 72 saves</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIST VIEW -->
+  <div class="phone-col">
+    <div class="phone-label">List View</div>
+    <div class="phone-desc">Same header and filters. List toggle active — shows thumbnail, title, creator, time, saves, and tag pills.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <!-- Same header -->
+      <div style="display:flex;align-items:center;gap:var(--sp-3);padding:8px var(--sp-4) 0;height:var(--header-height);">
+        <svg viewBox="0 0 24 24" style="width:22px;height:22px;stroke:var(--text);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;cursor:pointer;flex-shrink:0;"><polyline points="15 18 9 12 15 6"/></svg>
+        <div style="flex:1;display:flex;align-items:baseline;gap:var(--sp-2);">
+          <span style="font-size:var(--text-xl);font-weight:var(--weight-extrabold);color:var(--primary);">🍛 curry</span>
+          <span style="font-size:var(--text-xs);color:var(--text-muted);font-weight:var(--weight-medium);">· 87 recipes · 3 cookbooks</span>
+        </div>
+      </div>
+
+      <!-- Related tags (outlined) -->
+      <div style="padding:var(--sp-3) var(--sp-4) 0;">
+        <span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.6px;">Related</span>
+      </div>
+      <div style="display:flex;gap:6px;padding:6px var(--sp-4) var(--sp-3);overflow-x:auto;scrollbar-width:none;border-bottom:1px solid var(--border);">
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--primary);color:var(--primary);border-radius:var(--radius-full);font-weight:var(--weight-semibold);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">📖 Recipes (87) →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--primary);color:var(--primary);border-radius:var(--radius-full);font-weight:var(--weight-semibold);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">📚 Cookbooks (3) →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🇮🇹 Italian →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🇹🇭 Thai →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🥘 Comfort Food →</a>
+        <a style="font-size:11px;padding:5px 12px;border:1.5px solid var(--border);color:var(--text);border-radius:var(--radius-full);font-weight:var(--weight-medium);white-space:nowrap;flex-shrink:0;cursor:pointer;text-decoration:none;background:transparent;">🍽️ Dinner →</a>
+      </div>
+
+      <!-- Filter chips + view toggle (list active) — toggle pinned right -->
+      <div style="display:flex;align-items:center;border-bottom:1px solid var(--border);padding:var(--sp-3) 0;">
+        <div style="flex:1;min-width:0;overflow-x:auto;display:flex;gap:var(--sp-2);padding-left:var(--sp-4);scrollbar-width:none;">
+          <div class="filter-chip active">All</div><div class="filter-chip">⚡ Under 30 min</div><div class="filter-chip">🥗 Vegetarian</div><div class="filter-chip">🌱 Vegan</div><div class="filter-chip">💰 Budget</div>
+        </div>
+        <div style="flex-shrink:0;padding:0 var(--sp-3) 0 var(--sp-3);border-left:1px solid var(--border);">
+          <div class="view-toggle"><div class="view-toggle-btn active"><svg viewBox="0 0 24 24"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></div><div class="view-toggle-btn"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg></div></div>
+        </div>
+      </div>
+
+      <!-- Sort bar -->
+      <div class="sort-bar">
+        <span class="sort-bar-count"></span>
+        <span class="sort-bar-select">Most Popular <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+
+      <!-- Recipe list -->
+      <a class="recipe-result">
+        <img class="recipe-result-img" src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=160&h=160&fit=crop" alt="">
+        <div class="recipe-result-info">
+          <div class="recipe-result-title">Butter Chicken Curry</div>
+          <div class="recipe-result-creator"><img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=36&h=36&fit=crop&crop=face" alt=""> Chef Marcus</div>
+          <div class="recipe-result-meta">45 min · 156 saves</div>
+          <div class="recipe-result-tags"><span class="recipe-result-tag">🇮🇳 Indian</span><span class="recipe-result-tag">🥘 Comfort Food</span></div>
+        </div>
+      </a>
+      <a class="recipe-result">
+        <img class="recipe-result-img" src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=160&h=160&fit=crop" alt="">
+        <div class="recipe-result-info">
+          <div class="recipe-result-title">Thai Green Curry</div>
+          <div class="recipe-result-creator"><img src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=36&h=36&fit=crop&crop=face" alt=""> Alex Rivera</div>
+          <div class="recipe-result-meta">35 min · 87 saves</div>
+          <div class="recipe-result-tags"><span class="recipe-result-tag">🇹🇭 Thai</span><span class="recipe-result-tag">⚡ Under 30 min</span></div>
+        </div>
+      </a>
+      <a class="recipe-result">
+        <img class="recipe-result-img" src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=160&h=160&fit=crop" alt="">
+        <div class="recipe-result-info">
+          <div class="recipe-result-title">Chicken Tikka Masala</div>
+          <div class="recipe-result-creator"><img src="https://images.unsplash.com/photo-1583394293214-28ez09c26f70d?w=36&h=36&fit=crop&crop=face" alt=""> Sarah Chen</div>
+          <div class="recipe-result-meta">50 min · 98 saves</div>
+          <div class="recipe-result-tags"><span class="recipe-result-tag">🇮🇳 Indian</span><span class="recipe-result-tag">🥗 Vegetarian</span></div>
+        </div>
+      </a>
+      <a class="recipe-result">
+        <img class="recipe-result-img" src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=160&h=160&fit=crop" alt="">
+        <div class="recipe-result-info">
+          <div class="recipe-result-title">Japanese Katsu Curry</div>
+          <div class="recipe-result-creator"><img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?w=36&h=36&fit=crop&crop=face" alt=""> Chef Marcus</div>
+          <div class="recipe-result-meta">60 min · 64 saves</div>
+          <div class="recipe-result-tags"><span class="recipe-result-tag">🇯🇵 Japanese</span></div>
+        </div>
+      </a>
+      <a class="recipe-result">
+        <img class="recipe-result-img" src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=160&h=160&fit=crop" alt="">
+        <div class="recipe-result-info">
+          <div class="recipe-result-title">Slow Cooker Lamb Curry</div>
+          <div class="recipe-result-creator"><img src="https://images.unsplash.com/photo-1607631568010-a87245c0daf8?w=36&h=36&fit=crop&crop=face" alt=""> Jake Bakes</div>
+          <div class="recipe-result-meta">4 hrs · 45 saves</div>
+          <div class="recipe-result-tags"><span class="recipe-result-tag">📦 Meal Prep</span><span class="recipe-result-tag">🍲 Slow Cooker</span></div>
+        </div>
+      </a>
+      <a class="recipe-result">
+        <img class="recipe-result-img" src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=400&h=400&fit=crop" alt="">
+        <div class="recipe-result-info">
+          <div class="recipe-result-title">Chickpea Spinach Curry</div>
+          <div class="recipe-result-creator"><img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=36&h=36&fit=crop&crop=face" alt=""> Mia's Kitchen</div>
+          <div class="recipe-result-meta">25 min · 72 saves</div>
+          <div class="recipe-result-tags"><span class="recipe-result-tag">🌱 Vegan</span><span class="recipe-result-tag">💰 Budget</span></div>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 4: SEE ALL RECIPES -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>4. See All Recipes — "chicken curry"</h2>
+  <p>Full results after tapping "See all 23 →". Grid view default, filter chips, sort.</p>
+</div>
+
+<div class="phone-row">
+  <div class="phone-col">
+    <div class="phone-label">All 23 Recipes</div>
+    <div class="phone-desc">Full paginated grid. Filter by tag, sort by popularity/newest/cook time.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="back-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <div class="search-wrapper"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" class="search-input" value="chicken curry" readonly></div>
+      </div>
+      <div class="filter-bar"><div class="filter-chip active">All Recipes</div><div class="filter-chip">Under 30 min</div><div class="filter-chip">Healthy</div><div class="filter-chip">Vegetarian</div><div class="filter-chip">Asian</div></div>
+      <div class="sort-bar">
+        <span class="sort-bar-count">23 recipes</span>
+        <span class="sort-bar-select">Most Popular <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+      <div class="recipe-grid">
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Butter Chicken Curry</div><div class="recipe-grid-meta">Chef Marcus · 156 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chicken Tikka Masala</div><div class="recipe-grid-meta">Sarah Chen · 98 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Thai Green Chicken Curry</div><div class="recipe-grid-meta">Alex Rivera · 87 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chickpea Chicken Curry</div><div class="recipe-grid-meta">Mia's Kitchen · 72 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Japanese Katsu Curry</div><div class="recipe-grid-meta">Chef Marcus · 64 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Slow Cooker Chicken Curry</div><div class="recipe-grid-meta">Jake Bakes · 45 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Coconut Chicken Curry</div><div class="recipe-grid-meta">Mia's Kitchen · 38 saves</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&h=400&fit=crop" alt=""><div class="recipe-grid-overlay"><div class="recipe-grid-title">Keralan Chicken Curry</div><div class="recipe-grid-meta">Alex Rivera · 32 saves</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 5: SEE ALL COOKBOOKS -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>5. See All Cookbooks — "chicken curry"</h2>
+  <p>Same grid as recipes — photo with overlay text. Title, author, recipe count, and price all on the image.</p>
+</div>
+
+<div class="phone-row">
+  <div class="phone-col">
+    <div class="phone-label">Cookbooks — Grid View</div>
+    <div class="phone-desc">Identical layout to recipe grid. All info overlaid on cover photo. Consistent, clean.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="back-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        <div class="search-wrapper"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" class="search-input" value="chicken curry" readonly></div>
+      </div>
+      <div class="sort-bar"><span class="sort-bar-count">6 cookbooks</span><span class="sort-bar-select">Most Relevant <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span></div>
+
+      <div class="recipe-grid">
+        <div class="recipe-grid-item">
+          <img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&h=400&fit=crop" alt="">
+          <div style="position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);">$4.99</div>
+          <div class="recipe-grid-overlay">
+            <div class="recipe-grid-title">Indian Classics</div>
+            <div class="recipe-grid-meta">Chef Marcus · 18 recipes</div>
+          </div>
+        </div>
+        <div class="recipe-grid-item">
+          <img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400&h=400&fit=crop" alt="">
+          <div style="position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);">$2.99</div>
+          <div class="recipe-grid-overlay">
+            <div class="recipe-grid-title">30-Min Curry Night</div>
+            <div class="recipe-grid-meta">Sarah Chen · 12 recipes</div>
+          </div>
+        </div>
+        <div class="recipe-grid-item">
+          <img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=400&fit=crop" alt="">
+          <div style="position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);">$3.99</div>
+          <div class="recipe-grid-overlay">
+            <div class="recipe-grid-title">Southeast Asian Kitchen</div>
+            <div class="recipe-grid-meta">Alex Rivera · 24 recipes</div>
+          </div>
+        </div>
+        <div class="recipe-grid-item">
+          <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop" alt="">
+          <div style="position:absolute;top:8px;left:8px;background:var(--success);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);">Free</div>
+          <div class="recipe-grid-overlay">
+            <div class="recipe-grid-title">Comfort Curries</div>
+            <div class="recipe-grid-meta">Mia's Kitchen · 8 recipes</div>
+          </div>
+        </div>
+        <div class="recipe-grid-item">
+          <img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=400&fit=crop" alt="">
+          <div style="position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);">$5.99</div>
+          <div class="recipe-grid-overlay">
+            <div class="recipe-grid-title">Spice Route</div>
+            <div class="recipe-grid-meta">Chef Marcus · 32 recipes</div>
+          </div>
+        </div>
+        <div class="recipe-grid-item">
+          <img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop" alt="">
+          <div style="position:absolute;top:8px;left:8px;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:var(--radius-full);">$1.99</div>
+          <div class="recipe-grid-overlay">
+            <div class="recipe-grid-title">Weeknight Wonders</div>
+            <div class="recipe-grid-meta">Jake Bakes · 15 recipes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 6: SEARCH BY INGREDIENTS -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>6. Search by Ingredients</h2>
+  <p>Separate mode — "What can I cook with what I have?" Add ingredients progressively to narrow results. Each addition updates the count live.</p>
+</div>
+
+<div class="phone-row">
+
+  <!-- State 1: Entry + first ingredient -->
+  <div class="phone-col">
+    <div class="phone-label">Adding First Ingredient</div>
+    <div class="phone-desc">User types "chick" — ingredient suggestions from your local 1,960 DB. Shows emoji, category, and how many recipes use it.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="page-header"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span class="page-header-title">Search by Ingredients</span></div>
+
+      <div class="ingredient-entry-card">
+        <div class="ingredient-entry-header">
+          <div class="ingredient-entry-icon">🥘</div>
+          <div class="ingredient-entry-text">
+            <div class="ingredient-entry-title">What's in your kitchen?</div>
+            <div class="ingredient-entry-sub">Add ingredients to find matching recipes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ingredient-search-area">
+        <div class="ingredient-search-bar focused">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" value="chick" placeholder="Add an ingredient...">
+        </div>
+      </div>
+
+      <!-- Ingredient suggestions -->
+      <div class="ingredient-suggest">
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🍗</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Chick</mark>en breast</div>
+            <div class="ingredient-suggest-cat">Poultry</div>
+          </div>
+          <span class="ingredient-suggest-count">1,247 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🍗</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Chick</mark>en thigh</div>
+            <div class="ingredient-suggest-cat">Poultry</div>
+          </div>
+          <span class="ingredient-suggest-count">843 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🫘</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Chick</mark>peas</div>
+            <div class="ingredient-suggest-cat">Legumes</div>
+          </div>
+          <span class="ingredient-suggest-count">312 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🍗</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Chick</mark>en wings</div>
+            <div class="ingredient-suggest-cat">Poultry</div>
+          </div>
+          <span class="ingredient-suggest-count">156 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🥫</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Chick</mark>en stock</div>
+            <div class="ingredient-suggest-cat">Pantry</div>
+          </div>
+          <span class="ingredient-suggest-count">891 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State 2: One ingredient selected, adding second -->
+  <div class="phone-col">
+    <div class="phone-label">Narrowing Down</div>
+    <div class="phone-desc">Chicken selected (1,247 recipes). Now typing "oli" — counts update to show recipes that use BOTH ingredients.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="page-header"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span class="page-header-title">Search by Ingredients</span></div>
+
+      <!-- Selected chips -->
+      <div class="ingredient-chips">
+        <div class="ingredient-chip">🍗 Chicken breast <span class="ingredient-chip-remove">&times;</span></div>
+      </div>
+
+      <div class="result-count-banner">
+        <span class="result-count-text">1,247 recipes</span>
+        <span class="result-count-sub">with chicken breast</span>
+      </div>
+
+      <div class="ingredient-search-area">
+        <div class="ingredient-search-bar focused">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" value="oli" placeholder="Add another ingredient...">
+        </div>
+      </div>
+
+      <div class="ingredient-suggest">
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🫒</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Oli</mark>ves</div>
+            <div class="ingredient-suggest-cat">Vegetables</div>
+          </div>
+          <span class="ingredient-suggest-count" style="color: var(--primary); font-weight: var(--weight-bold);">125 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+        <div class="ingredient-suggest-item">
+          <div class="ingredient-suggest-icon">🫒</div>
+          <div class="ingredient-suggest-info">
+            <div class="ingredient-suggest-name"><mark>Oli</mark>ve oil</div>
+            <div class="ingredient-suggest-cat">Oils & Fats</div>
+          </div>
+          <span class="ingredient-suggest-count" style="color: var(--primary); font-weight: var(--weight-bold);">987 recipes</span>
+          <span class="ingredient-suggest-add">+</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State 3: Three ingredients, showing results grid -->
+  <div class="phone-col">
+    <div class="phone-label">3 Ingredients — Results</div>
+    <div class="phone-desc">Chicken + olives + tomato = 34 recipes. Grid shows matches with "3/3 match" badges. Sorted by ingredient match %.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="page-header"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span class="page-header-title">Search by Ingredients</span></div>
+
+      <div class="ingredient-chips">
+        <div class="ingredient-chip">🍗 Chicken <span class="ingredient-chip-remove">&times;</span></div>
+        <div class="ingredient-chip">🫒 Olives <span class="ingredient-chip-remove">&times;</span></div>
+        <div class="ingredient-chip">🍅 Tomato <span class="ingredient-chip-remove">&times;</span></div>
+      </div>
+
+      <div class="result-count-banner">
+        <span class="result-count-text">34 recipes</span>
+        <span class="result-count-sub">with all 3 ingredients</span>
+      </div>
+
+      <div class="ingredient-search-area">
+        <div class="ingredient-search-bar">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="text" placeholder="Add another ingredient...">
+        </div>
+      </div>
+
+      <div class="sort-bar">
+        <span class="sort-bar-count">34 recipes</span>
+        <span class="sort-bar-select">Best Match <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </div>
+
+      <div class="recipe-grid">
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop" alt=""><div class="match-badge">3/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Mediterranean Chicken</div><div class="recipe-grid-meta">Chef Marcus · 45 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1574894709920-11b28e7367e3?w=400&h=400&fit=crop" alt=""><div class="match-badge">3/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chicken Puttanesca</div><div class="recipe-grid-meta">Sarah Chen · 30 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=400&h=400&fit=crop" alt=""><div class="match-badge">3/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Provençal Chicken Bake</div><div class="recipe-grid-meta">Alex Rivera · 55 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=400&h=400&fit=crop" alt=""><div class="match-badge">3/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Greek Chicken Stew</div><div class="recipe-grid-meta">Mia's Kitchen · 40 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1455619452474-d2be8b1e70cd?w=400&h=400&fit=crop" alt=""><div class="match-badge">3/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chicken Cacciatore</div><div class="recipe-grid-meta">Chef Marcus · 50 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1516714435131-44d6b64dc6a2?w=400&h=400&fit=crop" alt=""><div class="match-badge">3/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Tuscan Chicken</div><div class="recipe-grid-meta">Jake Bakes · 35 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1505253716362-afaea1d3d1af?w=400&h=400&fit=crop" alt=""><div class="match-badge" style="background: var(--text-muted);">2/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Chicken & Tomato Pasta</div><div class="recipe-grid-meta">Sarah Chen · 25 min</div></div></div>
+        <div class="recipe-grid-item"><img src="https://images.unsplash.com/photo-1596797038530-2c107229654b?w=400&h=400&fit=crop" alt=""><div class="match-badge" style="background: var(--text-muted);">2/3</div><div class="recipe-grid-overlay"><div class="recipe-grid-title">Olive Chicken Tagine</div><div class="recipe-grid-meta">Alex Rivera · 60 min</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 7: TAG BROWSE PAGE -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>7. Tag Browse Page</h2>
+  <p>Tapping "See all →" from Discover home. All 45 tags grouped by 6 categories with search bar and recipe counts.</p>
+</div>
+
+<div class="phone-row">
+  <div class="phone-col">
+    <div class="phone-label">Tag Browse — Full Directory</div>
+    <div class="phone-desc">Search bar filters client-side. Categories with emoji pills and recipe counts. Tap pill → tag results.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="page-header"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span class="page-header-title">Browse by Tag</span></div>
+
+      <!-- Search -->
+      <div style="padding:var(--sp-3) var(--sp-4);">
+        <div class="search-wrapper"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input type="text" class="search-input" placeholder="Search tags..."></div>
+      </div>
+
+      <!-- Cuisine -->
+      <div style="padding:var(--sp-2) var(--sp-4) 0;"><span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;">Cuisine</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4) var(--sp-3);">
+        <a class="tag" style="font-size:12px;">🇮🇹 Italian <span style="font-size:10px;opacity:0.6;">42</span></a>
+        <a class="tag" style="font-size:12px;">🇹🇭 Thai <span style="font-size:10px;opacity:0.6;">28</span></a>
+        <a class="tag" style="font-size:12px;">🇲🇽 Mexican <span style="font-size:10px;opacity:0.6;">35</span></a>
+        <a class="tag" style="font-size:12px;">🇮🇳 Indian <span style="font-size:10px;opacity:0.6;">31</span></a>
+        <a class="tag" style="font-size:12px;">🇯🇵 Japanese <span style="font-size:10px;opacity:0.6;">19</span></a>
+        <a class="tag" style="font-size:12px;">🇨🇳 Chinese <span style="font-size:10px;opacity:0.6;">24</span></a>
+        <a class="tag" style="font-size:12px;">🇰🇷 Korean <span style="font-size:10px;opacity:0.6;">14</span></a>
+        <a class="tag" style="font-size:12px;">🇫🇷 French <span style="font-size:10px;opacity:0.6;">16</span></a>
+        <a class="tag" style="font-size:12px;">🫒 Mediterranean <span style="font-size:10px;opacity:0.6;">22</span></a>
+      </div>
+
+      <!-- Diet -->
+      <div style="padding:var(--sp-2) var(--sp-4) 0;"><span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;">Diet</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4) var(--sp-3);">
+        <a class="tag" style="font-size:12px;">🥗 Vegetarian <span style="font-size:10px;opacity:0.6;">56</span></a>
+        <a class="tag" style="font-size:12px;">🌱 Vegan <span style="font-size:10px;opacity:0.6;">34</span></a>
+        <a class="tag" style="font-size:12px;">🚫 Gluten-Free <span style="font-size:10px;opacity:0.6;">22</span></a>
+        <a class="tag" style="font-size:12px;">🥛 Dairy-Free <span style="font-size:10px;opacity:0.6;">18</span></a>
+        <a class="tag" style="font-size:12px;">🥑 Keto <span style="font-size:10px;opacity:0.6;">15</span></a>
+        <a class="tag" style="font-size:12px;">🥩 Low-Carb <span style="font-size:10px;opacity:0.6;">12</span></a>
+      </div>
+
+      <!-- Meal Type -->
+      <div style="padding:var(--sp-2) var(--sp-4) 0;"><span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;">Meal Type</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4) var(--sp-3);">
+        <a class="tag" style="font-size:12px;">🍳 Breakfast <span style="font-size:10px;opacity:0.6;">29</span></a>
+        <a class="tag" style="font-size:12px;">🥪 Lunch <span style="font-size:10px;opacity:0.6;">34</span></a>
+        <a class="tag" style="font-size:12px;">🍽️ Dinner <span style="font-size:10px;opacity:0.6;">67</span></a>
+        <a class="tag" style="font-size:12px;">🍿 Snack <span style="font-size:10px;opacity:0.6;">18</span></a>
+        <a class="tag" style="font-size:12px;">🍰 Dessert <span style="font-size:10px;opacity:0.6;">23</span></a>
+      </div>
+
+      <!-- Time -->
+      <div style="padding:var(--sp-2) var(--sp-4) 0;"><span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;">Time</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4) var(--sp-3);">
+        <a class="tag" style="font-size:12px;">⚡ Under 15 min <span style="font-size:10px;opacity:0.6;">15</span></a>
+        <a class="tag" style="font-size:12px;">⏱️ Under 30 min <span style="font-size:10px;opacity:0.6;">38</span></a>
+        <a class="tag" style="font-size:12px;">🕐 Under 1 hour <span style="font-size:10px;opacity:0.6;">54</span></a>
+        <a class="tag" style="font-size:12px;">🐢 Slow Cook <span style="font-size:10px;opacity:0.6;">21</span></a>
+      </div>
+
+      <!-- Appliance -->
+      <div style="padding:var(--sp-2) var(--sp-4) 0;"><span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;">Appliance</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4) var(--sp-3);">
+        <a class="tag" style="font-size:12px;">🍲 Slow Cooker <span style="font-size:10px;opacity:0.6;">21</span></a>
+        <a class="tag" style="font-size:12px;">🌀 Air Fryer <span style="font-size:10px;opacity:0.6;">16</span></a>
+        <a class="tag" style="font-size:12px;">♨️ Pressure Cooker <span style="font-size:10px;opacity:0.6;">9</span></a>
+        <a class="tag" style="font-size:12px;">🔥 BBQ/Grill <span style="font-size:10px;opacity:0.6;">14</span></a>
+        <a class="tag" style="font-size:12px;">⚡ Instant Pot <span style="font-size:10px;opacity:0.6;">11</span></a>
+      </div>
+
+      <!-- Occasion -->
+      <div style="padding:var(--sp-2) var(--sp-4) 0;"><span style="font-size:10px;font-weight:var(--weight-bold);color:var(--text-muted);text-transform:uppercase;letter-spacing:0.8px;">Occasion</span></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;padding:var(--sp-2) var(--sp-4) var(--sp-3);">
+        <a class="tag" style="font-size:12px;">🌙 Weeknight <span style="font-size:10px;opacity:0.6;">67</span></a>
+        <a class="tag" style="font-size:12px;">📦 Meal Prep <span style="font-size:10px;opacity:0.6;">41</span></a>
+        <a class="tag" style="font-size:12px;">💕 Date Night <span style="font-size:10px;opacity:0.6;">12</span></a>
+        <a class="tag" style="font-size:12px;">🎉 Party <span style="font-size:10px;opacity:0.6;">18</span></a>
+        <a class="tag" style="font-size:12px;">🎄 Holiday <span style="font-size:10px;opacity:0.6;">9</span></a>
+        <a class="tag" style="font-size:12px;">💰 Budget <span style="font-size:10px;opacity:0.6;">38</span></a>
+        <a class="tag" style="font-size:12px;">👶 Kid-Friendly <span style="font-size:10px;opacity:0.6;">24</span></a>
+        <a class="tag" style="font-size:12px;">🥘 Comfort Food <span style="font-size:10px;opacity:0.6;">45</span></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================== -->
+<!-- SECTION 8: TAG SELECTION IN RECIPE CREATE -->
+<!-- ============================================== -->
+<div class="section-divider">
+  <h2>8. Tag Selection — Recipe Create</h2>
+  <p>AI suggests tags after filling title, ingredients, and steps. Grouped by category with per-category limits. Dashed border = AI suggestion, solid = selected.</p>
+</div>
+
+<div class="phone-row">
+  <!-- AI Suggestions Ready -->
+  <div class="phone-col">
+    <div class="phone-label">AI Suggestions Ready</div>
+    <div class="phone-desc">Claude analyzed recipe → suggested Thai, Dairy-Free, Dinner, Under 30 min, Weeknight. User can accept/reject/add.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+      <div class="page-header"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span class="page-header-title">Create Recipe</span></div>
+
+      <div style="padding:var(--sp-3) var(--sp-4);">
+        <!-- AI Banner -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--sp-3);background:var(--primary-light);border-radius:var(--radius-md);margin-bottom:var(--sp-4);">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--text);">✨ Suggested based on your recipe</span>
+          <span style="font-size:var(--text-xs);color:var(--primary);font-weight:var(--weight-bold);cursor:pointer;">↻ Refresh</span>
+        </div>
+
+        <!-- Cuisine (max 2) -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-bold);color:var(--text);">Cuisine</span>
+          <span style="font-size:10px;color:var(--text-muted);">1/2</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-4);">
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--primary);color:#fff;font-weight:var(--weight-semibold);border:1.5px dashed rgba(255,255,255,0.5);">🇹🇭 Thai ✨</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🇮🇹 Italian</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🇯🇵 Japanese</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🇨🇳 Chinese</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🇰🇷 Korean</span>
+        </div>
+
+        <!-- Diet (max 4) -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-bold);color:var(--text);">Diet</span>
+          <span style="font-size:10px;color:var(--text-muted);">1/4</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-4);">
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--primary);color:#fff;font-weight:var(--weight-semibold);border:1.5px dashed rgba(255,255,255,0.5);">🥛 Dairy-Free ✨</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🥗 Vegetarian</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🌱 Vegan</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">🚫 Gluten-Free</span>
+        </div>
+
+        <!-- Meal Type (max 1) -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-bold);color:var(--text);">Meal Type</span>
+          <span style="font-size:10px;color:var(--text-muted);">1/1</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-4);">
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--primary);color:#fff;font-weight:var(--weight-semibold);border:1.5px dashed rgba(255,255,255,0.5);">🍽️ Dinner ✨</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text-muted);font-weight:var(--weight-medium);opacity:0.5;">🍳 Breakfast</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text-muted);font-weight:var(--weight-medium);opacity:0.5;">🥪 Lunch</span>
+        </div>
+
+        <!-- Time (auto from cook_time) -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-bold);color:var(--text);">Time</span>
+          <span style="font-size:10px;color:var(--text-muted);">auto</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-4);">
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--primary);color:#fff;font-weight:var(--weight-semibold);">⏱️ Under 30 min</span>
+        </div>
+
+        <!-- Occasion (max 3) -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-bold);color:var(--text);">Occasion</span>
+          <span style="font-size:10px;color:var(--text-muted);">1/3</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:var(--sp-4);">
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--primary);color:#fff;font-weight:var(--weight-semibold);border:1.5px dashed rgba(255,255,255,0.5);">🌙 Weeknight ✨</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">📦 Meal Prep</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">💰 Budget</span>
+          <span style="font-size:12px;padding:5px 12px;border-radius:var(--radius-full);background:var(--surface);color:var(--text);font-weight:var(--weight-medium);">👶 Kid-Friendly</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tag Sheet on Recipe Detail -->
+  <div class="phone-col">
+    <div class="phone-label">Tag Sheet — Recipe Detail</div>
+    <div class="phone-desc">Tap tag icon on recipe → bottom sheet with flat emoji pills. Owner sees "Edit Tags". Tap pill → tag results page.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <!-- Dimmed recipe behind -->
+      <div style="opacity:0.3;pointer-events:none;">
+        <div class="page-header"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg><span class="page-header-title">Chicken Pad Thai</span></div>
+        <div style="height:200px;background:var(--surface);margin:0 var(--sp-4);border-radius:var(--radius-md);"></div>
+      </div>
+
+      <!-- Bottom sheet overlay -->
+      <div style="position:absolute;bottom:0;left:0;right:0;background:var(--white);border-radius:var(--radius-xl) var(--radius-xl) 0 0;padding:var(--sp-3) var(--sp-4) var(--sp-8);box-shadow:0 -4px 20px rgba(0,0,0,0.15);z-index:10;">
+        <div style="width:36px;height:4px;background:var(--border);border-radius:var(--radius-full);margin:0 auto var(--sp-4);"></div>
+        <div style="font-size:var(--text-lg);font-weight:var(--weight-bold);color:var(--text);margin-bottom:var(--sp-4);">Tags</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:var(--sp-6);">
+          <span class="tag" style="cursor:pointer;">🇹🇭 Thai</span>
+          <span class="tag" style="cursor:pointer;">🥛 Dairy-Free</span>
+          <span class="tag" style="cursor:pointer;">🍽️ Dinner</span>
+          <span class="tag" style="cursor:pointer;">⏱️ Under 30 min</span>
+          <span class="tag" style="cursor:pointer;">🌙 Weeknight</span>
+          <span class="tag" style="cursor:pointer;">💰 Budget</span>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:6px;padding:var(--sp-3);background:var(--surface);border-radius:var(--radius-md);cursor:pointer;">
+          <span style="font-size:var(--text-sm);font-weight:var(--weight-semibold);color:var(--primary);">✏️ Edit Tags</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

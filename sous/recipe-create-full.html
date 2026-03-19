@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - New Recipe (Full)</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  /* Create header */
+  .create-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px var(--sp-4) 12px;
+    background: var(--bg);
+    height: var(--header-height);
+  }
+  .create-header-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: background var(--transition-fast);
+  }
+  .create-header-close:hover { background: var(--surface); }
+  .create-header-close svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .create-header-title {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+  }
+  .create-header-save {
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    color: var(--white);
+    background: var(--primary);
+    border: none;
+    padding: 8px 20px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    text-decoration: none;
+  }
+
+  /* Form */
+  .form-content {
+    padding: var(--sp-4);
+  }
+
+  /* Image upload */
+  .image-upload {
+    width: 100%;
+    height: 180px;
+    border: 2px dashed var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    color: var(--text-muted);
+    cursor: pointer;
+    background: var(--surface);
+    margin-bottom: var(--sp-4);
+    transition: border-color var(--transition-fast);
+  }
+  .image-upload:hover { border-color: var(--primary); }
+  .image-upload svg {
+    width: 32px;
+    height: 32px;
+    stroke: var(--text-muted);
+    fill: none;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .image-upload-text {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+  }
+
+  /* Form group */
+  .form-group {
+    margin-bottom: var(--sp-4);
+  }
+  .form-label {
+    display: block;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+    margin-bottom: var(--sp-2);
+  }
+
+  /* Stepper */
+  .stepper {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .stepper-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    border: none;
+    font-size: 18px;
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--transition-fast);
+  }
+  .stepper-btn:hover { background: var(--surface-dark); }
+  .stepper-value {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    min-width: 24px;
+    text-align: center;
+  }
+
+  /* Time inputs row */
+  .time-row {
+    display: flex;
+    gap: var(--sp-3);
+  }
+  .time-row .form-group { flex: 1; }
+
+  /* Tags selection */
+  .tags-select {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+  }
+  .tag-option {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface);
+    color: var(--text-light);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    padding: 8px 14px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+  }
+  .tag-option.selected {
+    background: var(--primary-light);
+    color: var(--text);
+    border-color: var(--primary);
+  }
+
+  /* Utensil chips */
+  .utensil-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
+  }
+  .utensil-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--primary-light);
+    color: var(--text);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    padding: 6px 12px;
+    border-radius: var(--radius-md);
+    line-height: var(--leading-tight);
+  }
+  .utensil-chip .chip-remove {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 14px;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 2px;
+    line-height: 1;
+  }
+  .utensil-chip .chip-remove:hover { color: var(--error); }
+  .utensil-add-row {
+    display: flex;
+    gap: var(--sp-2);
+    align-items: center;
+  }
+  .utensil-add-row .input {
+    flex: 1;
+    padding: 10px 14px;
+    font-size: var(--text-sm);
+  }
+
+  /* Ingredient row */
+  .ingredient-row {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-2);
+  }
+  .ingredient-row .input-qty {
+    width: 70px;
+    padding: 10px 12px;
+    font-size: var(--text-sm);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family);
+    color: var(--text);
+    outline: none;
+  }
+  .ingredient-row .input-name {
+    flex: 1;
+    padding: 10px 12px;
+    font-size: var(--text-sm);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family);
+    color: var(--text);
+    outline: none;
+  }
+  .remove-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: var(--radius-full);
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .remove-btn:hover { color: var(--error); }
+
+  /* Instruction row */
+  .instruction-row {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-2);
+    margin-bottom: var(--sp-3);
+  }
+  .instruction-num {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    flex-shrink: 0;
+    margin-top: 10px;
+  }
+  .instruction-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+  .instruction-wrapper textarea {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: var(--text-sm);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family);
+    color: var(--text);
+    outline: none;
+    resize: none;
+    min-height: 44px;
+  }
+  .instruction-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    padding-left: 2px;
+  }
+  .instruction-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .instruction-meta-item label {
+    font-size: var(--text-xs);
+    color: var(--text-light);
+    cursor: pointer;
+  }
+  .instruction-meta .time-input {
+    width: 50px;
+    padding: 4px 6px;
+    font-size: var(--text-xs);
+    background: var(--surface);
+    border: 2px solid transparent;
+    border-radius: var(--radius-sm);
+    font-family: var(--font-family);
+    color: var(--text);
+    outline: none;
+    text-align: center;
+  }
+  .instruction-meta .mini-checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: var(--bg);
+  }
+  .instruction-meta .mini-checkbox.checked {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  .instruction-meta .mini-checkbox.checked svg {
+    width: 12px;
+    height: 12px;
+    stroke: var(--white);
+    fill: none;
+    stroke-width: 2.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .instruction-row .remove-btn { margin-top: 8px; }
+
+  /* Add button */
+  .add-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: var(--sp-2) 0;
+    font-family: var(--font-family);
+  }
+  .add-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: var(--primary);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* Section header */
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--sp-3);
+    margin-top: var(--sp-2);
+  }
+  .section-header-title {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="9" y="0" width="3" height="12" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="currentColor" opacity="0.3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.5 2 3.2 3 1.5 4.7L0 3.2C2.1 1.2 4.9 0 8 0s5.9 1.2 8 3.2l-1.5 1.5C12.8 3 10.5 2 8 2z" fill="currentColor"/><path d="M8 6c-1.7 0-3.2.7-4.3 1.8L2.2 6.3C3.7 4.9 5.7 4 8 4s4.3.9 5.8 2.3l-1.5 1.5C11.2 6.7 9.7 6 8 6z" fill="currentColor"/><circle cx="8" cy="10" r="2" fill="currentColor"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="21" height="10" rx="2" stroke="currentColor" stroke-width="1.2" fill="none"/><rect x="22" y="4" width="2" height="4" rx="0.5" fill="currentColor" opacity="0.4"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="currentColor"/></svg>
+    </div>
+  </div>
+
+  <!-- Create Header -->
+  <div class="create-header">
+    <a class="create-header-close" href="recipes-library.html">
+      <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </a>
+    <span class="create-header-title">New Recipe</span>
+    <button class="create-header-save">Save</button>
+  </div>
+
+  <!-- Form Content -->
+  <div class="form-content">
+
+    <!-- Image Upload -->
+    <div class="image-upload">
+      <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span class="image-upload-text">Tap to add photo</span>
+    </div>
+
+    <!-- Title -->
+    <div class="form-group">
+      <input type="text" class="input" placeholder="Recipe title">
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <textarea class="textarea" placeholder="Brief description..." style="min-height: 72px;"></textarea>
+    </div>
+
+    <!-- Time Inputs -->
+    <div class="time-row">
+      <div class="form-group">
+        <label class="form-label">Prep time (min)</label>
+        <input type="text" class="input" placeholder="10">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Cook time (min)</label>
+        <input type="text" class="input" placeholder="15">
+      </div>
+    </div>
+
+    <!-- Servings -->
+    <div class="form-group">
+      <label class="form-label">Servings</label>
+      <div class="stepper">
+        <button class="stepper-btn">-</button>
+        <span class="stepper-value">2</span>
+        <button class="stepper-btn">+</button>
+      </div>
+    </div>
+
+    <!-- Tags -->
+    <div class="form-group">
+      <label class="form-label">Tags</label>
+      <div class="tags-select">
+        <span class="tag-option selected">Healthy</span>
+        <span class="tag-option selected">Quick</span>
+        <span class="tag-option selected">Vegetarian</span>
+        <span class="tag-option">Vegan</span>
+        <span class="tag-option">Gluten-Free</span>
+        <span class="tag-option">Italian</span>
+        <span class="tag-option">Asian</span>
+        <span class="tag-option">Dessert</span>
+        <span class="tag-option">Comfort Food</span>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Ingredients -->
+    <div class="section-header">
+      <span class="section-header-title">Ingredients</span>
+    </div>
+
+    <div class="ingredient-row">
+      <input class="input-qty" value="1 cup" readonly>
+      <input class="input-name" value="quinoa" readonly>
+      <button class="remove-btn">&times;</button>
+    </div>
+    <div class="ingredient-row">
+      <input class="input-qty" value="1 cup" readonly>
+      <input class="input-name" value="cherry tomatoes, halved" readonly>
+      <button class="remove-btn">&times;</button>
+    </div>
+    <div class="ingredient-row">
+      <input class="input-qty" value="2 tbsp" readonly>
+      <input class="input-name" value="olive oil" readonly>
+      <button class="remove-btn">&times;</button>
+    </div>
+
+    <button class="add-btn">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add ingredient
+    </button>
+
+    <div class="divider"></div>
+
+    <!-- Instructions -->
+    <div class="section-header">
+      <span class="section-header-title">Instructions</span>
+    </div>
+
+    <div class="instruction-row">
+      <div class="instruction-num">1</div>
+      <div class="instruction-wrapper">
+        <textarea readonly>Cook quinoa according to package directions. Fluff with a fork and let cool.</textarea>
+        <div class="instruction-meta">
+          <div class="instruction-meta-item">
+            <label>Time:</label>
+            <input type="text" class="time-input" placeholder="min" value="15">
+          </div>
+          <div class="instruction-meta-item">
+            <div class="mini-checkbox checked">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+            </div>
+            <label>Prep ahead</label>
+          </div>
+        </div>
+      </div>
+      <button class="remove-btn">&times;</button>
+    </div>
+
+    <div class="instruction-row">
+      <div class="instruction-num">2</div>
+      <div class="instruction-wrapper">
+        <textarea readonly>Combine cooled quinoa with tomatoes and drizzle with olive oil. Toss and serve.</textarea>
+        <div class="instruction-meta">
+          <div class="instruction-meta-item">
+            <label>Time:</label>
+            <input type="text" class="time-input" placeholder="min" value="5">
+          </div>
+          <div class="instruction-meta-item">
+            <div class="mini-checkbox"></div>
+            <label>Prep ahead</label>
+          </div>
+        </div>
+      </div>
+      <button class="remove-btn">&times;</button>
+    </div>
+
+    <button class="add-btn">
+      <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add step
+    </button>
+
+    <div class="divider"></div>
+
+    <!-- Utensils -->
+    <div class="section-header">
+      <span class="section-header-title">Utensils</span>
+    </div>
+
+    <div class="utensil-chips">
+      <span class="utensil-chip">Medium saucepan <button class="chip-remove">&times;</button></span>
+      <span class="utensil-chip">Mixing bowl <button class="chip-remove">&times;</button></span>
+      <span class="utensil-chip">Wooden spoon <button class="chip-remove">&times;</button></span>
+    </div>
+
+    <div class="utensil-add-row">
+      <input type="text" class="input" placeholder="Add utensil...">
+      <button class="btn btn-primary btn-sm">Add</button>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Edit Cooking Timeline -->
+    <a href="gantt-chart-popup.html" class="btn btn-secondary btn-full" style="text-decoration: none;">Edit Cooking Timeline</a>
+
+    <!-- Spacer -->
+    <div style="height: 20px;"></div>
+
+  </div>
+
+</div>
+</body>
+</html>

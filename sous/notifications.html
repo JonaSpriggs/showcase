@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Notifications</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  .nav-avatar { width: 24px; height: 24px; border-radius: 50%; object-fit: cover; border: 2px solid var(--border); }
+  .nav-item.active .nav-avatar { border-color: var(--primary); }
+  .nav-icon svg { stroke-width: 1.8; }
+  .nav-item { font-size: 11px; font-weight: 500; letter-spacing: 0.2px; }
+  .nav-item.active { font-weight: 600; }
+  .nav-item.active::after { content: ''; display: block; width: 4px; height: 4px; border-radius: 50%; background: var(--primary); margin-top: 2px; }
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+  }
+  .back-btn {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text);
+    text-decoration: none;
+    border-radius: var(--radius-full);
+    transition: background var(--transition-fast);
+  }
+  .back-btn:hover { background: var(--surface); }
+  .back-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mark-read-btn {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-medium);
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-family);
+    padding: 6px 10px;
+    border-radius: var(--radius-sm);
+    transition: background var(--transition-fast);
+  }
+  .mark-read-btn:hover { background: var(--primary-light); }
+
+  .notification-list {
+    padding: 0;
+  }
+  .notification-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    transition: background var(--transition-fast);
+  }
+  .notification-item:hover { background: var(--surface); }
+  .notification-item.unread {
+    background: var(--primary-light);
+  }
+  .notification-item.unread:hover {
+    background: var(--surface);
+  }
+
+  .notif-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  .notif-content {
+    flex: 1;
+    min-width: 0;
+  }
+  .notif-text {
+    font-size: var(--text-sm);
+    line-height: var(--leading-normal);
+    color: var(--text);
+  }
+  .notif-text strong {
+    font-weight: var(--weight-semibold);
+  }
+  .notif-time {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .unread-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary);
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="4.5" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="9" y="0" width="3" height="12" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="2.5" height="12" rx="1" fill="currentColor" opacity="0.3"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 2C5.5 2 3.2 3 1.5 4.7L0 3.2C2.1 1.2 4.9 0 8 0s5.9 1.2 8 3.2l-1.5 1.5C12.8 3 10.5 2 8 2zm0 4c-1.5 0-2.9.6-3.9 1.6L2.6 6.1C4 4.8 5.9 4 8 4s4 .8 5.4 2.1l-1.5 1.5C10.9 6.6 9.5 6 8 6zm0 4c-.8 0-1.6.3-2.1.9L8 13l2.1-2.1C9.6 10.3 8.8 10 8 10z" fill="currentColor"/></svg>
+      <svg width="22" height="12" viewBox="0 0 22 12"><rect x="0" y="1" width="18" height="10" rx="2" stroke="currentColor" stroke-width="1.5" fill="none"/><rect x="19" y="4" width="2" height="5" rx="1" fill="currentColor"/><rect x="2" y="3" width="12" height="6" rx="1" fill="currentColor"/></svg>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <a href="feed-following.html" class="back-btn">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </a>
+      <span class="header-title">Notifications</span>
+    </div>
+    <button class="mark-read-btn">Mark all read</button>
+  </div>
+
+  <!-- Notification List -->
+  <div class="notification-list">
+
+    <!-- Unread -->
+    <a href="recipe-detail-full.html" class="notification-item unread">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&h=80&fit=crop&crop=face" alt="chef.sarah">
+      <div class="notif-content">
+        <div class="notif-text"><strong>chef.sarah</strong> liked your Mediterranean Grain Bowl</div>
+        <div class="notif-time">2m ago</div>
+      </div>
+      <div class="unread-dot"></div>
+    </a>
+
+    <a href="profile-other.html" class="notification-item unread">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="marco.eats">
+      <div class="notif-content">
+        <div class="notif-text"><strong>marco.eats</strong> started following you</div>
+        <div class="notif-time">15m ago</div>
+      </div>
+      <div class="unread-dot"></div>
+    </a>
+
+    <a href="recipe-detail-full.html" class="notification-item unread">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=80&h=80&fit=crop&crop=face" alt="plantbased.amy">
+      <div class="notif-content">
+        <div class="notif-text"><strong>plantbased.amy</strong> commented on your Avocado Toast: "This looks amazing! 😍"</div>
+        <div class="notif-time">1h ago</div>
+      </div>
+      <div class="unread-dot"></div>
+    </a>
+
+    <!-- Read -->
+    <a href="recipe-detail-full.html" class="notification-item">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=80&h=80&fit=crop&crop=face" alt="sarah.cooks">
+      <div class="notif-content">
+        <div class="notif-text"><strong>sarah.cooks</strong> saved your Lemon Herb Salmon</div>
+        <div class="notif-time">3h ago</div>
+      </div>
+    </a>
+
+    <a href="recipe-detail-full.html" class="notification-item">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&h=80&fit=crop&crop=face" alt="foodie.james">
+      <div class="notif-content">
+        <div class="notif-text"><strong>foodie.james</strong> liked your Spicy Thai Basil Chicken</div>
+        <div class="notif-time">5h ago</div>
+      </div>
+    </a>
+
+    <a href="profile-other.html" class="notification-item">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=80&h=80&fit=crop&crop=face" alt="wellness.kate">
+      <div class="notif-content">
+        <div class="notif-text"><strong>wellness.kate</strong> purchased your Mediterranean Essentials cookbook</div>
+        <div class="notif-time">1d ago</div>
+      </div>
+    </a>
+
+    <a href="recipe-detail-full.html" class="notification-item">
+      <img class="notif-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&h=80&fit=crop&crop=face" alt="marco.eats">
+      <div class="notif-content">
+        <div class="notif-text"><strong>marco.eats</strong> commented on your Classic Pizza: "Need to try this recipe!"</div>
+        <div class="notif-time">2d ago</div>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+
+<!-- Bottom Nav -->
+<div class="bottom-nav">
+  <a class="nav-item active" href="feed-following.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><span>Feed</span></a>
+  <a class="nav-item" href="recipes-library.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div><span>Recipes</span></a>
+  <a class="nav-item" href="shopping-list.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg></div><span>Lists</span></a>
+  <a class="nav-item" href="planner.html"><div class="nav-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span>Planner</span></a>
+  <a class="nav-item" href="profile.html"><div class="nav-icon"><img class="nav-avatar" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face" alt="You"></div><span>Profile</span></a>
+</div>
+
+</body>
+</html>

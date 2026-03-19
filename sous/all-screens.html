@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - All Screens</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --primary: #6b8f5e;
+    --bg: #f7f5f0;
+    --text: #2d3a2e;
+    --text-light: #7a8272;
+    --surface: #eae7df;
+    --border: #ddd8cf;
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  body {
+    font-family: var(--font);
+    background: var(--surface);
+    color: var(--text);
+    padding: 40px 20px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 4px;
+    color: var(--primary);
+  }
+  .subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-light);
+    margin-bottom: 40px;
+  }
+  .section-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+    text-align: center;
+    margin: 48px 0 24px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+  }
+  .section-title:first-of-type { border-top: none; padding-top: 0; margin-top: 24px; }
+  .grid {
+    display: flex;
+    gap: 24px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(45, 58, 46, 0.08);
+    overflow: hidden;
+    width: 300px;
+    text-decoration: none;
+    color: var(--text);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(45, 58, 46, 0.15);
+  }
+  .card-preview {
+    width: 300px;
+    height: 540px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+  .card-preview iframe {
+    width: 390px;
+    height: 844px;
+    border: none;
+    transform: scale(0.75);
+    transform-origin: top left;
+    pointer-events: none;
+  }
+  .card-info {
+    padding: 12px 14px;
+  }
+  .card-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .card-path {
+    font-size: 11px;
+    color: var(--text-light);
+  }
+</style>
+</head>
+<body>
+
+<h1>SOUS</h1>
+<p class="subtitle">41 Screen Mockups — Click any screen to open full size</p>
+
+<div class="section-title">Auth</div>
+<div class="grid">
+  <a class="card" href="login.html">
+    <div class="card-preview"><iframe src="login.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Login</div><div class="card-path">(auth)/login</div></div>
+  </a>
+  <a class="card" href="register.html">
+    <div class="card-preview"><iframe src="register.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Register</div><div class="card-path">(auth)/register</div></div>
+  </a>
+</div>
+
+<div class="section-title">Tab 1: Feed</div>
+<div class="grid">
+  <a class="card" href="feed-following.html">
+    <div class="card-preview"><iframe src="feed-following.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Feed — Following</div><div class="card-path">(dashboard)/feed</div></div>
+  </a>
+  <a class="card" href="feed-following-empty.html">
+    <div class="card-preview"><iframe src="feed-following-empty.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Feed — Empty</div><div class="card-path">(dashboard)/feed</div></div>
+  </a>
+  <a class="card" href="feed-discover.html">
+    <div class="card-preview"><iframe src="feed-discover.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Feed — Discover</div><div class="card-path">(dashboard)/feed (tab)</div></div>
+  </a>
+  <a class="card" href="post-detail.html">
+    <div class="card-preview"><iframe src="post-detail.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Post Detail</div><div class="card-path">(dashboard)/feed/[postId]</div></div>
+  </a>
+  <a class="card" href="create-post.html">
+    <div class="card-preview"><iframe src="create-post.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Create Post</div><div class="card-path">(dashboard)/feed/create</div></div>
+  </a>
+  <a class="card" href="comments.html">
+    <div class="card-preview"><iframe src="comments.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Comments (Full Screen)</div><div class="card-path">overlay</div></div>
+  </a>
+</div>
+
+<div class="section-title">Tab 2: Recipes</div>
+<div class="grid">
+  <a class="card" href="recipes-library.html">
+    <div class="card-preview"><iframe src="recipes-library.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">My Recipes</div><div class="card-path">(dashboard)/recipes</div></div>
+  </a>
+  <a class="card" href="recipes-saved.html">
+    <div class="card-preview"><iframe src="recipes-saved.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Saved Recipes</div><div class="card-path">(dashboard)/recipes (tab)</div></div>
+  </a>
+  <a class="card" href="recipes-cookbooks.html">
+    <div class="card-preview"><iframe src="recipes-cookbooks.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Cookbooks</div><div class="card-path">(dashboard)/recipes (tab)</div></div>
+  </a>
+<a class="card" href="cookbook-detail.html">
+    <div class="card-preview"><iframe src="cookbook-detail.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Cookbook Detail</div><div class="card-path">(dashboard)/marketplace/[id]</div></div>
+  </a>
+  <a class="card" href="recipe-detail-full.html">
+    <div class="card-preview"><iframe src="recipe-detail-full.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Recipe Detail</div><div class="card-path">(dashboard)/recipes/[id]</div></div>
+  </a>
+  <a class="card" href="recipe-create-full.html">
+    <div class="card-preview"><iframe src="recipe-create-full.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Create Recipe</div><div class="card-path">(dashboard)/recipes/create</div></div>
+  </a>
+  <a class="card" href="recipes-favourites.html">
+    <div class="card-preview"><iframe src="recipes-favourites.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Favourites</div><div class="card-path">(dashboard)/recipes (tab)</div></div>
+  </a>
+  <a class="card" href="recipes-library-fab.html">
+    <div class="card-preview"><iframe src="recipes-library-fab.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">FAB Expanded</div><div class="card-path">overlay on recipes</div></div>
+  </a>
+  <a class="card" href="gantt-chart-popup.html">
+    <div class="card-preview"><iframe src="gantt-chart-popup.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Gantt Chart Popup</div><div class="card-path">modal overlay</div></div>
+  </a>
+</div>
+
+<div class="section-title">Cook Mode</div>
+<div class="grid">
+  <a class="card" href="cook-prep.html">
+    <div class="card-preview"><iframe src="cook-prep.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Cook Prep</div><div class="card-path">recipes/cook/[id]</div></div>
+  </a>
+  <a class="card" href="cook-active.html">
+    <div class="card-preview"><iframe src="cook-active.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Active Cooking (Steps)</div><div class="card-path">recipes/cooking/[id]</div></div>
+  </a>
+  <a class="card" href="cook-active-timeline.html">
+    <div class="card-preview"><iframe src="cook-active-timeline.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Active Cooking (Timeline)</div><div class="card-path">recipes/cooking/[id]</div></div>
+  </a>
+</div>
+
+<div class="section-title">Tab 3: Lists</div>
+<div class="grid">
+  <a class="card" href="shopping-list.html">
+    <div class="card-preview"><iframe src="shopping-list.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Shopping List</div><div class="card-path">(dashboard)/lists</div></div>
+  </a>
+  <a class="card" href="shopping-list-empty.html">
+    <div class="card-preview"><iframe src="shopping-list-empty.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Shopping List — Empty</div><div class="card-path">(dashboard)/lists</div></div>
+  </a>
+</div>
+
+<div class="section-title">Tab 4: Planner</div>
+<div class="grid">
+  <a class="card" href="planner.html">
+    <div class="card-preview"><iframe src="planner.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Meal Planner</div><div class="card-path">(dashboard)/planner</div></div>
+  </a>
+  <a class="card" href="planner-add.html">
+    <div class="card-preview"><iframe src="planner-add.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Add to Plan</div><div class="card-path">(dashboard)/planner/add</div></div>
+  </a>
+  <a class="card" href="planner-queue.html">
+    <div class="card-preview"><iframe src="planner-queue.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Planner Queue</div><div class="card-path">(dashboard)/planner (tab)</div></div>
+  </a>
+  <a class="card" href="add-to-plan-sheet.html">
+    <div class="card-preview"><iframe src="add-to-plan-sheet.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Add to Plan Sheet</div><div class="card-path">bottom sheet overlay</div></div>
+  </a>
+  <a class="card" href="meal-plan-select.html">
+    <div class="card-preview"><iframe src="meal-plan-select.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Select Recipes (Meal Plan)</div><div class="card-path">(dashboard)/recipes (mode)</div></div>
+  </a>
+  <a class="card" href="meal-plan-ingredients.html">
+    <div class="card-preview"><iframe src="meal-plan-ingredients.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Review Ingredients</div><div class="card-path">(dashboard)/planner/ingredients</div></div>
+  </a>
+</div>
+
+<div class="section-title">Tab 5: Profile</div>
+<div class="grid">
+  <a class="card" href="profile.html">
+    <div class="card-preview"><iframe src="profile.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Profile (Own)</div><div class="card-path">(dashboard)/profile</div></div>
+  </a>
+  <a class="card" href="profile-other.html">
+    <div class="card-preview"><iframe src="profile-other.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Profile (Other)</div><div class="card-path">(users)/[id]</div></div>
+  </a>
+  <a class="card" href="profile-business.html">
+    <div class="card-preview"><iframe src="profile-business.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Profile (Business)</div><div class="card-path">(users)/[id]</div></div>
+  </a>
+  <a class="card" href="followers.html">
+    <div class="card-preview"><iframe src="followers.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Followers List</div><div class="card-path">(users)/[id]/followers</div></div>
+  </a>
+  <a class="card" href="profile-edit.html">
+    <div class="card-preview"><iframe src="profile-edit.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Edit Profile</div><div class="card-path">(dashboard)/profile/edit</div></div>
+  </a>
+</div>
+
+<div class="section-title">Overlays & Secondary</div>
+<div class="grid">
+  <a class="card" href="notifications.html">
+    <div class="card-preview"><iframe src="notifications.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Notifications</div><div class="card-path">(dashboard)/notifications</div></div>
+  </a>
+  <a class="card" href="settings.html">
+    <div class="card-preview"><iframe src="settings.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Settings</div><div class="card-path">(dashboard)/settings</div></div>
+  </a>
+  <a class="card" href="settings-business.html">
+    <div class="card-preview"><iframe src="settings-business.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Become Business</div><div class="card-path">(dashboard)/settings/business</div></div>
+  </a>
+  <a class="card" href="create-cookbook.html">
+    <div class="card-preview"><iframe src="create-cookbook.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Create Cookbook</div><div class="card-path">(dashboard)/marketplace/create</div></div>
+  </a>
+</div>
+
+</body>
+</html>

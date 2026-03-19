@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Profiles</title>
+<style>
+  :root { --sous-green: #6b8f5e; --bg: #f7f5f0; --text: #2d3a2e; --text-light: #7a8272; --surface: #eae7df; --border: #ddd8cf; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: var(--surface); color: var(--text); padding: 40px 20px; }
+  .back { display: inline-flex; align-items: center; gap: 6px; color: var(--text-light); text-decoration: none; font-size: 14px; margin-bottom: 24px; transition: color 150ms; }
+  .back:hover { color: var(--text); }
+  h1 { text-align: center; font-size: 32px; font-weight: 800; letter-spacing: -1px; color: var(--sous-green); margin-bottom: 4px; }
+  .subtitle { text-align: center; font-size: 14px; color: var(--text-light); margin-bottom: 40px; }
+  .grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; max-width: 1800px; margin: 0 auto; }
+  .card { background: #fff; border-radius: 16px; box-shadow: 0 2px 12px rgba(45,58,46,0.08); overflow: hidden; width: 300px; text-decoration: none; color: var(--text); transition: transform 0.2s ease, box-shadow 0.2s ease; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(45,58,46,0.15); }
+  .card-preview { width: 300px; height: 540px; overflow: hidden; border-bottom: 1px solid var(--border); position: relative; }
+  .card-preview iframe { width: 390px; height: 844px; border: none; transform: scale(0.75); transform-origin: top left; pointer-events: none; }
+  .card-info { padding: 12px 14px; }
+  .card-name { font-size: 13px; font-weight: 700; margin-bottom: 2px; }
+  .card-path { font-size: 11px; color: var(--text-light); }
+</style>
+</head>
+<body>
+<a class="back" href="index.html">&larr; All Features</a>
+<h1>Profiles</h1>
+<p class="subtitle">Own profile, other user, business profiles, followers, and edit screen</p>
+
+<div class="grid">
+  <a class="card" href="profile.html">
+    <div class="card-preview"><iframe src="profile.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Profile (Own)</div><div class="card-path">(dashboard)/profile</div></div>
+  </a>
+  <a class="card" href="profile-other.html">
+    <div class="card-preview"><iframe src="profile-other.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Profile (Other)</div><div class="card-path">(users)/[id]</div></div>
+  </a>
+  <a class="card" href="profile-business.html">
+    <div class="card-preview"><iframe src="profile-business.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Profile (Business)</div><div class="card-path">(users)/[id]</div></div>
+  </a>
+  <a class="card" href="followers.html">
+    <div class="card-preview"><iframe src="followers.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Followers List</div><div class="card-path">(users)/[id]/followers</div></div>
+  </a>
+  <a class="card" href="profile-edit.html">
+    <div class="card-preview"><iframe src="profile-edit.html" loading="lazy"></iframe></div>
+    <div class="card-info"><div class="card-name">Edit Profile</div><div class="card-path">(dashboard)/profile/edit</div></div>
+  </a>
+</div>
+</body>
+</html>

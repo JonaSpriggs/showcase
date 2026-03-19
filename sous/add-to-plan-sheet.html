@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Add to Plan</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  .phone-frame {
+    overflow: hidden;
+  }
+
+  .day-pill {
+    padding: 10px 16px; border-radius: 999px;
+    background: var(--surface); border: 2px solid transparent;
+    font-size: 13px; font-weight: 600;
+    color: var(--text); cursor: pointer; font-family: inherit;
+  }
+  .day-pill:hover { background: var(--surface-dark); }
+  .day-pill.selected { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+
+  .queue-option {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; padding: 12px;
+    background: none; border: 1px dashed var(--border);
+    border-radius: 12px; font-size: 13px;
+    font-weight: 500; color: var(--primary);
+    cursor: pointer; font-family: inherit;
+  }
+  .queue-option:hover { background: var(--primary-light); }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Dimmed background content (queue page) -->
+  <div style="opacity: 0.3; pointer-events: none;">
+    <!-- Fake status bar -->
+    <div style="height:44px;"></div>
+    <!-- Fake header -->
+    <div style="padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+      <span style="font-size:18px; font-weight:700; color:var(--text);">Planner</span>
+    </div>
+    <!-- Fake sub-tabs -->
+    <div style="display:flex; border-bottom:1px solid var(--border); padding:0 16px;">
+      <span style="flex:1; text-align:center; padding:12px 0; font-size:14px; font-weight:600; color:var(--text); border-bottom:2px solid var(--primary);">Queue</span>
+      <span style="flex:1; text-align:center; padding:12px 0; font-size:14px; color:var(--text-light);">Week</span>
+    </div>
+    <!-- Fake queue items -->
+    <div style="padding:12px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border);">
+      <div style="width:56px;height:56px;border-radius:12px;background:var(--surface);"></div>
+      <div><div style="height:14px;background:var(--surface);border-radius:6px;width:140px;margin-bottom:6px;"></div><div style="height:10px;background:var(--surface);border-radius:6px;width:60px;"></div></div>
+    </div>
+    <div style="padding:12px 16px; display:flex; align-items:center; gap:12px; border-bottom:1px solid var(--border);">
+      <div style="width:56px;height:56px;border-radius:12px;background:var(--surface);"></div>
+      <div><div style="height:14px;background:var(--surface);border-radius:6px;width:120px;margin-bottom:6px;"></div><div style="height:10px;background:var(--surface);border-radius:6px;width:50px;"></div></div>
+    </div>
+    <div style="padding:12px 16px; display:flex; align-items:center; gap:12px;">
+      <div style="width:56px;height:56px;border-radius:12px;background:var(--surface);"></div>
+      <div><div style="height:14px;background:var(--surface);border-radius:6px;width:160px;margin-bottom:6px;"></div><div style="height:10px;background:var(--surface);border-radius:6px;width:45px;"></div></div>
+    </div>
+  </div>
+
+  <!-- Overlay backdrop -->
+  <div style="position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(28,27,24,0.5); z-index:100;"></div>
+
+  <!-- Bottom sheet -->
+  <div style="position:absolute; bottom:0; left:0; right:0; background:var(--white); border-radius:24px 24px 0 0; padding:12px 16px 32px; z-index:101;">
+    <!-- Handle -->
+    <div style="width:36px; height:4px; background:var(--border); border-radius:999px; margin:0 auto 16px;"></div>
+
+    <!-- Title -->
+    <div style="font-size:17px; font-weight:700; color:var(--text); margin-bottom:16px;">Add to Plan</div>
+
+    <!-- Day pills -->
+    <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
+      <button class="day-pill">Mon 3</button>
+      <button class="day-pill">Tue 4</button>
+      <button class="day-pill selected">Wed 5</button>
+      <button class="day-pill">Thu 6</button>
+      <button class="day-pill">Fri 7</button>
+      <button class="day-pill">Sat 8</button>
+      <button class="day-pill">Sun 9</button>
+    </div>
+
+    <!-- Queue option -->
+    <button class="queue-option">
+      <svg viewBox="0 0 24 24" style="width:18px;height:18px;stroke:var(--primary);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      Add to Queue instead
+    </button>
+
+    <div style="height:12px;"></div>
+
+    <!-- Done button -->
+    <button class="btn btn-primary" style="width:100%;">Done</button>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS - Review Ingredients</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  /* Sort filter bar */
+  .sort-bar {
+    display: flex;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  .sort-chip {
+    padding: 6px 14px;
+    border-radius: var(--radius-full);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    color: var(--text-light);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: none;
+    font-family: var(--font-family);
+    text-decoration: none;
+  }
+  .sort-chip:hover { color: var(--text); }
+  .sort-chip.active {
+    background: var(--primary);
+    color: #fff;
+  }
+
+  /* Count bar */
+  .count-bar {
+    padding: var(--sp-2) var(--sp-4);
+    font-size: var(--text-xs);
+    color: var(--text-light);
+    font-weight: var(--weight-medium);
+    background: var(--bg);
+  }
+
+  /* Aisle section */
+  .aisle-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    padding: var(--sp-3) var(--sp-4) var(--sp-2);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: var(--bg);
+  }
+  .aisle-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  /* Shopping item */
+  .shop-item {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
+    border-bottom: 1px solid var(--border);
+    background: var(--white);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+  }
+  .shop-item:hover { background: var(--surface); }
+  .shop-item:last-child { border-bottom: none; }
+
+  .shop-item.checked {
+    opacity: 0.55;
+  }
+  .shop-item.checked .item-name {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+  .shop-item.checked .item-qty {
+    text-decoration: line-through;
+    color: var(--text-muted);
+  }
+
+  .item-checkbox {
+    width: 22px;
+    height: 22px;
+    border: 2px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+  }
+  .shop-item.checked .item-checkbox {
+    background: var(--primary);
+    border-color: var(--primary);
+  }
+  .item-checkbox svg {
+    width: 14px;
+    height: 14px;
+    stroke: #fff;
+    fill: none;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    display: none;
+  }
+  .shop-item.checked .item-checkbox svg { display: block; }
+
+  .item-details {
+    flex: 1;
+    min-width: 0;
+  }
+  .item-top {
+    display: flex;
+    align-items: baseline;
+    gap: var(--sp-2);
+  }
+  .item-name {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--text);
+  }
+  .item-qty {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    white-space: nowrap;
+  }
+
+  /* Bottom action bar */
+  .bottom-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: var(--phone-width);
+    padding: var(--sp-3) var(--sp-4);
+    padding-bottom: calc(var(--sp-3) + env(safe-area-inset-bottom, 8px));
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    z-index: 40;
+  }
+  .btn-add-to-plan {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    font-family: var(--font-family);
+    font-size: var(--text-base);
+    font-weight: var(--weight-bold);
+    color: #fff;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    text-align: center;
+  }
+  .btn-add-to-plan:hover { background: var(--primary-hover); }
+
+  .content-area {
+    padding-bottom: 72px; /* space for bottom action bar */
+  }
+
+  /* Back header style */
+  .header-back {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-2);
+    text-decoration: none;
+    color: var(--text);
+  }
+  .header-back svg {
+    width: 22px;
+    height: 22px;
+    stroke: var(--text);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+</style>
+</head>
+<body>
+<div class="phone-frame">
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span class="time">9:41</span>
+    <div class="status-icons">
+      <svg width="16" height="12" viewBox="0 0 16 12"><rect x="0" y="6" width="3" height="6" rx="1" fill="currentColor"/><rect x="4.5" y="4" width="3" height="8" rx="1" fill="currentColor"/><rect x="9" y="2" width="3" height="10" rx="1" fill="currentColor"/><rect x="13.5" y="0" width="3" height="12" rx="1" fill="currentColor" opacity="0.3"/></svg>
+      <svg width="15" height="12" viewBox="0 0 15 12"><path d="M7.5 3.5C9.5 3.5 11.2 4.3 12.4 5.5L14 4C12.3 2.3 10 1.2 7.5 1.2S2.7 2.3 1 4l1.6 1.5C3.8 4.3 5.5 3.5 7.5 3.5z" fill="currentColor"/><path d="M7.5 6.5c1.2 0 2.3.5 3.1 1.3L12.2 6c-1.2-1.2-2.9-2-4.7-2S4.5 4.8 3.3 6l1.6 1.8c.8-.8 1.9-1.3 3.1-1.3h-.5z" fill="currentColor"/><circle cx="7.5" cy="10.5" r="1.5" fill="currentColor"/></svg>
+      <svg width="25" height="12" viewBox="0 0 25 12"><rect x="0" y="1" width="21" height="10" rx="2" stroke="currentColor" stroke-width="1" fill="none"/><rect x="22" y="4" width="2" height="4" rx="1" fill="currentColor" opacity="0.4"/><rect x="1.5" y="2.5" width="14" height="7" rx="1" fill="currentColor"/></svg>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <a class="header-back" href="planner.html">
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      <span class="header-title">Review Ingredients</span>
+    </a>
+  </div>
+
+  <!-- Sort/Filter bar -->
+  <div class="sort-bar">
+    <span class="sort-chip active">Aisle</span>
+    <span class="sort-chip">Recipe</span>
+    <span class="sort-chip">A-Z</span>
+  </div>
+
+  <!-- Count -->
+  <div class="count-bar">12 ingredients from 3 recipes</div>
+
+  <!-- Content -->
+  <div class="content-area">
+
+    <!-- Produce -->
+    <div class="aisle-header">
+      <span class="aisle-icon">&#x1F966;</span>
+      Produce
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Cherry tomatoes</span>
+          <span class="item-qty">1 cup</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Cucumber</span>
+          <span class="item-qty">1/2</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Avocado</span>
+          <span class="item-qty">2</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Fresh herbs</span>
+          <span class="item-qty">1 bunch</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Thai basil</span>
+          <span class="item-qty">1 bunch</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dairy -->
+    <div class="aisle-header">
+      <span class="aisle-icon">&#x1F9C0;</span>
+      Dairy
+    </div>
+    <div class="shop-item checked">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Feta cheese</span>
+          <span class="item-qty">60g</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grains -->
+    <div class="aisle-header">
+      <span class="aisle-icon">&#x1F33E;</span>
+      Grains
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Quinoa</span>
+          <span class="item-qty">1 cup</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Sourdough bread</span>
+          <span class="item-qty">4 slices</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Protein -->
+    <div class="aisle-header">
+      <span class="aisle-icon">&#x1F357;</span>
+      Protein
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Chicken thighs</span>
+          <span class="item-qty">500g</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pantry -->
+    <div class="aisle-header">
+      <span class="aisle-icon">&#x1FAD2;</span>
+      Pantry
+    </div>
+    <div class="shop-item checked">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Olive oil</span>
+          <span class="item-qty">3 tbsp</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Soy sauce</span>
+          <span class="item-qty">2 tbsp</span>
+        </div>
+      </div>
+    </div>
+    <div class="shop-item">
+      <div class="item-checkbox"><svg viewBox="0 0 24 24"><polyline points="4 12 10 18 20 6"/></svg></div>
+      <div class="item-details">
+        <div class="item-top">
+          <span class="item-name">Kalamata olives</span>
+          <span class="item-qty">1/4 cup</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom Action Bar -->
+  <div class="bottom-action-bar">
+    <button class="btn-add-to-plan">Add to Plan</button>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOUS — Tag UX Designs</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  body {
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+    padding: 40px 20px;
+  }
+
+  .section-divider {
+    text-align: center;
+    max-width: 1200px;
+    width: 100%;
+  }
+  .section-divider h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .section-divider p {
+    font-size: 14px;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .phone-row {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1400px;
+  }
+  .phone-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .phone-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .phone-desc {
+    font-size: 12px;
+    color: var(--text-light);
+    text-align: center;
+    max-width: 360px;
+    line-height: 1.5;
+    margin-bottom: 4px;
+  }
+
+  /* === Create header === */
+  .create-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px var(--sp-4) 12px;
+    background: var(--bg);
+    height: var(--header-height);
+  }
+  .create-header-close svg {
+    width: 22px; height: 22px;
+    stroke: var(--text); fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .create-header-title {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+  }
+  .create-header-save {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--white);
+    background: var(--primary);
+    border: none;
+    padding: 8px 20px;
+    border-radius: var(--radius-full);
+  }
+
+  /* === Form sections === */
+  .form-section {
+    padding: var(--sp-3) var(--sp-4);
+  }
+  .form-label {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    margin-bottom: var(--sp-2);
+    display: block;
+  }
+  .form-sublabel {
+    font-size: var(--text-xs);
+    color: var(--text-muted);
+    margin-bottom: var(--sp-3);
+    display: block;
+  }
+
+  /* === AI suggestion banner === */
+  .ai-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--primary-light);
+    border-radius: var(--radius-md);
+    padding: 10px 14px;
+    margin-bottom: var(--sp-3);
+  }
+  .ai-banner-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ai-banner-icon {
+    font-size: 16px;
+  }
+  .ai-banner-text {
+    font-size: var(--text-xs);
+    color: var(--text);
+    font-weight: var(--weight-medium);
+  }
+  .ai-banner-btn {
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    color: var(--primary);
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .ai-banner-btn svg {
+    width: 14px; height: 14px;
+    stroke: var(--primary); fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  /* === Tag category group === */
+  .tag-category-group {
+    margin-bottom: var(--sp-3);
+  }
+  .tag-category-label {
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .tag-category-limit {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: var(--weight-medium);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .tag-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag-opt {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--surface);
+    color: var(--text-light);
+    font-size: 11px;
+    font-weight: var(--weight-semibold);
+    padding: 7px 12px;
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    border: 1.5px solid transparent;
+    transition: all var(--transition-fast);
+  }
+  .tag-opt.selected {
+    background: var(--primary-light);
+    color: var(--text);
+    border-color: var(--primary);
+  }
+  .tag-opt.ai-suggested {
+    background: var(--primary-light);
+    color: var(--text);
+    border: 1.5px dashed var(--primary);
+  }
+  .tag-opt.ai-suggested.selected {
+    border-style: solid;
+  }
+  .tag-opt .opt-icon {
+    font-size: 12px;
+  }
+
+  /* === Placeholder blocks for form context === */
+  .form-placeholder {
+    background: var(--surface);
+    border-radius: var(--radius-md);
+    padding: 14px;
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    text-align: center;
+    margin-bottom: var(--sp-2);
+  }
+
+  .divider-line {
+    height: 1px;
+    background: var(--border);
+    margin: 0;
+  }
+
+  /* === Recipe detail page header === */
+  .page-header {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-3);
+    padding: 8px var(--sp-4) 12px;
+    background: var(--bg);
+    height: var(--header-height);
+  }
+  .page-header svg {
+    width: 22px; height: 22px;
+    stroke: var(--text); fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    cursor: pointer;
+  }
+
+  /* === Recipe hero image === */
+  .recipe-hero {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+  }
+  .recipe-title-section {
+    padding: var(--sp-3) var(--sp-4) var(--sp-2);
+  }
+  .recipe-title {
+    font-size: var(--text-xl);
+    font-weight: var(--weight-extrabold);
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+  .recipe-meta {
+    font-size: var(--text-xs);
+    color: var(--text-light);
+    display: flex;
+    gap: var(--sp-3);
+  }
+
+  /* === Tag display on recipe detail === */
+  .recipe-tags-row {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: var(--sp-2) var(--sp-4) var(--sp-3);
+  }
+  .recipe-tag-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: var(--weight-semibold);
+    padding: 6px 12px;
+    background: var(--primary-light);
+    color: var(--text);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+  }
+  .recipe-tag-pill:hover {
+    background: var(--primary);
+    color: white;
+  }
+  .recipe-tag-pill .rtp-icon {
+    font-size: 12px;
+  }
+
+  /* === Action row === */
+  .action-row {
+    display: flex;
+    justify-content: space-around;
+    padding: var(--sp-2) var(--sp-4);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .action-circle {
+    width: 44px; height: 44px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: var(--radius-full);
+    background: var(--surface);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    color: var(--text);
+    position: relative;
+    border: none;
+  }
+  .action-circle svg {
+    width: 20px; height: 20px;
+    stroke: var(--text); fill: none;
+    stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .action-circle.liked svg { stroke: var(--error); fill: var(--error); }
+  .action-circle.saved svg { stroke: var(--primary); fill: var(--primary); }
+
+  /* === Bottom sheet overlay === */
+  .sheet-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(28, 27, 24, 0.4);
+    border-radius: 40px;
+    z-index: 10;
+  }
+  .sheet {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: var(--bg);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: var(--sp-3) var(--sp-4) var(--sp-8);
+    z-index: 11;
+    max-height: 65%;
+    overflow-y: auto;
+  }
+  .sheet-handle {
+    width: 36px; height: 4px;
+    background: var(--border);
+    border-radius: var(--radius-full);
+    margin: 0 auto var(--sp-3);
+  }
+  .sheet-title {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    margin-bottom: var(--sp-3);
+    text-align: center;
+  }
+  .sheet-tag-category {
+    margin-bottom: var(--sp-3);
+  }
+  .sheet-cat-name {
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .sheet-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .sheet-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: var(--weight-semibold);
+    padding: 6px 12px;
+    background: var(--primary-light);
+    color: var(--text);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    text-decoration: none;
+    transition: all var(--transition-fast);
+  }
+  .sheet-tag:hover {
+    background: var(--primary);
+    color: white;
+  }
+  .sheet-tag .st-icon {
+    font-size: 12px;
+  }
+
+  /* === Utensils (context) === */
+  .utensils-row {
+    display: flex; flex-wrap: wrap; gap: 6px;
+    padding: 0 var(--sp-4) var(--sp-3);
+  }
+  .utensil-tag {
+    font-size: 11px; font-weight: var(--weight-semibold);
+    padding: 6px 12px; background: var(--surface);
+    color: var(--text); border-radius: var(--radius-md);
+  }
+
+  /* Loading shimmer */
+  .shimmer {
+    background: linear-gradient(90deg, var(--surface) 25%, var(--surface-dark) 50%, var(--surface) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: var(--radius-full);
+    height: 30px;
+    display: inline-block;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================== -->
+<!-- SECTION 1: RECIPE CREATE TAGS  -->
+<!-- ============================== -->
+<div class="section-divider">
+  <h2>1. Tag Selection in Recipe Create</h2>
+  <p>Tags section sits after utensils. AI suggestions appear once required fields are filled.</p>
+</div>
+
+<div class="phone-row">
+
+  <!-- State A: Before suggestions (loading) -->
+  <div class="phone-col">
+    <div class="phone-label">A: Loading Suggestions</div>
+    <div class="phone-desc">User has filled title, ingredients, instructions. Tags are being generated.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <div class="create-header">
+        <div class="create-header-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+        <span class="create-header-title">New Recipe</span>
+        <button class="create-header-save">Save</button>
+      </div>
+
+      <!-- Context: previous form sections collapsed -->
+      <div class="form-section" style="padding-bottom: 0;">
+        <div class="form-placeholder">✅ Title, photo, description</div>
+        <div class="form-placeholder">✅ Ingredients (6 items)</div>
+        <div class="form-placeholder">✅ Instructions (4 steps)</div>
+        <div class="form-placeholder">✅ Utensils, servings, cook time</div>
+      </div>
+
+      <div class="divider-line" style="margin: var(--sp-3) var(--sp-4);"></div>
+
+      <!-- Tags section - loading -->
+      <div class="form-section">
+        <label class="form-label">Tags</label>
+        <div class="ai-banner">
+          <div class="ai-banner-left">
+            <span class="ai-banner-icon">✨</span>
+            <span class="ai-banner-text">Generating suggestions...</span>
+          </div>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+          <span class="shimmer" style="width: 80px;"></span>
+          <span class="shimmer" style="width: 65px;"></span>
+          <span class="shimmer" style="width: 95px;"></span>
+          <span class="shimmer" style="width: 70px;"></span>
+          <span class="shimmer" style="width: 85px;"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State B: Suggestions loaded, some pre-selected -->
+  <div class="phone-col">
+    <div class="phone-label">B: Suggestions Ready</div>
+    <div class="phone-desc">AI-suggested tags shown with dashed border. User can tap to accept/reject and add more.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <div class="create-header">
+        <div class="create-header-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+        <span class="create-header-title">New Recipe</span>
+        <button class="create-header-save">Save</button>
+      </div>
+
+      <!-- Context -->
+      <div class="form-section" style="padding-bottom: 0;">
+        <div class="form-placeholder">✅ Chicken Pad Thai</div>
+        <div class="form-placeholder">✅ Ingredients (8 items)</div>
+        <div class="form-placeholder">✅ Instructions (5 steps)</div>
+        <div class="form-placeholder">✅ Utensils, servings, 25 min</div>
+      </div>
+
+      <div class="divider-line" style="margin: var(--sp-3) var(--sp-4);"></div>
+
+      <!-- Tags section - suggestions loaded -->
+      <div class="form-section">
+        <label class="form-label">Tags</label>
+
+        <div class="ai-banner">
+          <div class="ai-banner-left">
+            <span class="ai-banner-icon">✨</span>
+            <span class="ai-banner-text">Suggested based on your recipe</span>
+          </div>
+          <button class="ai-banner-btn">
+            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Refresh
+          </button>
+        </div>
+
+        <!-- Cuisine (max 2) -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Cuisine <span class="tag-category-limit">· max 2</span></div>
+          <div class="tag-options">
+            <span class="tag-opt ai-suggested selected"><span class="opt-icon">🇹🇭</span> Thai</span>
+            <span class="tag-opt"><span class="opt-icon">🇮🇹</span> Italian</span>
+            <span class="tag-opt"><span class="opt-icon">🇲🇽</span> Mexican</span>
+            <span class="tag-opt"><span class="opt-icon">🇮🇳</span> Indian</span>
+            <span class="tag-opt"><span class="opt-icon">🇯🇵</span> Japanese</span>
+            <span class="tag-opt"><span class="opt-icon">🇨🇳</span> Chinese</span>
+            <span class="tag-opt"><span class="opt-icon">🇰🇷</span> Korean</span>
+          </div>
+        </div>
+
+        <!-- Diet (max 4) -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Diet <span class="tag-category-limit">· max 4</span></div>
+          <div class="tag-options">
+            <span class="tag-opt ai-suggested selected"><span class="opt-icon">🥛</span> Dairy-Free</span>
+            <span class="tag-opt"><span class="opt-icon">🥗</span> Vegetarian</span>
+            <span class="tag-opt"><span class="opt-icon">🌱</span> Vegan</span>
+            <span class="tag-opt"><span class="opt-icon">🚫🌾</span> Gluten-Free</span>
+            <span class="tag-opt"><span class="opt-icon">🥑</span> Keto</span>
+            <span class="tag-opt"><span class="opt-icon">📉</span> Low-Carb</span>
+          </div>
+        </div>
+
+        <!-- Meal Type (max 1) -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Meal Type <span class="tag-category-limit">· max 1</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">🍳</span> Breakfast</span>
+            <span class="tag-opt"><span class="opt-icon">🥪</span> Lunch</span>
+            <span class="tag-opt ai-suggested selected"><span class="opt-icon">🍽️</span> Dinner</span>
+            <span class="tag-opt"><span class="opt-icon">🍿</span> Snack</span>
+            <span class="tag-opt"><span class="opt-icon">🍰</span> Dessert</span>
+          </div>
+        </div>
+
+        <!-- Time (max 1) — auto-derived -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Time <span class="tag-category-limit">· from cook time</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">⚡</span> Under 15 min</span>
+            <span class="tag-opt selected"><span class="opt-icon">⏱️</span> Under 30 min</span>
+            <span class="tag-opt"><span class="opt-icon">🕐</span> Under 1 hour</span>
+            <span class="tag-opt"><span class="opt-icon">🐢</span> Slow Cook</span>
+          </div>
+        </div>
+
+        <!-- Appliance (max 1) -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Appliance <span class="tag-category-limit">· max 1</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">🫕</span> Slow Cooker</span>
+            <span class="tag-opt"><span class="opt-icon">🌀</span> Air Fryer</span>
+            <span class="tag-opt"><span class="opt-icon">♨️</span> Pressure Cooker</span>
+            <span class="tag-opt"><span class="opt-icon">🔥</span> BBQ/Grill</span>
+            <span class="tag-opt"><span class="opt-icon">⚡</span> Instant Pot</span>
+          </div>
+        </div>
+
+        <!-- Occasion (max 3) -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Occasion <span class="tag-category-limit">· max 3</span></div>
+          <div class="tag-options">
+            <span class="tag-opt ai-suggested selected"><span class="opt-icon">🌙</span> Weeknight</span>
+            <span class="tag-opt"><span class="opt-icon">📦</span> Meal Prep</span>
+            <span class="tag-opt"><span class="opt-icon">💕</span> Date Night</span>
+            <span class="tag-opt"><span class="opt-icon">🎉</span> Party</span>
+            <span class="tag-opt"><span class="opt-icon">🎄</span> Holiday</span>
+            <span class="tag-opt"><span class="opt-icon">💰</span> Budget</span>
+            <span class="tag-opt"><span class="opt-icon">👶</span> Kid-Friendly</span>
+            <span class="tag-opt"><span class="opt-icon">🥘</span> Comfort Food</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- State C: User has edited suggestions -->
+  <div class="phone-col">
+    <div class="phone-label">C: User Edited</div>
+    <div class="phone-desc">User accepted some AI suggestions, rejected one, added their own. All selected tags are solid border.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <div class="create-header">
+        <div class="create-header-close"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
+        <span class="create-header-title">New Recipe</span>
+        <button class="create-header-save">Save</button>
+      </div>
+
+      <!-- Context -->
+      <div class="form-section" style="padding-bottom: 0;">
+        <div class="form-placeholder">✅ Chicken Pad Thai</div>
+        <div class="form-placeholder">✅ Ingredients (8 items)</div>
+        <div class="form-placeholder">✅ Instructions (5 steps)</div>
+        <div class="form-placeholder">✅ Utensils, servings, 25 min</div>
+      </div>
+
+      <div class="divider-line" style="margin: var(--sp-3) var(--sp-4);"></div>
+
+      <div class="form-section">
+        <label class="form-label">Tags</label>
+
+        <div class="ai-banner">
+          <div class="ai-banner-left">
+            <span class="ai-banner-icon">✨</span>
+            <span class="ai-banner-text">Suggested based on your recipe</span>
+          </div>
+          <button class="ai-banner-btn">
+            <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            Refresh
+          </button>
+        </div>
+
+        <!-- Cuisine — user kept Thai, added Chinese -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Cuisine <span class="tag-category-limit">· 2/2</span></div>
+          <div class="tag-options">
+            <span class="tag-opt selected"><span class="opt-icon">🇹🇭</span> Thai</span>
+            <span class="tag-opt"><span class="opt-icon">🇮🇹</span> Italian</span>
+            <span class="tag-opt"><span class="opt-icon">🇲🇽</span> Mexican</span>
+            <span class="tag-opt"><span class="opt-icon">🇮🇳</span> Indian</span>
+            <span class="tag-opt"><span class="opt-icon">🇯🇵</span> Japanese</span>
+            <span class="tag-opt selected"><span class="opt-icon">🇨🇳</span> Chinese</span>
+            <span class="tag-opt"><span class="opt-icon">🇰🇷</span> Korean</span>
+          </div>
+        </div>
+
+        <!-- Diet — user rejected dairy-free, added gluten-free -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Diet <span class="tag-category-limit">· 1/4</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">🥛</span> Dairy-Free</span>
+            <span class="tag-opt"><span class="opt-icon">🥗</span> Vegetarian</span>
+            <span class="tag-opt"><span class="opt-icon">🌱</span> Vegan</span>
+            <span class="tag-opt selected"><span class="opt-icon">🚫🌾</span> Gluten-Free</span>
+            <span class="tag-opt"><span class="opt-icon">🥑</span> Keto</span>
+            <span class="tag-opt"><span class="opt-icon">📉</span> Low-Carb</span>
+          </div>
+        </div>
+
+        <!-- Meal Type — kept Dinner -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Meal Type <span class="tag-category-limit">· 1/1</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">🍳</span> Breakfast</span>
+            <span class="tag-opt"><span class="opt-icon">🥪</span> Lunch</span>
+            <span class="tag-opt selected"><span class="opt-icon">🍽️</span> Dinner</span>
+            <span class="tag-opt"><span class="opt-icon">🍿</span> Snack</span>
+            <span class="tag-opt"><span class="opt-icon">🍰</span> Dessert</span>
+          </div>
+        </div>
+
+        <!-- Time — auto from cook time -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Time <span class="tag-category-limit">· from cook time</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">⚡</span> Under 15 min</span>
+            <span class="tag-opt selected"><span class="opt-icon">⏱️</span> Under 30 min</span>
+            <span class="tag-opt"><span class="opt-icon">🕐</span> Under 1 hour</span>
+            <span class="tag-opt"><span class="opt-icon">🐢</span> Slow Cook</span>
+          </div>
+        </div>
+
+        <!-- Appliance — none selected -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Appliance <span class="tag-category-limit">· 0/1</span></div>
+          <div class="tag-options">
+            <span class="tag-opt"><span class="opt-icon">🫕</span> Slow Cooker</span>
+            <span class="tag-opt"><span class="opt-icon">🌀</span> Air Fryer</span>
+            <span class="tag-opt"><span class="opt-icon">♨️</span> Pressure Cooker</span>
+            <span class="tag-opt"><span class="opt-icon">🔥</span> BBQ/Grill</span>
+            <span class="tag-opt"><span class="opt-icon">⚡</span> Instant Pot</span>
+          </div>
+        </div>
+
+        <!-- Occasion — kept Weeknight, added Budget -->
+        <div class="tag-category-group">
+          <div class="tag-category-label">Occasion <span class="tag-category-limit">· 2/3</span></div>
+          <div class="tag-options">
+            <span class="tag-opt selected"><span class="opt-icon">🌙</span> Weeknight</span>
+            <span class="tag-opt"><span class="opt-icon">📦</span> Meal Prep</span>
+            <span class="tag-opt"><span class="opt-icon">💕</span> Date Night</span>
+            <span class="tag-opt"><span class="opt-icon">🎉</span> Party</span>
+            <span class="tag-opt"><span class="opt-icon">🎄</span> Holiday</span>
+            <span class="tag-opt selected"><span class="opt-icon">💰</span> Budget</span>
+            <span class="tag-opt"><span class="opt-icon">👶</span> Kid-Friendly</span>
+            <span class="tag-opt"><span class="opt-icon">🥘</span> Comfort Food</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ========================================= -->
+<!-- SECTION 2: RECIPE DETAIL TAG DISPLAY      -->
+<!-- ========================================= -->
+<div class="section-divider" style="margin-top: 24px;">
+  <h2>2. Tags on Recipe Detail</h2>
+  <p>Tag icon in action row opens bottom sheet. Flat pills (no category grouping), tappable to navigate. "Edit Tags" button for recipe owner links to recipe edit.</p>
+</div>
+
+<div class="phone-row">
+
+  <!-- Recipe detail - tag icon in action row -->
+  <div class="phone-col">
+    <div class="phone-label">Recipe Detail</div>
+    <div class="phone-desc">Tag icon in action row shows tag count badge. Tap to open bottom sheet.</div>
+    <div class="phone-frame">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <div class="page-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+
+      <img class="recipe-hero" src="https://images.unsplash.com/photo-1559314809-0d155014e29e?w=780&h=440&fit=crop" alt="Pad Thai">
+
+      <div class="recipe-title-section">
+        <div class="recipe-title">Chicken Pad Thai</div>
+        <div class="recipe-meta">
+          <span>by Chef Marcus</span>
+          <span>·</span>
+          <span>25 min</span>
+          <span>·</span>
+          <span>4 servings</span>
+        </div>
+      </div>
+
+      <!-- Action row with tag button highlighted -->
+      <div class="action-row">
+        <button class="action-circle liked">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </button>
+        <button class="action-circle">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <button class="action-circle saved">
+          <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        </button>
+        <!-- Tag button with count badge -->
+        <button class="action-circle" style="border: 2px solid var(--primary);">
+          <svg viewBox="0 0 24 24"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+          <span style="position:absolute;top:-4px;right:-4px;background:var(--primary);color:white;font-size:10px;font-weight:700;min-width:18px;height:18px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;">6</span>
+        </button>
+        <a class="action-circle">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+        </a>
+        <button class="action-circle">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        </button>
+      </div>
+
+      <div class="divider-line" style="margin: 0 var(--sp-4);"></div>
+
+      <!-- Utensils for context -->
+      <div style="padding: var(--sp-3) var(--sp-4) var(--sp-1);">
+        <div style="font-size: var(--text-sm); font-weight: var(--weight-bold); margin-bottom: var(--sp-2);">Utensils</div>
+      </div>
+      <div class="utensils-row">
+        <span class="utensil-tag">Wok</span>
+        <span class="utensil-tag">Mixing Bowl</span>
+        <span class="utensil-tag">Tongs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom sheet open - own recipe (with edit button) -->
+  <div class="phone-col">
+    <div class="phone-label">Tag Sheet — Own Recipe</div>
+    <div class="phone-desc">Flat pills, each tappable to navigate to tag results. "Edit Tags" button links to recipe edit page.</div>
+    <div class="phone-frame" style="position: relative;">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <div class="page-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+
+      <img class="recipe-hero" src="https://images.unsplash.com/photo-1559314809-0d155014e29e?w=780&h=440&fit=crop" alt="Pad Thai" style="opacity: 0.3;">
+
+      <div class="recipe-title-section" style="opacity: 0.3;">
+        <div class="recipe-title">Chicken Pad Thai</div>
+        <div class="recipe-meta">
+          <span>by You</span>
+          <span>·</span>
+          <span>25 min</span>
+        </div>
+      </div>
+
+      <!-- Bottom sheet overlay -->
+      <div class="sheet-backdrop"></div>
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Tags</div>
+
+        <!-- Flat pills, no category grouping -->
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; padding-bottom: var(--sp-4);">
+          <a class="sheet-tag"><span class="st-icon">🇹🇭</span> Thai</a>
+          <a class="sheet-tag"><span class="st-icon">🥛</span> Dairy-Free</a>
+          <a class="sheet-tag"><span class="st-icon">🍽️</span> Dinner</a>
+          <a class="sheet-tag"><span class="st-icon">⏱️</span> Under 30 min</a>
+          <a class="sheet-tag"><span class="st-icon">🌙</span> Weeknight</a>
+          <a class="sheet-tag"><span class="st-icon">💰</span> Budget</a>
+        </div>
+
+        <div style="border-top: 1px solid var(--border); padding-top: var(--sp-3);">
+          <a href="#" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; background: var(--surface); border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: var(--weight-semibold); color: var(--primary); text-decoration: none; transition: all 150ms ease;">
+            <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            Edit Tags
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom sheet open - someone else's recipe (no edit button) -->
+  <div class="phone-col">
+    <div class="phone-label">Tag Sheet — Other's Recipe</div>
+    <div class="phone-desc">Same flat pills, but no "Edit Tags" button since it's not your recipe.</div>
+    <div class="phone-frame" style="position: relative;">
+      <div class="status-bar"><span class="time">9:41</span><div class="status-icons"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4l2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z"/></svg></div></div>
+
+      <div class="page-header">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </div>
+
+      <img class="recipe-hero" src="https://images.unsplash.com/photo-1559314809-0d155014e29e?w=780&h=440&fit=crop" alt="Pad Thai" style="opacity: 0.3;">
+
+      <div class="recipe-title-section" style="opacity: 0.3;">
+        <div class="recipe-title">Chicken Pad Thai</div>
+        <div class="recipe-meta">
+          <span>by Chef Marcus</span>
+          <span>·</span>
+          <span>25 min</span>
+        </div>
+      </div>
+
+      <!-- Bottom sheet overlay -->
+      <div class="sheet-backdrop"></div>
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <div class="sheet-title">Tags</div>
+
+        <!-- Flat pills, no category grouping -->
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <a class="sheet-tag"><span class="st-icon">🇹🇭</span> Thai</a>
+          <a class="sheet-tag"><span class="st-icon">🥛</span> Dairy-Free</a>
+          <a class="sheet-tag"><span class="st-icon">🍽️</span> Dinner</a>
+          <a class="sheet-tag"><span class="st-icon">⏱️</span> Under 30 min</a>
+          <a class="sheet-tag"><span class="st-icon">🌙</span> Weeknight</a>
+          <a class="sheet-tag"><span class="st-icon">💰</span> Budget</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
