@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning for Good — Font Picker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Poppins:wght@400;500;600;700&family=Lora:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Merriweather:wght@400;700;900&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700;8..60,900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=General+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: #faf8f5;
+    color: #2c2a2e;
+    min-height: 100vh;
+    padding: 48px 32px;
+  }
+
+  .page { max-width: 1100px; margin: 0 auto; }
+
+  .page-header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .page-header p {
+    color: #5a5662;
+    font-size: 15px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #8a8590;
+    margin: 40px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #ece8e2;
+  }
+
+  .font-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .font-card {
+    background: #fff;
+    border-radius: 20px;
+    border: 2px solid #ece8e2;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+  }
+  .font-card:hover {
+    border-color: #2596be;
+    box-shadow: 0 8px 32px rgba(37, 150, 190, 0.12);
+    transform: translateY(-2px);
+  }
+  .font-card.selected {
+    border-color: #2596be;
+    box-shadow: 0 0 0 3px rgba(37, 150, 190, 0.15);
+  }
+  .font-card.selected::after {
+    content: 'SELECTED';
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: #2596be;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    padding: 4px 12px;
+    border-radius: 6px;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+
+  .font-card-header {
+    padding: 24px 28px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .font-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #2c2a2e;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+  }
+  .font-type {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 3px 10px;
+    border-radius: 6px;
+  }
+  .font-type.serif { background: #f3eaf7; color: #7e4d91; }
+  .font-type.sans { background: #e8f6fb; color: #1e8aad; }
+
+  .font-preview {
+    padding: 0 28px 24px;
+  }
+
+  .preview-heading {
+    margin-bottom: 4px;
+    color: #2c2a2e;
+    line-height: 1.15;
+  }
+  .preview-heading-lg {
+    font-size: 36px;
+    margin-bottom: 8px;
+  }
+  .preview-heading-md {
+    font-size: 22px;
+    margin-bottom: 12px;
+    color: #5a5662;
+  }
+
+  .preview-logo {
+    margin-bottom: 16px;
+    font-size: 24px;
+    letter-spacing: -0.02em;
+  }
+  .preview-logo .t { color: #2596be; }
+  .preview-logo .p { color: #8b5a9e; }
+  .preview-logo .o { color: #e8842c; }
+
+  .preview-body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    color: #5a5662;
+    line-height: 1.6;
+    max-width: 600px;
+  }
+
+  .preview-ui {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #ece8e2;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .preview-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .preview-stat-label {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #8a8590;
+  }
+  .preview-stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #2c2a2e;
+    line-height: 1;
+  }
+
+  .preview-btn {
+    padding: 10px 24px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background: #1e8aad;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin-left: auto;
+  }
+
+  .pairing-note {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 12px;
+    color: #8a8590;
+    margin-top: 12px;
+    padding: 8px 12px;
+    background: #f5f1ec;
+    border-radius: 8px;
+    display: inline-block;
+  }
+
+  @media (max-width: 768px) {
+    body { padding: 24px 16px; }
+    .preview-heading-lg { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="page-header">
+    <h1>Pick Your Display Font</h1>
+    <p>Each option shows the font used for headings, the logo, and stat numbers. Body text stays as Plus Jakarta Sans throughout. Click a card to select it.</p>
+  </div>
+
+  <!-- ====== SERIF OPTIONS ====== -->
+  <div class="section-label">Serif — Warm & Editorial</div>
+  <div class="font-grid">
+
+    <!-- 1. Fraunces -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">1. Fraunces</span>
+        <span class="font-type serif">Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Fraunces', serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Fraunces', serif; font-weight: 800;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Fraunces', serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Fraunces', serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Fraunces', serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Quirky, warm, optical-sizing variable serif. Feels characterful and friendly.</div>
+      </div>
+    </div>
+
+    <!-- 2. Lora -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">2. Lora</span>
+        <span class="font-type serif">Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Lora', serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Lora', serif; font-weight: 700;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Lora', serif; font-weight: 600;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Lora', serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Lora', serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Classic, elegant serif. Well-balanced for both headings and longer text. Very readable.</div>
+      </div>
+    </div>
+
+    <!-- 3. Libre Baskerville -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">3. Libre Baskerville</span>
+        <span class="font-type serif">Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Libre Baskerville', serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Libre Baskerville', serif; font-weight: 700;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Libre Baskerville', serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Libre Baskerville', serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Libre Baskerville', serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Traditional, authoritative serif. Feels established and trustworthy. Very "annual report".</div>
+      </div>
+    </div>
+
+    <!-- 4. Source Serif 4 -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">4. Source Serif 4</span>
+        <span class="font-type serif">Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Source Serif 4', serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Source Serif 4', serif; font-weight: 900;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Source Serif 4', serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Source Serif 4', serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Source Serif 4', serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Modern, crisp serif with optical sizing. Clean and professional with warmth.</div>
+      </div>
+    </div>
+
+    <!-- 5. Merriweather -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">5. Merriweather</span>
+        <span class="font-type serif">Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Merriweather', serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Merriweather', serif; font-weight: 900;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Merriweather', serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Merriweather', serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Merriweather', serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Sturdy, screen-optimised serif. Bold weights have real presence. Very legible.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ====== SANS-SERIF OPTIONS ====== -->
+  <div class="section-label">Sans-Serif — Modern & Clean</div>
+  <div class="font-grid">
+
+    <!-- 6. Outfit (current) -->
+    <div class="font-card selected" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">6. Outfit <span style="color:#8a8590; font-weight:500;">(current)</span></span>
+        <span class="font-type sans">Sans-Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Outfit', sans-serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Outfit', sans-serif; font-weight: 700;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Outfit', sans-serif; font-weight: 600;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Outfit', sans-serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Outfit', sans-serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Geometric, friendly, modern. Rounded terminals feel approachable without being childish.</div>
+      </div>
+    </div>
+
+    <!-- 7. Sora -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">7. Sora</span>
+        <span class="font-type sans">Sans-Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Sora', sans-serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Sora', sans-serif; font-weight: 700;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Sora', sans-serif; font-weight: 600;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Sora', sans-serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Sora', sans-serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Contemporary geometric sans. Clean and confident. Good contrast with Jakarta body text.</div>
+      </div>
+    </div>
+
+    <!-- 8. Bricolage Grotesque -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">8. Bricolage Grotesque</span>
+        <span class="font-type sans">Sans-Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 800;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Bricolage Grotesque', sans-serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Bricolage Grotesque', sans-serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Variable optical-sizing grotesque. Has personality and quirk without being a serif. Distinctive.</div>
+      </div>
+    </div>
+
+    <!-- 9. Nunito -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">9. Nunito</span>
+        <span class="font-type sans">Sans-Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'Nunito', sans-serif; font-weight: 800;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'Nunito', sans-serif; font-weight: 800;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'Nunito', sans-serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'Nunito', sans-serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'Nunito', sans-serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Soft, rounded, friendly. Very approachable — good for a charity that wants to feel welcoming.</div>
+      </div>
+    </div>
+
+    <!-- 10. DM Sans -->
+    <div class="font-card" onclick="selectFont(this)">
+      <div class="font-card-header">
+        <span class="font-name">10. DM Sans</span>
+        <span class="font-type sans">Sans-Serif</span>
+      </div>
+      <div class="font-preview">
+        <div class="preview-logo" style="font-family: 'DM Sans', sans-serif; font-weight: 700;">
+          <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+        </div>
+        <div class="preview-heading preview-heading-lg" style="font-family: 'DM Sans', sans-serif; font-weight: 700;">Good morning, Emma</div>
+        <div class="preview-heading preview-heading-md" style="font-family: 'DM Sans', sans-serif; font-weight: 700;">Assertiveness and Constructive Negotiation</div>
+        <div class="preview-body">Here's what's happening with your workshops. 3 charities haven't booked yet for the upcoming session.</div>
+        <div class="preview-ui">
+          <div class="preview-stat">
+            <span class="preview-stat-label">Next Workshop</span>
+            <span class="preview-stat-value" style="font-family: 'DM Sans', sans-serif;">13 Mar</span>
+          </div>
+          <div class="preview-stat">
+            <span class="preview-stat-label">Seats Filled</span>
+            <span class="preview-stat-value" style="font-family: 'DM Sans', sans-serif;">14<span style="color:#8a8590; font-size:20px;">/18</span></span>
+          </div>
+          <span class="preview-btn">Book Places</span>
+        </div>
+        <div class="pairing-note">Clean, geometric, low-contrast. Feels polished and modern. Pairs beautifully with Jakarta body.</div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+  function selectFont(card) {
+    document.querySelectorAll('.font-card').forEach(c => c.classList.remove('selected'));
+    card.classList.add('selected');
+  }
+</script>
+
+</body>
+</html>
