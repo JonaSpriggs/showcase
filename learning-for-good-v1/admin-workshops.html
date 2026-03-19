@@ -6,143 +6,122 @@
   <title>Workshops — Learning for Good</title>
   <link rel="stylesheet" href="design.css">
   <style>
-    /* Page-specific styles */
     .page-header-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: var(--sp-6);
+      margin-bottom: var(--sp-4);
     }
-
-    .tab-content {
-      display: none;
-    }
-    .tab-content.active {
-      display: block;
-    }
-
     .table-progress {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: var(--sp-2);
     }
     .table-progress .progress {
-      width: 100%;
+      flex: 1;
       max-width: 120px;
+      height: 6px;
       margin-top: 0;
     }
     .table-progress-label {
       font-size: var(--text-xs);
-      color: var(--text-secondary);
+      color: var(--text-light);
       white-space: nowrap;
     }
-
     .btn--outline-sm {
-      display: inline-flex;
-      align-items: center;
-      gap: var(--sp-2);
-      padding: var(--sp-2) var(--sp-3);
-      font-family: var(--font-body);
-      font-size: var(--text-xs);
-      font-weight: var(--weight-semibold);
-      color: var(--primary);
       background: transparent;
+      color: var(--primary);
       border: 1.5px solid var(--primary);
-      border-radius: var(--radius-md);
+      padding: var(--sp-1) var(--sp-3);
+      font-size: var(--text-xs);
+      border-radius: var(--radius-sm);
       cursor: pointer;
+      font-weight: var(--weight-semibold);
+      font-family: var(--font);
       transition: all var(--transition-fast);
-      text-decoration: none;
       white-space: nowrap;
     }
     .btn--outline-sm:hover {
       background: var(--primary-light);
-      transform: translateY(-1px);
     }
-    .btn--outline-sm:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .rating-stars {
-      color: var(--accent);
-      font-size: var(--text-base);
-      letter-spacing: 1px;
-    }
-    .rating-stars .star-empty {
-      color: var(--border);
-    }
-    .rating-value {
-      font-size: var(--text-sm);
-      color: var(--text-secondary);
-      font-weight: var(--weight-medium);
-      margin-left: var(--sp-1);
-    }
-
-    .badge--phase2 {
-      display: inline-flex;
-      align-items: center;
-      padding: 2px 8px;
-      border-radius: var(--radius-full);
-      font-size: 10px;
-      font-weight: var(--weight-semibold);
-      background: var(--surface);
-      color: var(--text-muted);
-      margin-left: var(--sp-2);
-    }
-
-    .history-subheading {
-      font-family: var(--font-display);
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    .history-section-heading {
       font-size: var(--text-lg);
       font-weight: var(--weight-bold);
-      letter-spacing: var(--tracking-tight);
-      margin-bottom: var(--sp-4);
-      color: var(--text);
+      margin-bottom: var(--sp-3);
+      color: var(--text-muted);
     }
-
-    td a {
+    .badge--phase2 {
+      background: var(--surface);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: var(--weight-bold);
+      padding: 2px 6px;
+      border-radius: var(--radius-sm);
+      margin-left: var(--sp-2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .btn--disabled {
+      background: transparent;
+      color: var(--text-muted);
+      border: 1.5px solid var(--border);
+      padding: var(--sp-1) var(--sp-3);
+      font-size: var(--text-xs);
+      border-radius: var(--radius-sm);
+      cursor: not-allowed;
       font-weight: var(--weight-semibold);
+      font-family: var(--font);
+      opacity: 0.5;
+      white-space: nowrap;
     }
-
-    .actions-cell {
-      display: flex;
-      gap: var(--sp-2);
-      align-items: center;
+    .rating-stars {
+      color: var(--accent);
+      font-size: var(--text-sm);
+      letter-spacing: -1px;
     }
   </style>
 </head>
 <body>
   <div class="app-layout">
 
-    <!-- SIDEBAR -->
+    <!-- ============ SIDEBAR ============ -->
     <aside class="sidebar">
       <div class="sidebar-logo">
         <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
       </div>
 
       <nav class="sidebar-nav">
-        <a href="#" class="nav-link">
-          <svg viewBox="0 0 24 24"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/><polyline points="9 21 9 14 15 14 15 21"/></svg>
+        <div class="nav-section-label">Menu</div>
+
+        <a href="admin-dashboard.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           Dashboard
         </a>
-        <a href="#" class="nav-link active">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+
+        <a href="admin-workshops.html" class="nav-link active">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Workshops
           <span class="nav-badge">3</span>
         </a>
-        <a href="#" class="nav-link">
+
+        <a href="admin-charities.html" class="nav-link">
           <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Charities
         </a>
-        <a href="#" class="nav-link">
+
+        <a href="admin-alumni.html" class="nav-link">
           <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
           Alumni
         </a>
-        <a href="#" class="nav-link">
+
+        <a href="admin-materials.html" class="nav-link">
           <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
           Materials
         </a>
-        <a href="#" class="nav-link">
+
+        <a href="admin-analytics.html" class="nav-link">
           <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
           Analytics
         </a>
@@ -157,37 +136,37 @@
       </div>
     </aside>
 
-    <!-- MAIN CONTENT -->
+    <!-- ============ MAIN CONTENT ============ -->
     <main class="main-content">
 
-      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; text-decoration: none;">
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #8e9098; margin-bottom: 16px; text-decoration: none;">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
         Back to all mockups
       </a>
 
       <!-- Page Header -->
-      <div class="page-header-row animate-in animate-in-1">
-        <div class="page-header">
+      <div class="page-header-row">
+        <div>
           <h1 class="page-greeting">Workshops</h1>
           <p class="page-subtitle">Manage your workshop programme</p>
         </div>
-        <button class="btn btn--primary">
+        <a href="#" class="btn btn--primary">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Create Workshop
-        </button>
+        </a>
       </div>
 
       <!-- Tabs -->
-      <div class="tabs animate-in animate-in-2">
+      <div class="tabs">
         <div class="tab active" onclick="showTab('upcoming')">Upcoming</div>
         <div class="tab" onclick="showTab('history')">History</div>
       </div>
 
-      <!-- UPCOMING TAB -->
-      <div class="tab-content active" id="tab-upcoming">
+      <!-- ===== UPCOMING TAB ===== -->
+      <div id="tab-upcoming" class="tab-content active">
 
-        <!-- Year filter -->
-        <div class="filter-bar animate-in animate-in-3">
+        <!-- Year Filter -->
+        <div class="filter-bar">
           <select class="filter-select">
             <option value="2026" selected>2026</option>
             <option value="2025">2025</option>
@@ -195,8 +174,8 @@
           </select>
         </div>
 
-        <!-- Upcoming table -->
-        <div class="table-wrap animate-in animate-in-4">
+        <!-- Upcoming Workshops Table -->
+        <div class="table-wrap">
           <table>
             <thead>
               <tr>
@@ -206,12 +185,12 @@
                 <th>Facilitator</th>
                 <th>Bookings</th>
                 <th>Status</th>
-                <th>Action</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><a href="#">Assertiveness</a></td>
+                <td><a href="admin-workshop-detail.html"><strong>Assertiveness</strong></a></td>
                 <td>13 Mar 2026</td>
                 <td>Travers Smith</td>
                 <td>Rachel Smith</td>
@@ -220,16 +199,14 @@
                     <div class="progress">
                       <div class="progress-fill progress-fill--primary" style="width: 78%"></div>
                     </div>
-                    <span class="table-progress-label">14/18 (78%)</span>
+                    <span class="table-progress-label">14 / 18</span>
                   </div>
                 </td>
                 <td><span class="badge badge--open">Booking Open</span></td>
-                <td>
-                  <button class="btn--outline-sm">Send Participant List &amp; Dietary</button>
-                </td>
+                <td><button class="btn--outline-sm">Send Participant List &amp; Dietary</button></td>
               </tr>
               <tr>
-                <td><a href="#">Leading a Team</a></td>
+                <td><strong>Leading a Team</strong></td>
                 <td>24 Apr 2026</td>
                 <td>Linklaters</td>
                 <td>Sarah Hughes</td>
@@ -238,34 +215,30 @@
                     <div class="progress">
                       <div class="progress-fill progress-fill--success" style="width: 100%"></div>
                     </div>
-                    <span class="table-progress-label">18/18 (100%)</span>
+                    <span class="table-progress-label">18 / 18</span>
                   </div>
                 </td>
                 <td><span class="badge badge--full">Full</span></td>
-                <td>
-                  <button class="btn--outline-sm">Send Participant List &amp; Dietary</button>
-                </td>
+                <td><button class="btn--outline-sm">Send Participant List &amp; Dietary</button></td>
               </tr>
               <tr>
-                <td><a href="#">Presenting with Impact</a></td>
+                <td><strong>Presenting with Impact</strong></td>
                 <td>15 May 2026</td>
                 <td>Clifford Chance</td>
                 <td>Rachel Smith</td>
                 <td>
                   <div class="table-progress">
                     <div class="progress">
-                      <div class="progress-fill progress-fill--primary" style="width: 33%"></div>
+                      <div class="progress-fill progress-fill--warning" style="width: 33%"></div>
                     </div>
-                    <span class="table-progress-label">6/18 (33%)</span>
+                    <span class="table-progress-label">6 / 18</span>
                   </div>
                 </td>
                 <td><span class="badge badge--open">Booking Open</span></td>
-                <td>
-                  <button class="btn--outline-sm">Send Participant List &amp; Dietary</button>
-                </td>
+                <td><button class="btn--outline-sm">Send Participant List &amp; Dietary</button></td>
               </tr>
               <tr>
-                <td><a href="#">Negotiation Skills</a></td>
+                <td><strong>Negotiation Skills</strong></td>
                 <td>18 Jun 2026</td>
                 <td>TBC</td>
                 <td>TBC</td>
@@ -274,25 +247,23 @@
                     <div class="progress">
                       <div class="progress-fill progress-fill--primary" style="width: 0%"></div>
                     </div>
-                    <span class="table-progress-label">0/18 (0%)</span>
+                    <span class="table-progress-label">0 / 18</span>
                   </div>
                 </td>
                 <td><span class="badge badge--draft">Draft</span></td>
-                <td>
-                  <button class="btn--outline-sm">Send Participant List &amp; Dietary</button>
-                </td>
+                <td><button class="btn--outline-sm">Send Participant List &amp; Dietary</button></td>
               </tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- HISTORY TAB -->
-      <div class="tab-content" id="tab-history">
+      <!-- ===== HISTORY TAB ===== -->
+      <div id="tab-history" class="tab-content">
 
-        <h3 class="history-subheading animate-in animate-in-3">Workshop History</h3>
+        <h2 class="history-section-heading">Workshop History</h2>
 
-        <div class="table-wrap animate-in animate-in-4">
+        <div class="table-wrap">
           <table>
             <thead>
               <tr>
@@ -301,72 +272,64 @@
                 <th>Venue</th>
                 <th>Attended</th>
                 <th>Avg Rating</th>
-                <th>Actions</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><a href="#">Assertiveness</a></td>
+                <td><strong>Assertiveness</strong></td>
                 <td>3 Oct 2025</td>
                 <td>Travers Smith</td>
                 <td>18 attended</td>
                 <td>
-                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;<span class="star-empty">&#9733;</span></span>
-                  <span class="rating-value">4.4</span>
+                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                  4.4
                 </td>
                 <td>
-                  <div class="actions-cell">
-                    <a href="#" class="btn--outline-sm">View</a>
-                    <button class="btn--outline-sm" disabled>Email Attendees<span class="badge--phase2">Phase 2</span></button>
-                  </div>
+                  <a href="#" class="btn btn--ghost btn--sm">View</a>
+                  <button class="btn--disabled" disabled>Email Attendees <span class="badge--phase2">Phase 2</span></button>
                 </td>
               </tr>
               <tr>
-                <td><a href="#">Looking After Yourself</a></td>
+                <td><strong>Looking After Yourself</strong></td>
                 <td>7 Nov 2025</td>
                 <td>Travers Smith</td>
                 <td>16 attended</td>
                 <td>
-                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;<span class="star-empty">&#9733;</span></span>
-                  <span class="rating-value">4.1</span>
+                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                  4.1
                 </td>
                 <td>
-                  <div class="actions-cell">
-                    <a href="#" class="btn--outline-sm">View</a>
-                    <button class="btn--outline-sm" disabled>Email Attendees<span class="badge--phase2">Phase 2</span></button>
-                  </div>
+                  <a href="#" class="btn btn--ghost btn--sm">View</a>
+                  <button class="btn--disabled" disabled>Email Attendees <span class="badge--phase2">Phase 2</span></button>
                 </td>
               </tr>
               <tr>
-                <td><a href="#">Influence &amp; Impact</a></td>
+                <td><strong>Influence &amp; Impact</strong></td>
                 <td>12 Dec 2025</td>
                 <td>Travers Smith</td>
                 <td>14 attended</td>
                 <td>
-                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;<span class="star-empty">&#9733;</span></span>
-                  <span class="rating-value">4.3</span>
+                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                  4.3
                 </td>
                 <td>
-                  <div class="actions-cell">
-                    <a href="#" class="btn--outline-sm">View</a>
-                    <button class="btn--outline-sm" disabled>Email Attendees<span class="badge--phase2">Phase 2</span></button>
-                  </div>
+                  <a href="#" class="btn btn--ghost btn--sm">View</a>
+                  <button class="btn--disabled" disabled>Email Attendees <span class="badge--phase2">Phase 2</span></button>
                 </td>
               </tr>
               <tr>
-                <td><a href="#">Leading a Team</a></td>
+                <td><strong>Leading a Team</strong></td>
                 <td>23 Jan 2026</td>
                 <td>Travers Smith</td>
                 <td>19 attended</td>
                 <td>
-                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;<span class="star-empty">&#9733;</span></span>
-                  <span class="rating-value">4.2</span>
+                  <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9734;</span>
+                  4.2
                 </td>
                 <td>
-                  <div class="actions-cell">
-                    <a href="#" class="btn--outline-sm">View</a>
-                    <button class="btn--outline-sm" disabled>Email Attendees<span class="badge--phase2">Phase 2</span></button>
-                  </div>
+                  <a href="#" class="btn btn--ghost btn--sm">View</a>
+                  <button class="btn--disabled" disabled>Email Attendees <span class="badge--phase2">Phase 2</span></button>
                 </td>
               </tr>
             </tbody>
@@ -379,21 +342,11 @@
 
   <script>
     function showTab(tabName) {
-      // Toggle tab active states
-      document.querySelectorAll('.tab').forEach(function(tab) {
-        tab.classList.remove('active');
-      });
-      document.querySelectorAll('.tab-content').forEach(function(content) {
-        content.classList.remove('active');
-      });
-
-      // Activate the selected tab
-      var tabs = document.querySelectorAll('.tab');
-      if (tabName === 'upcoming') {
-        tabs[0].classList.add('active');
-      } else {
-        tabs[1].classList.add('active');
-      }
+      // Update tab buttons
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      // Update tab content
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       document.getElementById('tab-' + tabName).classList.add('active');
     }
   </script>

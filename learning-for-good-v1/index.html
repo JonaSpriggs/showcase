@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning for Good - All Mockups</title>
+<link rel="stylesheet" href="design.css">
+<style>
+  body { background: var(--bg); padding: 32px; }
+  .index { max-width: 1100px; margin: 0 auto; }
+  .index h1 { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
+  .index h1 .t { color: var(--brand-teal); }
+  .index h1 .p { color: var(--brand-purple); }
+  .index h1 .o { color: var(--brand-orange); }
+  .index > p { color: var(--text-light); margin-bottom: 32px; }
+  .index h2 { font-size: 18px; font-weight: 700; margin: 24px 0 12px; color: var(--text); }
+
+  .screen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .screen-link {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-light);
+    text-decoration: none;
+    transition: all 150ms ease;
+  }
+  .screen-link:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .screen-thumb { height: 160px; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 48px; }
+  .screen-info { padding: 14px 16px; }
+  .screen-name { font-size: 15px; font-weight: 600; color: var(--text); }
+  .screen-desc { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+  .screen-role { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+  .role-admin { color: var(--brand-purple); }
+  .role-contact { color: var(--brand-teal); }
+  .role-attendee { color: var(--brand-orange); }
+  .role-public { color: var(--text-muted); }
+</style>
+</head>
+<body>
+<div class="index">
+  <h1><span class="t">Learning</span><span class="p">for</span><span class="o">Good</span> Mockups</h1>
+  <p>All screen mockups organised by user role. Click any screen to view it.</p>
+
+  <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px;">
+    <a href="styleguide.html" class="screen-link" style="display: inline-block; flex: 1; min-width: 280px;">
+      <div class="screen-thumb" style="background: linear-gradient(135deg, var(--brand-teal), var(--brand-purple), var(--brand-orange)); height: 80px;">
+        <span style="color: white; font-size: 20px; font-weight: 700;">Design System</span>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Style Guide</div>
+        <div class="screen-desc">Colours, typography, buttons, badges, forms, and all components</div>
+      </div>
+    </a>
+    <a href="palette-comparison.html" class="screen-link" style="display: inline-block; flex: 1; min-width: 280px;">
+      <div class="screen-thumb" style="background: linear-gradient(135deg, #1a1a1e, #2a2a30); height: 80px;">
+        <span style="color: #d4a024; font-size: 20px; font-weight: 700;">Palette Options</span>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Colour Palettes</div>
+        <div class="screen-desc">Compare palette options for the platform</div>
+      </div>
+    </a>
+    <a href="font-picker.html" class="screen-link" style="display: inline-block; flex: 1; min-width: 280px;">
+      <div class="screen-thumb" style="background: linear-gradient(135deg, #f3eaf7, #e8f6fb); height: 80px;">
+        <span style="color: var(--brand-purple); font-size: 20px; font-weight: 700;">Aa</span>
+      </div>
+      <div class="screen-info">
+        <div class="screen-name">Font Picker</div>
+        <div class="screen-desc">10 display font options — serif &amp; sans-serif — pick your favourite</div>
+      </div>
+    </a>
+  </div>
+
+  <h2>Emma's Admin Dashboard</h2>
+  <div class="screen-grid">
+    <a href="admin-dashboard.html" class="screen-link">
+      <div class="screen-thumb">&#128202;</div>
+      <div class="screen-info"><div class="screen-name">Dashboard</div><div class="screen-desc">Overview, stat cards, action items</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-workshops.html" class="screen-link">
+      <div class="screen-thumb">&#128197;</div>
+      <div class="screen-info"><div class="screen-name">Workshops List</div><div class="screen-desc">All sessions with status and bookings</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-workshop-detail.html" class="screen-link">
+      <div class="screen-thumb">&#128203;</div>
+      <div class="screen-info"><div class="screen-name">Workshop Detail</div><div class="screen-desc">Attendees, dietary, attendance marking</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-charities.html" class="screen-link">
+      <div class="screen-thumb">&#127970;</div>
+      <div class="screen-info"><div class="screen-name">Charities</div><div class="screen-desc">Partner charities with contacts</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-alumni.html" class="screen-link">
+      <div class="screen-thumb">&#128100;</div>
+      <div class="screen-info"><div class="screen-name">Alumni</div><div class="screen-desc">All past attendees, searchable/filterable</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-charity-detail.html" class="screen-link">
+      <div class="screen-thumb">&#127970;</div>
+      <div class="screen-info"><div class="screen-name">Charity Detail</div><div class="screen-desc">CRM page: contacts, history, attendance, engagement</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-attendee-detail.html" class="screen-link">
+      <div class="screen-thumb">&#128100;</div>
+      <div class="screen-info"><div class="screen-name">Attendee Detail</div><div class="screen-desc">Profile, workshop history, feedback, materials, course progress</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-analytics.html" class="screen-link">
+      <div class="screen-thumb">&#128200;</div>
+      <div class="screen-info"><div class="screen-name">Feedback &amp; Analytics</div><div class="screen-desc">Ratings, trends, facilitator performance (admin only)</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-materials.html" class="screen-link">
+      <div class="screen-thumb">&#128193;</div>
+      <div class="screen-info"><div class="screen-name">Materials</div><div class="screen-desc">Upload, organise by topic/session/type, upload popup</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+    <a href="admin-notifications.html" class="screen-link">
+      <div class="screen-thumb">&#128276;</div>
+      <div class="screen-info"><div class="screen-name">Notifications</div><div class="screen-desc">Full activity history with filters</div><div class="screen-role role-admin">Admin</div></div>
+    </a>
+  </div>
+
+  <h2>Charity Contact Booking Portal</h2>
+  <div class="screen-grid">
+    <a href="booking-home.html" class="screen-link">
+      <div class="screen-thumb">&#127968;</div>
+      <div class="screen-info"><div class="screen-name">Portal Home</div><div class="screen-desc">Upcoming workshops, booking status</div><div class="screen-role role-contact">Charity Contact</div></div>
+    </a>
+    <a href="booking-add-attendees.html" class="screen-link">
+      <div class="screen-thumb">&#10133;</div>
+      <div class="screen-info"><div class="screen-name">Book Places</div><div class="screen-desc">Add attendees form with validation</div><div class="screen-role role-contact">Charity Contact</div></div>
+    </a>
+    <a href="booking-manage.html" class="screen-link">
+      <div class="screen-thumb">&#9998;</div>
+      <div class="screen-info"><div class="screen-name">Manage Bookings</div><div class="screen-desc">Edit, swap, cancel attendees</div><div class="screen-role role-contact">Charity Contact</div></div>
+    </a>
+  </div>
+
+  <h2>Attendee Pages</h2>
+  <div class="screen-grid">
+    <a href="attendee-confirm.html" class="screen-link">
+      <div class="screen-thumb">&#9989;</div>
+      <div class="screen-info"><div class="screen-name">Confirm &amp; Dietary</div><div class="screen-desc">Confirm attendance, add dietary requirements</div><div class="screen-role role-attendee">Attendee</div></div>
+    </a>
+    <a href="attendee-materials.html" class="screen-link">
+      <div class="screen-thumb">&#128196;</div>
+      <div class="screen-info"><div class="screen-name">Materials</div><div class="screen-desc">Post-workshop downloads</div><div class="screen-role role-attendee">Attendee</div></div>
+    </a>
+  </div>
+
+  <h2>Feedback</h2>
+  <div class="screen-grid">
+    <a href="feedback-form.html" class="screen-link">
+      <div class="screen-thumb">&#11088;</div>
+      <div class="screen-info"><div class="screen-name">Feedback Form</div><div class="screen-desc">QR code / post-workshop rating form</div><div class="screen-role role-public">Public (no login)</div></div>
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

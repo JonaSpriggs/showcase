@@ -6,34 +6,70 @@
   <title>My Booking — Learning for Good</title>
   <link rel="stylesheet" href="design.css">
   <style>
-    .portal-header-bar {
-      height: 4px;
-      background: linear-gradient(90deg, var(--brand-teal) 0%, var(--brand-teal) 33%, var(--brand-purple) 33%, var(--brand-purple) 66%, var(--brand-orange) 66%, var(--brand-orange) 100%);
+    .portal-header-welcome {
+      font-size: var(--text-base);
+      opacity: 0.75;
+      margin-top: var(--sp-2);
     }
-    .portal-header .logo-text .t { color: var(--brand-teal); }
-    .portal-header .logo-text .p { color: var(--brand-purple); }
-    .portal-header .logo-text .o { color: var(--brand-orange); }
-    .section-card {
+
+    .workshop-info-card {
       background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: var(--sp-5);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-6);
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
-      margin-bottom: var(--sp-4);
+      text-align: center;
+      margin-bottom: var(--sp-6);
     }
-    .section-card h3 {
-      font-size: var(--text-lg);
+    .workshop-info-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
       font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tight);
+      color: var(--text);
       margin-bottom: var(--sp-3);
     }
-    .gdpr-note {
-      font-size: var(--text-xs);
-      color: var(--text-muted);
-      margin-top: var(--sp-2);
-      padding: var(--sp-2) var(--sp-3);
-      background: var(--surface);
-      border-radius: var(--radius-sm);
+    .workshop-info-meta {
+      display: flex;
+      justify-content: center;
+      gap: var(--sp-5);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-top: var(--sp-3);
     }
+    .workshop-info-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .workshop-info-meta svg {
+      width: 15px; height: 15px;
+      stroke: var(--primary); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    .section-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-6);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+      margin-bottom: var(--sp-5);
+    }
+    .section-card-title {
+      font-family: var(--font-display);
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      letter-spacing: var(--tracking-tight);
+      margin-bottom: var(--sp-4);
+    }
+    .section-card p {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      line-height: var(--leading-relaxed);
+      margin-bottom: var(--sp-4);
+    }
+
     .history-item {
       display: flex;
       justify-content: space-between;
@@ -43,47 +79,66 @@
       font-size: var(--text-sm);
     }
     .history-item:last-child { border-bottom: none; }
-    .history-workshop { font-weight: var(--weight-medium); color: var(--text); }
-    .history-date { color: var(--text-muted); font-size: var(--text-xs); }
+    .history-item-left {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .history-item-name {
+      font-weight: var(--weight-semibold);
+      color: var(--text);
+    }
+    .history-item-date {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+    }
+
     .cancel-section {
-      margin-top: var(--sp-8);
-      padding-top: var(--sp-4);
-      border-top: 1px solid var(--border-light);
+      text-align: center;
+      padding: var(--sp-6) 0 var(--sp-2);
+    }
+    .cancel-hint {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+    }
+
+    .gdpr-hint {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+      line-height: var(--leading-relaxed);
     }
   </style>
 </head>
 <body class="portal-layout">
 
-  <!-- Tricolour bar -->
-  <div class="portal-header-bar"></div>
+  <!-- ===== TRICOLOUR BAR ===== -->
+  <div class="tricolour-bar" style="height: 4px;" class="animate-in"></div>
 
-  <!-- Header -->
-  <div class="portal-header">
+  <!-- ===== PORTAL HEADER ===== -->
+  <header class="portal-header animate-in">
     <h1>
-      <span class="logo-text">
-        <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
-      </span>
+      <span class="t">Learn</span><span class="p">ing</span> <span class="o">for Good</span>
     </h1>
-    <p>Welcome, Sophie Hicks</p>
-  </div>
+    <p class="portal-header-welcome">Welcome, Sophie Hicks</p>
+  </header>
 
-  <!-- Body -->
+  <!-- ===== PORTAL BODY ===== -->
   <div class="portal-body">
 
-    <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #8e9098; margin-bottom: 16px; text-decoration: none;">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to all mockups
-    </a>
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; text-decoration: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to all mockups
+      </a>
 
-    <!-- Workshop Card -->
-    <div class="workshop-card">
-      <div class="workshop-card-header">
-        <div class="workshop-card-title">Assertiveness and Constructive Negotiation</div>
-        <span class="badge badge--booked">Booked</span>
-      </div>
-      <div class="workshop-card-meta">
+    <!-- Workshop Info Card -->
+    <div class="workshop-info-card animate-in animate-in-1">
+      <h2 class="workshop-info-title">Assertiveness and Constructive Negotiation</h2>
+      <span class="badge badge--booked">Booked</span>
+      <div class="workshop-info-meta">
         <span>
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           Friday 13 March 2026
         </span>
         <span>
@@ -98,72 +153,60 @@
     </div>
 
     <!-- Confirm Attendance -->
-    <div class="section-card">
-      <h3>Confirm Attendance</h3>
-      <p style="font-size: var(--text-sm); color: var(--text-light); margin-bottom: var(--sp-4);">
-        Please confirm you will be attending this workshop. You can update your dietary requirements below.
-      </p>
-      <button class="btn btn--primary btn--lg btn--full">Confirm Attendance</button>
+    <div class="section-card animate-in animate-in-2">
+      <h3 class="section-card-title">Confirm Attendance</h3>
+      <p>Please confirm you will be attending this workshop. You can update your dietary requirements below.</p>
+      <button class="btn btn--primary btn--lg">Confirm Attendance</button>
     </div>
 
     <!-- Dietary Requirements -->
-    <div class="section-card">
-      <h3>Dietary Requirements</h3>
+    <div class="section-card animate-in animate-in-3">
+      <h3 class="section-card-title">Dietary Requirements</h3>
       <div class="form-group">
         <label class="form-label" for="dietary">Your dietary needs</label>
-        <input type="text" id="dietary" class="form-input" placeholder="e.g. Vegetarian, no nuts" value="">
+        <input type="text" id="dietary" class="form-input" placeholder="e.g. Vegetarian, no nuts">
+        <p class="gdpr-hint">This information will be shared with the venue for catering. Stored for 12 months only.</p>
       </div>
-      <div class="gdpr-note">
-        This information will be shared with the venue for catering. Stored for 12 months only.
-      </div>
-      <div style="margin-top: var(--sp-3);">
-        <button class="btn btn--outline btn--sm">Save Dietary Info</button>
-      </div>
+      <button class="btn btn--primary">Save Dietary Info</button>
     </div>
 
     <!-- Course History -->
-    <div class="section-card">
-      <h3>Your Course History</h3>
-
+    <div class="section-card animate-in animate-in-4">
+      <h3 class="section-card-title">Course History</h3>
       <div class="history-item">
-        <div>
-          <div class="history-workshop">Leading a Team</div>
-          <div class="history-date">June 2025</div>
+        <div class="history-item-left">
+          <span class="history-item-name">Leading a Team</span>
+          <span class="history-item-date">June 2025</span>
         </div>
         <span class="badge badge--attended">Attended</span>
       </div>
-
       <div class="history-item">
-        <div>
-          <div class="history-workshop">Looking After Yourself</div>
-          <div class="history-date">November 2025</div>
+        <div class="history-item-left">
+          <span class="history-item-name">Looking After Yourself</span>
+          <span class="history-item-date">November 2025</span>
         </div>
         <span class="badge badge--attended">Attended</span>
       </div>
-
       <div class="history-item">
-        <div>
-          <div class="history-workshop">Personal Effectiveness</div>
-          <div class="history-date">Upcoming</div>
+        <div class="history-item-left">
+          <span class="history-item-name">Personal Effectiveness</span>
+          <span class="history-item-date">Upcoming</span>
         </div>
-        <span class="badge badge--booked">Not Yet Attended</span>
+        <span class="badge badge--draft">Not Yet Attended</span>
       </div>
-
       <div class="history-item">
-        <div>
-          <div class="history-workshop">Assertiveness and Constructive Negotiation</div>
-          <div class="history-date">13 March 2026</div>
+        <div class="history-item-left">
+          <span class="history-item-name">Assertiveness and Constructive Negotiation</span>
+          <span class="history-item-date">13 March 2026</span>
         </div>
-        <span class="badge badge--booked">Not Yet Attended</span>
+        <span class="badge badge--booked">Booked</span>
       </div>
     </div>
 
     <!-- Cancel Section -->
-    <div class="cancel-section" style="text-align: center;">
-      <p style="font-size: var(--text-sm); color: var(--text-muted); margin-bottom: var(--sp-3);">
-        Need to cancel? This will free your place for someone else.
-      </p>
-      <button class="btn btn--danger">Cancel My Place</button>
+    <div class="cancel-section animate-in animate-in-5">
+      <button class="btn btn--danger btn--lg">Cancel My Place</button>
+      <p class="cancel-hint">This will free your place for someone else.</p>
     </div>
 
   </div>

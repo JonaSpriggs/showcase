@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications — Learning for Good</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    /* Notification feed styles */
+    .notif-icon {
+      width: 28px; height: 28px;
+      border-radius: var(--radius-full);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 13px;
+      color: white;
+    }
+    .notif-icon--blue { background: var(--primary); }
+    .notif-icon--red { background: var(--error); }
+    .notif-icon--amber { background: var(--warning); }
+    .notif-text { flex: 1; }
+    .notif-time {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      white-space: nowrap;
+      min-width: 130px;
+      text-align: right;
+    }
+    .notif-view {
+      flex-shrink: 0;
+      font-size: var(--text-xs);
+      font-weight: var(--weight-semibold);
+    }
+    .notif-count {
+      font-size: var(--text-sm);
+      color: var(--text-light);
+      margin-bottom: var(--sp-4);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Menu</div>
+
+        <a href="admin-dashboard.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Dashboard
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Workshops
+          <span class="nav-badge">3</span>
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Charities
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Alumni
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Materials
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+
+        <a href="#" class="nav-link active">
+          <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          Notifications
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">E</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Emma Niven</div>
+          <div class="sidebar-user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="main-content">
+
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: #8e9098; margin-bottom: 16px; text-decoration: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to all mockups
+      </a>
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-greeting">Notifications</h1>
+        <p class="page-subtitle">Activity feed across all workshops and bookings</p>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <select class="filter-select">
+          <option>All Types</option>
+          <option>Bookings</option>
+          <option>Cancellations</option>
+          <option>Warnings</option>
+        </select>
+
+        <select class="filter-select">
+          <option>All Workshops</option>
+          <option>Assertiveness</option>
+          <option>Leading a Team</option>
+          <option>Presenting with Impact</option>
+        </select>
+
+        <input type="date" class="filter-select" value="2026-03-01">
+        <span style="align-self: center; color: var(--text-muted); font-size: var(--text-sm);">to</span>
+        <input type="date" class="filter-select" value="2026-03-19">
+      </div>
+
+      <!-- Notification count -->
+      <p class="notif-count">Showing 15 notifications</p>
+
+      <!-- Notification List -->
+      <div class="action-list">
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Jade Reilly (London Wildlife Trust) booked 3 attendees for Assertiveness</span>
+          <span class="notif-time">19 Mar 2026, 10:14</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--red">
+          <span class="notif-icon notif-icon--red">&#9679;</span>
+          <span class="notif-text">Sophie Morris (Step Change) cancelled her place for Leading a Team</span>
+          <span class="notif-time">19 Mar 2026, 07:32</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Holly Green (Beyond Equality) booked 2 attendees for Assertiveness</span>
+          <span class="notif-time">18 Mar 2026, 15:45</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--amber">
+          <span class="notif-icon notif-icon--amber">&#9679;</span>
+          <span class="notif-text">2 unnamed reservations expire in 3 days for Assertiveness (13 Mar)</span>
+          <span class="notif-time">18 Mar 2026, 09:00</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Moses Seitler (Screen Share) confirmed attendance for Assertiveness</span>
+          <span class="notif-time">17 Mar 2026, 14:20</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--amber">
+          <span class="notif-icon notif-icon--amber">&#9679;</span>
+          <span class="notif-text">5 attendees haven't confirmed dietary requirements for Assertiveness</span>
+          <span class="notif-time">16 Mar 2026, 08:00</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Priya Sharma (Refugee Council) booked 3 attendees for Assertiveness</span>
+          <span class="notif-time">15 Mar 2026, 16:05</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Amal Hassan (Crisis) confirmed dietary requirements for Assertiveness</span>
+          <span class="notif-time">15 Mar 2026, 11:30</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--red">
+          <span class="notif-icon notif-icon--red">&#9679;</span>
+          <span class="notif-text">Tom Barrett (Shelter) cancelled 2 places for Leading a Team</span>
+          <span class="notif-time">14 Mar 2026, 09:12</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Lucy Chen (Samaritans) moved from waitlist to confirmed for Leading a Team</span>
+          <span class="notif-time">14 Mar 2026, 09:15</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--amber">
+          <span class="notif-icon notif-icon--amber">&#9679;</span>
+          <span class="notif-text">Leading a Team is now full &mdash; 1 charity on waitlist</span>
+          <span class="notif-time">13 Mar 2026, 17:00</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">Rachel Owens (Mind) booked 3 attendees for Leading a Team</span>
+          <span class="notif-time">13 Mar 2026, 14:40</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item" style="border-left-color: var(--primary);">
+          <span class="notif-icon notif-icon--blue">&#9679;</span>
+          <span class="notif-text">David Kim (ActionAid) confirmed dietary requirements for Leading a Team</span>
+          <span class="notif-time">12 Mar 2026, 10:55</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--amber">
+          <span class="notif-icon notif-icon--amber">&#9679;</span>
+          <span class="notif-text">Booking window opens in 7 days for Presenting with Impact (15 May)</span>
+          <span class="notif-time">10 Mar 2026, 08:00</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+        <div class="action-item action-item--red">
+          <span class="notif-icon notif-icon--red">&#9679;</span>
+          <span class="notif-text">Emma Jones (Barnardo's) cancelled her place for Assertiveness</span>
+          <span class="notif-time">8 Mar 2026, 12:20</span>
+          <a href="#" class="notif-view">View</a>
+        </div>
+
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

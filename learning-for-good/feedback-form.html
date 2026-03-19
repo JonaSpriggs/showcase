@@ -6,106 +6,145 @@
   <title>Workshop Feedback — Learning for Good</title>
   <link rel="stylesheet" href="design.css">
   <style>
-    .portal-header-bar {
+    /* Feedback-form specific styles */
+    .tricolour-bar {
       height: 4px;
-      background: linear-gradient(90deg, var(--brand-teal) 0%, var(--brand-teal) 33%, var(--brand-purple) 33%, var(--brand-purple) 66%, var(--brand-orange) 66%, var(--brand-orange) 100%);
     }
-    .portal-header .logo-text .t { color: var(--brand-teal); }
-    .portal-header .logo-text .p { color: var(--brand-purple); }
-    .portal-header .logo-text .o { color: var(--brand-orange); }
+
     .feedback-form {
       background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: var(--sp-6);
+      border-radius: var(--radius-2xl);
+      padding: var(--sp-8);
       box-shadow: var(--shadow-md);
       border: 1px solid var(--border-light);
     }
-    .rating-label {
-      font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
-      color: var(--text);
-      margin-bottom: var(--sp-2);
-      display: block;
-    }
-    .toggle-group {
-      display: flex;
-      border: 2px solid var(--border);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      width: fit-content;
-    }
-    .toggle-option {
-      padding: var(--sp-3) var(--sp-6);
-      font-family: var(--font);
-      font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
-      cursor: pointer;
-      border: none;
-      background: var(--bg-white);
-      color: var(--text-light);
-      transition: all var(--transition-fast);
-    }
-    .toggle-option:first-child {
-      border-right: 2px solid var(--border);
-    }
-    .toggle-option.selected {
-      background: var(--primary);
-      color: white;
-    }
-    .toggle-option:hover:not(.selected) {
-      background: var(--surface);
-      color: var(--text);
-    }
+
     .form-divider {
       border: none;
       border-top: 1px solid var(--border-light);
-      margin: var(--sp-5) 0;
+      margin: var(--sp-6) 0;
+    }
+
+    .rating-label {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      display: block;
+      margin-bottom: var(--sp-2);
+      color: var(--text);
+    }
+
+    .workshop-context {
+      text-align: center;
+      margin-bottom: var(--sp-6);
+    }
+
+    .workshop-context-title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--text);
+      letter-spacing: var(--tracking-tight);
+      line-height: var(--leading-snug);
+      margin-bottom: var(--sp-3);
+    }
+
+    .workshop-context-meta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--sp-2);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+
+    .workshop-context-meta svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .rating-hint {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: var(--sp-2);
+      font-weight: var(--weight-medium);
+    }
+
+    .thank-you-text {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: var(--sp-5);
+      line-height: var(--leading-relaxed);
+    }
+
+    /* Responsive adjustments for the feedback form */
+    @media (max-width: 768px) {
+      .portal-body {
+        padding: var(--sp-5);
+      }
+
+      .feedback-form {
+        padding: var(--sp-5);
+      }
+
+      .workshop-context-title {
+        font-size: var(--text-xl);
+      }
+
+      .star {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
 <body class="portal-layout">
 
-  <!-- Tricolour bar -->
-  <div class="portal-header-bar"></div>
+  <!-- Tricolour Bar -->
+  <div class="tricolour-bar"></div>
 
-  <!-- Header -->
-  <div class="portal-header">
+  <!-- Portal Header -->
+  <header class="portal-header animate-in">
     <h1>
-      <span class="logo-text">
-        <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
-      </span>
+      <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
     </h1>
     <p>Workshop Feedback</p>
-  </div>
+  </header>
 
-  <!-- Body -->
-  <div class="portal-body">
+  <!-- Portal Body -->
+  <main class="portal-body">
 
-    <!-- Workshop context -->
-    <div class="workshop-card" style="text-align: center;">
-      <div class="workshop-card-title">Assertiveness and Constructive Negotiation</div>
-      <div class="workshop-card-meta" style="justify-content: center; margin-top: var(--sp-2);">
-        <span>
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          13 March 2026
-        </span>
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; text-decoration: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to all mockups
+      </a>
+
+    <!-- Workshop Context Card -->
+    <div class="workshop-context animate-in animate-in-1">
+      <h2 class="workshop-context-title">Assertiveness and Constructive Negotiation</h2>
+      <div class="workshop-context-meta">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        13 March 2026
       </div>
     </div>
 
-    <!-- Feedback form -->
-    <div class="feedback-form">
+    <!-- Feedback Form -->
+    <form class="feedback-form animate-in animate-in-2">
 
-      <!-- Optional name -->
-      <div class="form-group">
+      <!-- Name (optional) -->
+      <div class="form-group animate-in animate-in-3">
         <label class="form-label" for="name">Your name (optional)</label>
-        <input type="text" id="name" class="form-input" value="Sophie Hicks" placeholder="Your name">
-        <div class="form-hint">Pre-filled from your booking. Leave blank for anonymous feedback.</div>
+        <input type="text" id="name" class="form-input" value="Sophie Hicks">
+        <p class="form-hint">Pre-filled from your booking. Leave blank for anonymous feedback.</p>
       </div>
 
       <hr class="form-divider">
 
-      <!-- Star rating -->
-      <div class="form-group">
+      <!-- Star Rating -->
+      <div class="form-group animate-in animate-in-4">
         <label class="rating-label">Overall Rating</label>
         <div class="star-rating">
           <span class="star active">&#9733;</span>
@@ -114,46 +153,45 @@
           <span class="star active">&#9733;</span>
           <span class="star">&#9733;</span>
         </div>
-        <div class="form-hint">4 out of 5</div>
+        <p class="rating-hint">4 out of 5</p>
       </div>
 
       <hr class="form-divider">
 
       <!-- What was most useful -->
-      <div class="form-group">
+      <div class="form-group animate-in animate-in-5">
         <label class="form-label" for="useful">What was most useful?</label>
-        <textarea id="useful" class="form-input" placeholder="Tell us what you found most valuable from the workshop..."></textarea>
+        <textarea id="useful" class="form-input" placeholder="Tell us what you found most valuable about the workshop..."></textarea>
       </div>
 
       <!-- What could be improved -->
-      <div class="form-group">
+      <div class="form-group animate-in animate-in-6">
         <label class="form-label" for="improve">What could be improved?</label>
-        <textarea id="improve" class="form-input" placeholder="Any suggestions for how we could make this workshop better..."></textarea>
+        <textarea id="improve" class="form-input" placeholder="Any suggestions for how we could make this workshop even better..."></textarea>
       </div>
 
       <hr class="form-divider">
 
-      <!-- Recommend toggle -->
-      <div class="form-group">
+      <!-- Recommend Toggle -->
+      <div class="form-group animate-in animate-in-7">
         <label class="form-label">Would you recommend this to a colleague?</label>
         <div class="toggle-group">
-          <button class="toggle-option selected">Yes</button>
-          <button class="toggle-option">No</button>
+          <button type="button" class="toggle-option selected">Yes</button>
+          <button type="button" class="toggle-option">No</button>
         </div>
       </div>
 
       <hr class="form-divider">
 
-      <!-- Submit -->
-      <button class="btn btn--primary btn--lg btn--full">Submit Feedback</button>
+      <!-- Submit Button -->
+      <div class="animate-in animate-in-8">
+        <button type="submit" class="btn btn--primary btn--lg btn--full">Submit Feedback</button>
+        <p class="thank-you-text">Thank you for helping us improve our workshops.</p>
+      </div>
 
-      <p style="font-size: var(--text-xs); color: var(--text-muted); text-align: center; margin-top: var(--sp-3);">
-        Thank you for helping us improve our workshops.
-      </p>
+    </form>
 
-    </div>
-
-  </div>
+  </main>
 
 </body>
 </html>

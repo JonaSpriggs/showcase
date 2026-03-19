@@ -6,134 +6,113 @@
   <title>Laura Ashfield — Learning for Good</title>
   <link rel="stylesheet" href="design.css">
   <style>
-    /* Profile grid */
-    .profile-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--sp-4);
-    }
-
-    /* Course progress topic boxes */
-    .topic-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: var(--sp-3);
-    }
-    .topic-box {
-      border: 2px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: var(--sp-4);
-      text-align: center;
-      background: var(--bg-white);
-      transition: all var(--transition-fast);
-    }
-    .topic-box--done {
-      border-color: var(--success);
-      background: var(--success-light);
-    }
-    .topic-box--pending {
-      border-color: var(--border);
-      background: var(--bg-white);
-    }
-    .topic-box-icon {
-      font-size: 24px;
-      margin-bottom: var(--sp-2);
-    }
-    .topic-box-name {
-      font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
-      color: var(--text);
-      margin-bottom: var(--sp-1);
-    }
-    .topic-box-date {
-      font-size: var(--text-xs);
-      color: var(--text-muted);
-    }
-
-    /* Workshop history expandable */
-    .workshop-row-main {
-      display: grid;
-      grid-template-columns: 2fr 1.2fr 1.5fr 1fr 0.8fr 40px;
-      align-items: center;
-      padding: var(--sp-3) var(--sp-4);
-      font-size: var(--text-sm);
-      border-bottom: 1px solid var(--border-light);
-      cursor: pointer;
-      transition: background var(--transition-fast);
-    }
-    .workshop-row-main:hover { background: var(--surface); }
-    .workshop-row-expand {
-      padding: var(--sp-3) var(--sp-4) var(--sp-3) var(--sp-8);
-      font-size: var(--text-sm);
-      color: var(--text-light);
-      background: var(--surface);
-      border-bottom: 1px solid var(--border-light);
-      font-style: italic;
-    }
-    .expand-icon {
-      font-size: var(--text-sm);
-      color: var(--text-muted);
-      transition: transform var(--transition-fast);
-    }
-
-    /* Rating stars inline */
-    .rating-stars {
-      color: var(--accent);
-      font-size: var(--text-sm);
-      letter-spacing: 1px;
-    }
-    .rating-stars .empty { color: var(--border); }
-
-    /* Download list */
-    .download-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: var(--sp-3) var(--sp-4);
-      border-bottom: 1px solid var(--border-light);
-      font-size: var(--text-sm);
-    }
-    .download-item:last-child { border-bottom: none; }
-    .download-item-name {
-      display: flex;
+    .back-link {
+      display: inline-flex;
       align-items: center;
       gap: var(--sp-2);
-      font-weight: var(--weight-medium);
-    }
-    .download-item-name svg {
-      width: 16px; height: 16px;
-      stroke: var(--primary); fill: none;
-      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
-    }
-    .download-status {
-      font-size: var(--text-xs);
-      color: var(--text-muted);
-    }
-    .download-status--done { color: var(--success); }
-    .download-status--pending { color: var(--warning); }
-
-    /* Section spacing */
-    .detail-section { margin-bottom: var(--sp-8); }
-
-    /* Profile field display */
-    .field-label {
-      font-size: var(--text-xs);
-      font-weight: var(--weight-bold);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-    .field-value {
       font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      color: var(--text-secondary);
+      margin-bottom: var(--sp-5);
+    }
+    .back-link:hover { color: var(--primary); }
+    .back-link svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 3fr 2fr;
+      gap: var(--sp-6);
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: var(--sp-3) var(--sp-5);
+      font-size: var(--text-sm);
+    }
+    .profile-label {
+      font-weight: var(--weight-semibold);
+      color: var(--text-muted);
+    }
+    .profile-value {
       color: var(--text);
     }
-    .field-value--empty {
-      color: var(--text-muted);
-      font-style: italic;
+    .profile-value a {
+      color: var(--primary);
     }
-    .field-group {
-      margin-bottom: var(--sp-4);
+
+    .dietary-note {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      margin-top: var(--sp-1);
+    }
+
+    .workshop-history-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto auto;
+      gap: var(--sp-3);
+      align-items: center;
+      padding: var(--sp-4) 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: var(--text-sm);
+    }
+    .workshop-history-row:last-child { border-bottom: none; }
+
+    .wh-info { display: flex; flex-direction: column; gap: 2px; }
+    .wh-name { font-weight: var(--weight-semibold); color: var(--text); }
+    .wh-meta { font-size: var(--text-xs); color: var(--text-muted); }
+    .wh-feedback { font-size: var(--text-xs); color: var(--text-secondary); font-style: italic; margin-top: 2px; }
+
+    .wh-rating { font-size: var(--text-xs); color: var(--accent); white-space: nowrap; }
+    .wh-pending { font-size: var(--text-xs); color: var(--text-faint); font-style: italic; }
+
+    .checklist { list-style: none; }
+    .checklist li {
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: var(--text-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+    }
+    .checklist li:last-child { border-bottom: none; }
+    .check-done { color: var(--success); font-weight: var(--weight-bold); }
+    .check-pending { color: var(--text-faint); }
+    .check-label-done { color: var(--text); }
+    .check-label-pending { color: var(--text-muted); }
+    .check-date { font-size: var(--text-xs); color: var(--text-muted); margin-left: auto; }
+
+    .progress-label {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--text-secondary);
+      margin-bottom: var(--sp-2);
+    }
+
+    .material-item {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-3);
+      padding: var(--sp-3) 0;
+      border-bottom: 1px solid var(--border-light);
+      font-size: var(--text-sm);
+    }
+    .material-item:last-child { border-bottom: none; }
+    .material-icon {
+      width: 36px; height: 36px;
+      background: var(--primary-light);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .material-icon svg { width: 18px; height: 18px; stroke: var(--primary); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .material-info { flex: 1; }
+    .material-name { font-weight: var(--weight-semibold); color: var(--text); }
+    .material-date { font-size: var(--text-xs); color: var(--text-muted); }
+    .material-date--muted { font-size: var(--text-xs); color: var(--text-faint); font-style: italic; }
+
+    @media (max-width: 768px) {
+      .two-col { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -149,34 +128,64 @@
       <nav class="sidebar-nav">
         <div class="nav-section-label">Menu</div>
 
-        <a href="admin-dashboard.html" class="nav-link">
-          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <!-- Dashboard -->
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+            <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z"/>
+            <path d="M9 21V12h6v9"/>
+          </svg>
           Dashboard
         </a>
 
-        <a href="admin-workshops.html" class="nav-link">
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <!-- Workshops -->
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+            <rect x="3" y="4" width="18" height="18" rx="2"/>
+            <path d="M16 2v4M8 2v4M3 10h18"/>
+          </svg>
           Workshops
           <span class="nav-badge">3</span>
         </a>
 
-        <a href="admin-charities.html" class="nav-link">
-          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        <!-- Charities -->
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
           Charities
         </a>
 
-        <a href="admin-alumni.html" class="nav-link active">
-          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <!-- Alumni (active) -->
+        <a href="#" class="nav-link active">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            <circle cx="12" cy="7" r="4"/>
+          </svg>
           Alumni
         </a>
 
-        <a href="admin-materials.html" class="nav-link">
-          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+        <!-- Materials -->
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <polyline points="10 9 9 9 8 9"/>
+          </svg>
           Materials
         </a>
 
-        <a href="admin-analytics.html" class="nav-link">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        <!-- Analytics -->
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24" stroke="currentColor" fill="none">
+            <line x1="18" y1="20" x2="18" y2="10"/>
+            <line x1="12" y1="20" x2="12" y2="4"/>
+            <line x1="6" y1="20" x2="6" y2="14"/>
+          </svg>
           Analytics
         </a>
       </nav>
@@ -193,204 +202,195 @@
     <!-- ============ MAIN CONTENT ============ -->
     <main class="main-content">
 
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; text-decoration: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to all mockups
+      </a>
+
+      <!-- Back link -->
+      <a href="index.html" class="back-link animate-in animate-in-1">
+        <svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back
+      </a>
+
       <!-- Page Header -->
-      <div class="page-header">
+      <div class="page-header animate-in animate-in-1">
         <h1 class="page-greeting">Laura Ashfield</h1>
-        <p class="page-subtitle">
-          <a href="admin-charity-detail.html">London Wildlife Trust</a> &middot;
-          <a href="mailto:lashfield@wildlondon.org.uk">lashfield@wildlondon.org.uk</a>
-        </p>
+        <p class="page-subtitle">London Wildlife Trust &middot; lashfield@wildlondon.org.uk</p>
       </div>
 
-      <!-- ======== PROFILE SECTION ======== -->
-      <div class="detail-section">
-        <div class="section-header">
-          <h2 class="section-title">Profile</h2>
-          <button class="btn btn--primary btn--sm">
-            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-            Edit
-          </button>
-        </div>
+      <!-- Two Column Layout -->
+      <div class="two-col">
 
-        <div class="card">
-          <div class="card-body">
-            <div class="profile-grid">
-              <div class="field-group">
-                <div class="field-label">Name</div>
-                <div class="field-value">Laura Ashfield</div>
-              </div>
-              <div class="field-group">
-                <div class="field-label">Email</div>
-                <div class="field-value"><a href="mailto:lashfield@wildlondon.org.uk">lashfield@wildlondon.org.uk</a></div>
-              </div>
-              <div class="field-group">
-                <div class="field-label">Phone</div>
-                <div class="field-value field-value--empty">Not provided</div>
-              </div>
-              <div class="field-group">
-                <div class="field-label">Job Title</div>
-                <div class="field-value field-value--empty">Not provided</div>
-              </div>
-              <div class="field-group">
-                <div class="field-label">Line Manager</div>
-                <div class="field-value">Jade Reilly (<a href="mailto:jreilly@wildlondon.org.uk">jreilly@wildlondon.org.uk</a>)</div>
-              </div>
-              <div class="field-group">
-                <div class="field-label">Dietary Requirements</div>
-                <div class="field-value">
+        <!-- LEFT COLUMN -->
+        <div>
+
+          <!-- Profile Card -->
+          <div class="card animate-in animate-in-2" style="margin-bottom: var(--sp-6);">
+            <div class="card-header">
+              <div class="card-title">Profile</div>
+            </div>
+            <div class="card-body">
+              <div class="profile-grid">
+                <div class="profile-label">Name</div>
+                <div class="profile-value">Laura Ashfield</div>
+
+                <div class="profile-label">Email</div>
+                <div class="profile-value"><a href="mailto:lashfield@wildlondon.org.uk">lashfield@wildlondon.org.uk</a></div>
+
+                <div class="profile-label">Phone</div>
+                <div class="profile-value" style="color: var(--text-faint);">Not provided</div>
+
+                <div class="profile-label">Job Title</div>
+                <div class="profile-value" style="color: var(--text-faint);">Not provided</div>
+
+                <div class="profile-label">Line Manager</div>
+                <div class="profile-value">Jade Reilly &mdash; <a href="mailto:jreilly@wildlondon.org.uk">jreilly@wildlondon.org.uk</a></div>
+
+                <div class="profile-label">Dietary Requirements</div>
+                <div class="profile-value">
                   <span class="dietary-tag">No almonds or pine-nuts</span>
-                  <span style="font-size: var(--text-xs); color: var(--text-muted); margin-left: var(--sp-2);">Updated 3 months ago</span>
+                  <div class="dietary-note">Updated 3 months ago</div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <!-- ======== COURSE PROGRESS ======== -->
-      <div class="detail-section">
-        <div class="section-header">
-          <h2 class="section-title">Course Progress</h2>
-          <span style="font-size: var(--text-sm); color: var(--text-light);">2 of 4 topics completed</span>
-        </div>
-
-        <div class="topic-grid">
-          <div class="topic-box topic-box--done">
-            <div class="topic-box-icon" style="color: var(--success);">&#10003;</div>
-            <div class="topic-box-name">Assertiveness</div>
-            <div class="topic-box-date">Oct 2025</div>
-          </div>
-          <div class="topic-box topic-box--done">
-            <div class="topic-box-icon" style="color: var(--success);">&#10003;</div>
-            <div class="topic-box-name">Leading a Team</div>
-            <div class="topic-box-date">Jun 2026</div>
-          </div>
-          <div class="topic-box topic-box--pending">
-            <div class="topic-box-icon" style="color: var(--text-muted);">&#10007;</div>
-            <div class="topic-box-name">Looking After Yourself</div>
-            <div class="topic-box-date">Not yet attended</div>
-          </div>
-          <div class="topic-box topic-box--pending">
-            <div class="topic-box-icon" style="color: var(--text-muted);">&#10007;</div>
-            <div class="topic-box-name">Personal Effectiveness</div>
-            <div class="topic-box-date">Not yet attended</div>
-          </div>
-        </div>
-
-        <div style="margin-top: var(--sp-3);">
-          <div class="progress" style="max-width: 400px;">
-            <div class="progress-fill progress-fill--success" style="width: 50%;"></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ======== WORKSHOP HISTORY ======== -->
-      <div class="detail-section">
-        <div class="section-header">
-          <h2 class="section-title">Workshop History</h2>
-        </div>
-
-        <div class="card">
-          <!-- Header row -->
-          <div class="workshop-row-main" style="background: var(--surface); font-weight: var(--weight-bold); font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); cursor: default;">
-            <div>Workshop</div>
-            <div>Date</div>
-            <div>Venue</div>
-            <div>Status</div>
-            <div>Rating</div>
-            <div></div>
-          </div>
-
-          <!-- Row 1: Assertiveness -->
-          <div class="workshop-row-main">
-            <div><strong>Assertiveness</strong></div>
-            <div>3 Oct 2025</div>
-            <div>Travers Smith</div>
-            <div><span class="badge badge--attended">Attended</span></div>
-            <div>
-              <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;<span class="empty">&#9733;</span></span>
+          <!-- Workshop History Card -->
+          <div class="card animate-in animate-in-3" style="margin-bottom: var(--sp-6);">
+            <div class="card-header">
+              <div class="card-title">Workshop History</div>
             </div>
-            <div class="expand-icon">&#9660;</div>
-          </div>
-          <div class="workshop-row-expand">
-            "Group exercises were excellent"
-          </div>
+            <div class="card-body">
 
-          <!-- Row 2: Influence & Impact -->
-          <div class="workshop-row-main">
-            <div><strong>Influence &amp; Impact</strong></div>
-            <div>17 Apr 2026</div>
-            <div>McFarlanes</div>
-            <div><span class="badge badge--attended">Attended</span></div>
-            <div>
-              <span class="rating-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-            </div>
-            <div class="expand-icon">&#9660;</div>
-          </div>
-          <div class="workshop-row-expand">
-            "Best workshop yet"
-          </div>
+              <!-- Row 1 -->
+              <div class="workshop-history-row">
+                <div class="wh-info">
+                  <span class="wh-name">Assertiveness</span>
+                  <span class="wh-meta">3 Oct 2025 &middot; Travers Smith</span>
+                  <span class="wh-feedback">"Group exercises were excellent"</span>
+                </div>
+                <span class="badge badge--attended">Attended</span>
+                <span class="wh-rating">&#9733;&#9733;&#9733;&#9733;&#9734; 4/5</span>
+              </div>
 
-          <!-- Row 3: Leading a Team (upcoming) -->
-          <div class="workshop-row-main">
-            <div><strong>Leading a Team</strong></div>
-            <div>19 Jun 2026</div>
-            <div>Travers Smith</div>
-            <div><span class="badge badge--booked">Booked</span></div>
-            <div><span style="font-size: var(--text-xs); color: var(--text-muted);">&mdash;</span></div>
-            <div></div>
-          </div>
-        </div>
-      </div>
+              <!-- Row 2 -->
+              <div class="workshop-history-row">
+                <div class="wh-info">
+                  <span class="wh-name">Influence &amp; Impact</span>
+                  <span class="wh-meta">17 Apr 2026 &middot; McFarlanes</span>
+                  <span class="wh-feedback">"Best workshop yet"</span>
+                </div>
+                <span class="badge badge--attended">Attended</span>
+                <span class="wh-rating">&#9733;&#9733;&#9733;&#9733;&#9733; 5/5</span>
+              </div>
 
-      <!-- ======== MATERIALS DOWNLOADED ======== -->
-      <div class="detail-section">
-        <div class="section-header">
-          <h2 class="section-title">Materials Downloaded</h2>
-        </div>
+              <!-- Row 3 -->
+              <div class="workshop-history-row">
+                <div class="wh-info">
+                  <span class="wh-name">Leading a Team</span>
+                  <span class="wh-meta">19 Jun 2026 &middot; Travers Smith</span>
+                </div>
+                <span class="badge badge--booked">Booked</span>
+                <span class="wh-pending">(pending)</span>
+              </div>
 
-        <div class="card">
-          <div class="download-item">
-            <div class="download-item-name">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              Assertiveness Slides.pptx
-            </div>
-            <div class="download-status download-status--done">Downloaded 5 Oct 2025</div>
-          </div>
-          <div class="download-item">
-            <div class="download-item-name">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              Reflection Worksheet.pdf
-            </div>
-            <div class="download-status download-status--done">Downloaded 5 Oct 2025</div>
-          </div>
-          <div class="download-item">
-            <div class="download-item-name">
-              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-              I&amp;I Slides.pptx
-            </div>
-            <div class="download-status download-status--pending">Not yet downloaded</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ======== NOTES ======== -->
-      <div class="detail-section">
-        <div class="section-header">
-          <h2 class="section-title">Notes</h2>
-        </div>
-
-        <div class="card">
-          <div class="card-body">
-            <div class="form-group" style="margin-bottom: 0;">
-              <textarea class="form-input" placeholder="Add admin notes about this attendee..." rows="4"></textarea>
-              <div class="form-hint">Only visible to admins. Press Save to update.</div>
-            </div>
-            <div style="margin-top: var(--sp-3); text-align: right;">
-              <button class="btn btn--primary btn--sm">Save Notes</button>
             </div>
           </div>
+
+          <!-- Notes Section -->
+          <div class="card animate-in animate-in-4">
+            <div class="card-header">
+              <div class="card-title">Notes</div>
+            </div>
+            <div class="card-body">
+              <textarea class="form-input" placeholder="Add notes about this attendee..."></textarea>
+            </div>
+          </div>
+
         </div>
+
+        <!-- RIGHT COLUMN -->
+        <div>
+
+          <!-- Course Progress Card -->
+          <div class="card animate-in animate-in-3" style="margin-bottom: var(--sp-6);">
+            <div class="card-header">
+              <div class="card-title">Course Progress</div>
+            </div>
+            <div class="card-body">
+              <div class="progress-label">2 of 4 topics completed</div>
+              <div class="progress">
+                <div class="progress-fill progress-fill--primary" style="width: 50%"></div>
+              </div>
+
+              <ul class="checklist" style="margin-top: var(--sp-5);">
+                <li>
+                  <span class="check-done">&#10003;</span>
+                  <span class="check-label-done">Assertiveness</span>
+                  <span class="check-date">Oct 2025</span>
+                </li>
+                <li>
+                  <span class="check-done">&#10003;</span>
+                  <span class="check-label-done">Leading a Team</span>
+                  <span class="check-date">Jun 2026</span>
+                </li>
+                <li>
+                  <span class="check-pending">&#10007;</span>
+                  <span class="check-label-pending">Looking After Yourself</span>
+                  <span class="check-date">Not yet attended</span>
+                </li>
+                <li>
+                  <span class="check-pending">&#10007;</span>
+                  <span class="check-label-pending">Personal Effectiveness</span>
+                  <span class="check-date">Not yet attended</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Materials Downloaded Card -->
+          <div class="card animate-in animate-in-4">
+            <div class="card-header">
+              <div class="card-title">Materials Downloaded</div>
+            </div>
+            <div class="card-body">
+
+              <div class="material-item">
+                <div class="material-icon">
+                  <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="material-info">
+                  <div class="material-name">Assertiveness Slides.pptx</div>
+                  <div class="material-date">Downloaded 5 Oct 2025</div>
+                </div>
+              </div>
+
+              <div class="material-item">
+                <div class="material-icon">
+                  <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="material-info">
+                  <div class="material-name">Reflection Worksheet.pdf</div>
+                  <div class="material-date">Downloaded 5 Oct 2025</div>
+                </div>
+              </div>
+
+              <div class="material-item">
+                <div class="material-icon" style="background: var(--surface);">
+                  <svg viewBox="0 0 24 24" style="stroke: var(--text-faint);"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                </div>
+                <div class="material-info">
+                  <div class="material-name" style="color: var(--text-muted);">I&amp;I Slides.pptx</div>
+                  <div class="material-date--muted">Not yet downloaded</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
     </main>

@@ -3,153 +3,346 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Learning for Good - All Mockups</title>
+<title>Learning for Good — v2 Mockups</title>
 <link rel="stylesheet" href="design.css">
 <style>
-  body { background: var(--bg); padding: 32px; }
+  body { background: var(--bg); padding: 48px 32px; }
   .index { max-width: 1100px; margin: 0 auto; }
-  .index h1 { font-size: 32px; font-weight: 800; margin-bottom: 4px; }
-  .index h1 .t { color: var(--brand-teal); }
-  .index h1 .p { color: var(--brand-purple); }
-  .index h1 .o { color: var(--brand-orange); }
-  .index > p { color: var(--text-light); margin-bottom: 32px; }
-  .index h2 { font-size: 18px; font-weight: 700; margin: 24px 0 12px; color: var(--text); }
 
-  .screen-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 32px; }
+  .index-header {
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeInUp 0.5s var(--ease-out) both;
+  }
+  .index-header h1 {
+    font-family: var(--font-display);
+    font-size: var(--text-4xl);
+    font-weight: var(--weight-bold);
+    letter-spacing: var(--tracking-tight);
+    margin-bottom: 8px;
+  }
+  .index-header h1 .t { color: var(--brand-teal); }
+  .index-header h1 .p { color: var(--brand-purple); }
+  .index-header h1 .o { color: var(--brand-orange); }
+  .index-header p { color: var(--text-secondary); font-size: var(--text-lg); }
+  .index-header .version-badge {
+    display: inline-block;
+    background: var(--primary-light);
+    color: var(--primary);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-bold);
+    padding: 4px 14px;
+    border-radius: var(--radius-full);
+    margin-top: 12px;
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+  }
+
+  .section-label {
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+    margin: 32px 0 16px;
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .screen-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
   .screen-link {
-    background: white;
-    border-radius: 12px;
+    background: var(--bg-white);
+    border-radius: var(--radius-xl);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-light);
     text-decoration: none;
-    transition: all 150ms ease;
+    transition: all 0.28s var(--ease-out);
+    display: block;
   }
-  .screen-link:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
-  .screen-thumb { height: 160px; background: var(--surface); display: flex; align-items: center; justify-content: center; font-size: 48px; }
-  .screen-info { padding: 14px 16px; }
-  .screen-name { font-size: 15px; font-weight: 600; color: var(--text); }
-  .screen-desc { font-size: 12px; color: var(--text-light); margin-top: 4px; }
-  .screen-role { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 6px; }
+  .screen-link:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+  }
+
+  .screen-thumb {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 42px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-cream), var(--surface));
+  }
+  .screen-thumb::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--brand-teal);
+  }
+
+  .screen-info { padding: 16px 18px; }
+  .screen-name {
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-bold);
+    color: var(--text);
+  }
+  .screen-desc {
+    font-size: var(--text-xs);
+    color: var(--text-secondary);
+    margin-top: 4px;
+    line-height: var(--leading-relaxed);
+  }
+  .screen-role {
+    font-size: 10px;
+    font-weight: var(--weight-bold);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-wider);
+    margin-top: 8px;
+  }
   .role-admin { color: var(--brand-purple); }
   .role-contact { color: var(--brand-teal); }
   .role-attendee { color: var(--brand-orange); }
   .role-public { color: var(--text-muted); }
+
+  /* Color-code the thumb accents by section */
+  .admin-grid .screen-link .screen-thumb::after { background: var(--brand-purple); }
+  .portal-grid .screen-link .screen-thumb::after { background: var(--brand-teal); }
+  .attendee-grid .screen-link .screen-thumb::after { background: var(--brand-orange); }
+  .public-grid .screen-link .screen-thumb::after { background: linear-gradient(90deg, var(--brand-teal), var(--brand-purple), var(--brand-orange)); }
+
+  .design-links {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-bottom: 32px;
+  }
+  .design-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--text);
+    transition: all 0.2s var(--ease-out);
+    box-shadow: var(--shadow-xs);
+  }
+  .design-link:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-2px);
+    color: var(--primary);
+  }
+
+  .compare-note {
+    text-align: center;
+    margin-top: 40px;
+    padding: 24px;
+    background: var(--bg-cream);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border-light);
+  }
+  .compare-note p {
+    font-size: var(--text-sm);
+    color: var(--text-secondary);
+    line-height: var(--leading-relaxed);
+  }
+  .compare-note a { font-weight: var(--weight-semibold); }
 </style>
 </head>
 <body>
 <div class="index">
-  <h1><span class="t">Learning</span><span class="p">for</span><span class="o">Good</span> Mockups</h1>
-  <p>All screen mockups organised by user role. Click any screen to view it.</p>
 
-  <div style="display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px;">
-    <a href="styleguide.html" class="screen-link" style="display: inline-block; flex: 1; min-width: 280px;">
-      <div class="screen-thumb" style="background: linear-gradient(135deg, var(--brand-teal), var(--brand-purple), var(--brand-orange)); height: 80px;">
-        <span style="color: white; font-size: 20px; font-weight: 700;">Design System</span>
-      </div>
-      <div class="screen-info">
-        <div class="screen-name">Style Guide</div>
-        <div class="screen-desc">Colours, typography, buttons, badges, forms, and all components</div>
-      </div>
-    </a>
-    <a href="palette-comparison.html" class="screen-link" style="display: inline-block; flex: 1; min-width: 280px;">
-      <div class="screen-thumb" style="background: linear-gradient(135deg, #1a1a1e, #2a2a30); height: 80px;">
-        <span style="color: #d4a024; font-size: 20px; font-weight: 700;">Palette Options</span>
-      </div>
-      <div class="screen-info">
-        <div class="screen-name">Colour Palettes</div>
-        <div class="screen-desc">Compare palette options for the platform</div>
-      </div>
-    </a>
-    <a href="font-picker.html" class="screen-link" style="display: inline-block; flex: 1; min-width: 280px;">
-      <div class="screen-thumb" style="background: linear-gradient(135deg, #f3eaf7, #e8f6fb); height: 80px;">
-        <span style="color: var(--brand-purple); font-size: 20px; font-weight: 700;">Aa</span>
-      </div>
-      <div class="screen-info">
-        <div class="screen-name">Font Picker</div>
-        <div class="screen-desc">10 display font options — serif &amp; sans-serif — pick your favourite</div>
-      </div>
-    </a>
+  <div class="index-header">
+    <h1><span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span></h1>
+    <p>Redesigned Mockups</p>
+    <span class="version-badge">v2 — Warm Editorial · Outfit</span>
   </div>
 
-  <h2>Emma's Admin Dashboard</h2>
-  <div class="screen-grid">
-    <a href="admin-dashboard.html" class="screen-link">
+  <!-- Design System Links -->
+  <div class="design-links">
+    <a href="font-picker.html" class="design-link animate-in animate-in-1">Aa &nbsp;Font Picker</a>
+    <a href="compare.html" class="design-link animate-in animate-in-1">&#8596; &nbsp;v1 vs v2 Compare</a>
+  </div>
+
+  <!-- Admin -->
+  <div class="section-label">Emma's Admin Dashboard</div>
+  <div class="screen-grid admin-grid">
+    <a href="admin-dashboard.html" class="screen-link animate-in animate-in-2">
       <div class="screen-thumb">&#128202;</div>
-      <div class="screen-info"><div class="screen-name">Dashboard</div><div class="screen-desc">Overview, stat cards, action items</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Dashboard</div>
+        <div class="screen-desc">Overview, stat cards, activity feed, upcoming workshops</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-workshops.html" class="screen-link">
+    <a href="admin-workshops.html" class="screen-link animate-in animate-in-2">
       <div class="screen-thumb">&#128197;</div>
-      <div class="screen-info"><div class="screen-name">Workshops List</div><div class="screen-desc">All sessions with status and bookings</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Workshops</div>
+        <div class="screen-desc">Full workshop list with tabs, filters, history</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-workshop-detail.html" class="screen-link">
+    <a href="admin-workshop-detail.html" class="screen-link animate-in animate-in-2">
       <div class="screen-thumb">&#128203;</div>
-      <div class="screen-info"><div class="screen-name">Workshop Detail</div><div class="screen-desc">Attendees, dietary, attendance marking</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Workshop Detail</div>
+        <div class="screen-desc">Attendees, dietary summary, attendance marking</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-charities.html" class="screen-link">
+    <a href="admin-charities.html" class="screen-link animate-in animate-in-3">
       <div class="screen-thumb">&#127970;</div>
-      <div class="screen-info"><div class="screen-name">Charities</div><div class="screen-desc">Partner charities with contacts</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Charities</div>
+        <div class="screen-desc">Partner charities grid with engagement levels</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-alumni.html" class="screen-link">
-      <div class="screen-thumb">&#128100;</div>
-      <div class="screen-info"><div class="screen-name">Alumni</div><div class="screen-desc">All past attendees, searchable/filterable</div><div class="screen-role role-admin">Admin</div></div>
-    </a>
-    <a href="admin-charity-detail.html" class="screen-link">
+    <a href="admin-charity-detail.html" class="screen-link animate-in animate-in-3">
       <div class="screen-thumb">&#127970;</div>
-      <div class="screen-info"><div class="screen-name">Charity Detail</div><div class="screen-desc">CRM page: contacts, history, attendance, engagement</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Charity Detail</div>
+        <div class="screen-desc">CRM page: contacts, history, attendance, engagement</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-attendee-detail.html" class="screen-link">
+    <a href="admin-alumni.html" class="screen-link animate-in animate-in-3">
       <div class="screen-thumb">&#128100;</div>
-      <div class="screen-info"><div class="screen-name">Attendee Detail</div><div class="screen-desc">Profile, workshop history, feedback, materials, course progress</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Alumni</div>
+        <div class="screen-desc">All past attendees, searchable and filterable</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-analytics.html" class="screen-link">
+    <a href="admin-attendee-detail.html" class="screen-link animate-in animate-in-4">
+      <div class="screen-thumb">&#128100;</div>
+      <div class="screen-info">
+        <div class="screen-name">Attendee Detail</div>
+        <div class="screen-desc">Profile, workshop history, course progress, materials</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
+    </a>
+    <a href="admin-analytics.html" class="screen-link animate-in animate-in-4">
       <div class="screen-thumb">&#128200;</div>
-      <div class="screen-info"><div class="screen-name">Feedback &amp; Analytics</div><div class="screen-desc">Ratings, trends, facilitator performance (admin only)</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Feedback &amp; Analytics</div>
+        <div class="screen-desc">Ratings, trends, charity engagement, facilitator performance</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-materials.html" class="screen-link">
+    <a href="admin-workshop-history.html" class="screen-link animate-in animate-in-4">
+      <div class="screen-thumb">&#128220;</div>
+      <div class="screen-info">
+        <div class="screen-name">Workshop History</div>
+        <div class="screen-desc">Completed workshop: attendance, feedback, notes</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
+    </a>
+    <a href="admin-materials.html" class="screen-link animate-in animate-in-4">
       <div class="screen-thumb">&#128193;</div>
-      <div class="screen-info"><div class="screen-name">Materials</div><div class="screen-desc">Upload, organise by topic/session/type, upload popup</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Materials</div>
+        <div class="screen-desc">Browse and organise by topic/session/type</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
-    <a href="admin-notifications.html" class="screen-link">
+    <a href="admin-materials-upload.html" class="screen-link animate-in animate-in-5">
+      <div class="screen-thumb">&#128228;</div>
+      <div class="screen-info">
+        <div class="screen-name">Materials (Upload)</div>
+        <div class="screen-desc">Upload modal overlay for adding new files</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
+    </a>
+    <a href="admin-notifications.html" class="screen-link animate-in animate-in-5">
       <div class="screen-thumb">&#128276;</div>
-      <div class="screen-info"><div class="screen-name">Notifications</div><div class="screen-desc">Full activity history with filters</div><div class="screen-role role-admin">Admin</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Notifications</div>
+        <div class="screen-desc">Full activity history with type and date filters</div>
+        <div class="screen-role role-admin">Admin</div>
+      </div>
     </a>
   </div>
 
-  <h2>Charity Contact Booking Portal</h2>
-  <div class="screen-grid">
-    <a href="booking-home.html" class="screen-link">
+  <!-- Charity Contact Portal -->
+  <div class="section-label">Charity Contact Booking Portal</div>
+  <div class="screen-grid portal-grid">
+    <a href="booking-home.html" class="screen-link animate-in animate-in-5">
       <div class="screen-thumb">&#127968;</div>
-      <div class="screen-info"><div class="screen-name">Portal Home</div><div class="screen-desc">Upcoming workshops, booking status</div><div class="screen-role role-contact">Charity Contact</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Portal Home</div>
+        <div class="screen-desc">Upcoming workshops, booking status, places remaining</div>
+        <div class="screen-role role-contact">Charity Contact</div>
+      </div>
     </a>
-    <a href="booking-add-attendees.html" class="screen-link">
+    <a href="booking-add-attendees.html" class="screen-link animate-in animate-in-5">
       <div class="screen-thumb">&#10133;</div>
-      <div class="screen-info"><div class="screen-name">Book Places</div><div class="screen-desc">Add attendees form with validation</div><div class="screen-role role-contact">Charity Contact</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Book Places</div>
+        <div class="screen-desc">Add attendees form with validation and warnings</div>
+        <div class="screen-role role-contact">Charity Contact</div>
+      </div>
     </a>
-    <a href="booking-manage.html" class="screen-link">
+    <a href="booking-manage.html" class="screen-link animate-in animate-in-6">
       <div class="screen-thumb">&#9998;</div>
-      <div class="screen-info"><div class="screen-name">Manage Bookings</div><div class="screen-desc">Edit, swap, cancel attendees</div><div class="screen-role role-contact">Charity Contact</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Manage Bookings</div>
+        <div class="screen-desc">Edit, swap, cancel attendees</div>
+        <div class="screen-role role-contact">Charity Contact</div>
+      </div>
     </a>
   </div>
 
-  <h2>Attendee Pages</h2>
-  <div class="screen-grid">
-    <a href="attendee-confirm.html" class="screen-link">
+  <!-- Attendee Pages -->
+  <div class="section-label">Attendee Pages</div>
+  <div class="screen-grid attendee-grid">
+    <a href="attendee-confirm.html" class="screen-link animate-in animate-in-6">
       <div class="screen-thumb">&#9989;</div>
-      <div class="screen-info"><div class="screen-name">Confirm &amp; Dietary</div><div class="screen-desc">Confirm attendance, add dietary requirements</div><div class="screen-role role-attendee">Attendee</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Confirm &amp; Dietary</div>
+        <div class="screen-desc">Confirm attendance, dietary requirements, course history</div>
+        <div class="screen-role role-attendee">Attendee</div>
+      </div>
     </a>
-    <a href="attendee-materials.html" class="screen-link">
+    <a href="attendee-materials.html" class="screen-link animate-in animate-in-6">
       <div class="screen-thumb">&#128196;</div>
-      <div class="screen-info"><div class="screen-name">Materials</div><div class="screen-desc">Post-workshop downloads</div><div class="screen-role role-attendee">Attendee</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Materials</div>
+        <div class="screen-desc">Post-workshop downloads and feedback prompt</div>
+        <div class="screen-role role-attendee">Attendee</div>
+      </div>
     </a>
   </div>
 
-  <h2>Feedback</h2>
-  <div class="screen-grid">
-    <a href="feedback-form.html" class="screen-link">
+  <!-- Public -->
+  <div class="section-label">Public</div>
+  <div class="screen-grid public-grid">
+    <a href="feedback-form.html" class="screen-link animate-in animate-in-7">
       <div class="screen-thumb">&#11088;</div>
-      <div class="screen-info"><div class="screen-name">Feedback Form</div><div class="screen-desc">QR code / post-workshop rating form</div><div class="screen-role role-public">Public (no login)</div></div>
+      <div class="screen-info">
+        <div class="screen-name">Feedback Form</div>
+        <div class="screen-desc">Post-workshop rating form, accessed via QR code</div>
+        <div class="screen-role role-public">Public (no login)</div>
+      </div>
     </a>
+  </div>
+
+  <div class="compare-note animate-in animate-in-8">
+    <p>v2 "Warm Editorial" redesign using Outfit + Plus Jakarta Sans.<br>
+    <a href="compare.html">Compare with v1 side by side</a> · <a href="font-picker.html">Browse font options</a></p>
   </div>
 
 </div>

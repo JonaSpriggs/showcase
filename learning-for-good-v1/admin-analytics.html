@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback &amp; Analytics — Learning for Good</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    /* Star display (read-only) */
+    .stars-display { display: inline-flex; gap: 2px; font-size: 20px; }
+    .stars-display .star-on { color: var(--accent); }
+    .stars-display .star-off { color: var(--border); }
+
+    /* Topic rating card (horizontal bar style) */
+    .topic-rating-card {
+      display: flex;
+      align-items: center;
+      gap: var(--sp-4);
+      padding: var(--sp-4) var(--sp-5);
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--sp-3);
+    }
+    .topic-rating-name {
+      min-width: 200px;
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-sm);
+    }
+    .topic-rating-bar {
+      flex: 1;
+      height: 10px;
+      background: var(--surface);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+    .topic-rating-bar-fill {
+      height: 100%;
+      border-radius: var(--radius-full);
+      transition: width var(--transition-normal);
+    }
+    .topic-rating-bar-fill--teal { background: var(--brand-teal); }
+    .topic-rating-bar-fill--purple { background: var(--brand-purple); }
+    .topic-rating-bar-fill--orange { background: var(--brand-orange); }
+    .topic-rating-bar-fill--primary { background: var(--primary); }
+    .topic-rating-stats {
+      display: flex;
+      gap: var(--sp-4);
+      min-width: 180px;
+      justify-content: flex-end;
+    }
+    .topic-rating-avg {
+      font-weight: var(--weight-bold);
+      font-size: var(--text-sm);
+      color: var(--text);
+    }
+    .topic-rating-count {
+      font-size: var(--text-sm);
+      color: var(--text-muted);
+    }
+
+    /* No-show rate colouring */
+    .rate-good { color: var(--success); font-weight: var(--weight-semibold); }
+    .rate-warn { color: var(--warning); font-weight: var(--weight-semibold); }
+    .rate-bad { color: var(--error); font-weight: var(--weight-semibold); }
+
+    /* Facilitator Performance (super-admin section) */
+    .super-admin-section {
+      margin-top: var(--sp-6);
+      padding: var(--sp-5);
+      background: linear-gradient(90deg, rgba(139, 90, 158, 0.06) 0%, rgba(139, 90, 158, 0.02) 100%);
+      border-left: 4px solid var(--brand-purple);
+      border-radius: var(--radius-lg);
+    }
+    .super-admin-note {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-style: italic;
+      margin-bottom: var(--sp-4);
+      display: flex;
+      align-items: center;
+      gap: var(--sp-2);
+    }
+    .super-admin-note svg {
+      width: 14px; height: 14px;
+      stroke: var(--text-muted); fill: none;
+      stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+    }
+    .facilitator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: var(--sp-4);
+    }
+    .facilitator-card {
+      background: var(--bg-white);
+      border-radius: var(--radius-md);
+      padding: var(--sp-5);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-light);
+    }
+    .facilitator-name {
+      font-size: var(--text-lg);
+      font-weight: var(--weight-bold);
+      color: var(--text);
+      margin-bottom: var(--sp-3);
+    }
+    .facilitator-stats {
+      display: flex;
+      flex-direction: column;
+      gap: var(--sp-2);
+    }
+    .facilitator-stat {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--text-sm);
+      color: var(--text-light);
+    }
+    .facilitator-stat-value {
+      font-weight: var(--weight-semibold);
+      color: var(--text);
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Menu</div>
+
+        <a href="admin-dashboard.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Dashboard
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Workshops
+          <span class="nav-badge">3</span>
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Charities
+        </a>
+
+        <a href="#" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Alumni
+        </a>
+
+        <a href="admin-materials.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Materials
+        </a>
+
+        <a href="admin-analytics.html" class="nav-link active">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">E</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Emma Niven</div>
+          <div class="sidebar-user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <h1 class="page-greeting">Feedback &amp; Analytics</h1>
+        <p class="page-subtitle">Workshop feedback and charity engagement data</p>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="filter-bar">
+        <select class="filter-select">
+          <option>All Topics</option>
+          <option>Assertiveness</option>
+          <option>Leading a Team</option>
+          <option>Looking After Yourself</option>
+          <option>Personal Effectiveness</option>
+        </select>
+        <select class="filter-select">
+          <option selected>2026</option>
+          <option>2025</option>
+          <option>2024</option>
+        </select>
+      </div>
+
+      <!-- Stat Cards -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-card-label">Average Rating</div>
+          <div class="stat-card-value">4.2<small>/5</small></div>
+          <div style="margin-top: var(--sp-2);">
+            <span class="stars-display">
+              <span class="star-on">&#9733;</span>
+              <span class="star-on">&#9733;</span>
+              <span class="star-on">&#9733;</span>
+              <span class="star-on">&#9733;</span>
+              <span class="star-off">&#9733;</span>
+            </span>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">Total Responses</div>
+          <div class="stat-card-value">87</div>
+          <div class="stat-card-sub">Across all workshops</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-card-label">Would Recommend</div>
+          <div class="stat-card-value">94<small>%</small></div>
+          <div class="progress" style="margin-top: var(--sp-2);">
+            <div class="progress-fill progress-fill--success" style="width: 94%"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ratings by Topic -->
+      <div class="section-header">
+        <h2 class="section-title">Ratings by Topic</h2>
+      </div>
+
+      <div class="topic-rating-card">
+        <div class="topic-rating-name">Assertiveness</div>
+        <div class="topic-rating-bar">
+          <div class="topic-rating-bar-fill topic-rating-bar-fill--teal" style="width: 88%"></div>
+        </div>
+        <div class="topic-rating-stats">
+          <span class="topic-rating-avg">4.4 avg</span>
+          <span class="topic-rating-count">24 responses</span>
+        </div>
+      </div>
+
+      <div class="topic-rating-card">
+        <div class="topic-rating-name">Leading a Team</div>
+        <div class="topic-rating-bar">
+          <div class="topic-rating-bar-fill topic-rating-bar-fill--purple" style="width: 82%"></div>
+        </div>
+        <div class="topic-rating-stats">
+          <span class="topic-rating-avg">4.1 avg</span>
+          <span class="topic-rating-count">22 responses</span>
+        </div>
+      </div>
+
+      <div class="topic-rating-card">
+        <div class="topic-rating-name">Looking After Yourself</div>
+        <div class="topic-rating-bar">
+          <div class="topic-rating-bar-fill topic-rating-bar-fill--orange" style="width: 86%"></div>
+        </div>
+        <div class="topic-rating-stats">
+          <span class="topic-rating-avg">4.3 avg</span>
+          <span class="topic-rating-count">21 responses</span>
+        </div>
+      </div>
+
+      <div class="topic-rating-card">
+        <div class="topic-rating-name">Personal Effectiveness</div>
+        <div class="topic-rating-bar">
+          <div class="topic-rating-bar-fill topic-rating-bar-fill--primary" style="width: 78%"></div>
+        </div>
+        <div class="topic-rating-stats">
+          <span class="topic-rating-avg">3.9 avg</span>
+          <span class="topic-rating-count">20 responses</span>
+        </div>
+      </div>
+
+      <!-- Charity Engagement -->
+      <div class="section-header mt-4">
+        <h2 class="section-title">Charity Engagement</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Charity</th>
+              <th>Workshops Attended</th>
+              <th>Attendees Sent</th>
+              <th>Avg Rating</th>
+              <th>No-show Rate</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Shelter</strong></td>
+              <td>6</td>
+              <td>17</td>
+              <td>4.5</td>
+              <td><span class="rate-good">0%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Mind</strong></td>
+              <td>5</td>
+              <td>14</td>
+              <td>4.3</td>
+              <td><span class="rate-good">4%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Crisis</strong></td>
+              <td>4</td>
+              <td>11</td>
+              <td>4.1</td>
+              <td><span class="rate-good">0%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Refuge</strong></td>
+              <td>4</td>
+              <td>10</td>
+              <td>4.4</td>
+              <td><span class="rate-warn">8%</span></td>
+            </tr>
+            <tr>
+              <td><strong>Centrepoint</strong></td>
+              <td>2</td>
+              <td>5</td>
+              <td>3.8</td>
+              <td><span class="rate-bad">17%</span></td>
+            </tr>
+            <tr>
+              <td><strong>St Mungo's</strong></td>
+              <td>1</td>
+              <td>3</td>
+              <td>4.0</td>
+              <td><span class="rate-good">0%</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Facilitator Performance (Super Admin Only) -->
+      <div class="super-admin-section">
+        <div class="section-header">
+          <h2 class="section-title">Facilitator Performance</h2>
+        </div>
+        <div class="super-admin-note">
+          <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          This section is only visible to Super Admins
+        </div>
+
+        <div class="facilitator-grid">
+
+          <!-- Emma Niven -->
+          <div class="facilitator-card">
+            <div class="facilitator-name">Emma Niven</div>
+            <div class="facilitator-stats">
+              <div class="facilitator-stat">
+                <span>Sessions facilitated</span>
+                <span class="facilitator-stat-value">6</span>
+              </div>
+              <div class="facilitator-stat">
+                <span>Average rating</span>
+                <span class="facilitator-stat-value">
+                  4.4/5
+                  <span class="stars-display" style="margin-left: var(--sp-2);">
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-off">&#9733;</span>
+                  </span>
+                </span>
+              </div>
+              <div class="facilitator-stat">
+                <span>Total attendees</span>
+                <span class="facilitator-stat-value">98</span>
+              </div>
+              <div class="facilitator-stat">
+                <span>No-show rate</span>
+                <span class="facilitator-stat-value"><span class="rate-good">4%</span></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Rachel Smith -->
+          <div class="facilitator-card">
+            <div class="facilitator-name">Rachel Smith</div>
+            <div class="facilitator-stats">
+              <div class="facilitator-stat">
+                <span>Sessions facilitated</span>
+                <span class="facilitator-stat-value">4</span>
+              </div>
+              <div class="facilitator-stat">
+                <span>Average rating</span>
+                <span class="facilitator-stat-value">
+                  4.1/5
+                  <span class="stars-display" style="margin-left: var(--sp-2);">
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-on">&#9733;</span>
+                    <span class="star-off">&#9733;</span>
+                  </span>
+                </span>
+              </div>
+              <div class="facilitator-stat">
+                <span>Total attendees</span>
+                <span class="facilitator-stat-value">68</span>
+              </div>
+              <div class="facilitator-stat">
+                <span>No-show rate</span>
+                <span class="facilitator-stat-value"><span class="rate-warn">6%</span></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

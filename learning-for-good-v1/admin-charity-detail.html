@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>London Wildlife Trust — Learning for Good</title>
+  <link rel="stylesheet" href="design.css">
+  <style>
+    /* Page-specific: badge active */
+    .badge--active { background: var(--success-light); color: #166534; }
+
+    /* Logo upload area */
+    .logo-upload {
+      width: 120px;
+      height: 120px;
+      border: 2px dashed var(--border);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+      cursor: pointer;
+      transition: border-color var(--transition-fast);
+      flex-direction: column;
+      gap: var(--sp-1);
+    }
+    .logo-upload:hover { border-color: var(--primary); }
+    .logo-upload svg {
+      width: 28px; height: 28px;
+      stroke: var(--text-muted); fill: none;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* Overview layout */
+    .overview-grid {
+      display: grid;
+      grid-template-columns: 1fr 140px;
+      gap: var(--sp-6);
+      align-items: start;
+    }
+
+    /* Timeline */
+    .timeline { position: relative; padding-left: var(--sp-8); }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 4px;
+      bottom: 4px;
+      width: 2px;
+      background: var(--border);
+    }
+    .timeline-entry {
+      position: relative;
+      padding-bottom: var(--sp-5);
+    }
+    .timeline-entry:last-child { padding-bottom: 0; }
+    .timeline-dot {
+      position: absolute;
+      left: calc(-1 * var(--sp-8) + 3px);
+      top: 4px;
+      width: 10px;
+      height: 10px;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      border: 2px solid var(--bg-white);
+      box-shadow: 0 0 0 2px var(--primary);
+    }
+    .timeline-dot--orange { background: var(--accent); box-shadow: 0 0 0 2px var(--accent); }
+    .timeline-dot--red { background: var(--error); box-shadow: 0 0 0 2px var(--error); }
+    .timeline-date {
+      font-size: var(--text-xs);
+      color: var(--text-muted);
+      font-weight: var(--weight-semibold);
+      margin-bottom: 2px;
+    }
+    .timeline-text {
+      font-size: var(--text-sm);
+      color: var(--text);
+    }
+
+    /* Primary radio marker */
+    .primary-star {
+      color: var(--accent);
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .primary-star--inactive {
+      color: var(--border);
+    }
+
+    /* Section spacing */
+    .detail-section { margin-bottom: var(--sp-8); }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Menu</div>
+
+        <a href="admin-dashboard.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          Dashboard
+        </a>
+
+        <a href="admin-workshops.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Workshops
+          <span class="nav-badge">3</span>
+        </a>
+
+        <a href="admin-charities.html" class="nav-link active">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Charities
+        </a>
+
+        <a href="admin-alumni.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Alumni
+        </a>
+
+        <a href="admin-materials.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Materials
+        </a>
+
+        <a href="admin-analytics.html" class="nav-link">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          Analytics
+        </a>
+      </nav>
+
+      <div class="sidebar-user">
+        <div class="sidebar-avatar">E</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name">Emma Niven</div>
+          <div class="sidebar-user-role">Super Admin</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN CONTENT ============ -->
+    <main class="main-content">
+
+      <!-- Page Header -->
+      <div class="page-header flex flex-between flex-center">
+        <div>
+          <div class="flex flex-center gap-3">
+            <h1 class="page-greeting">London Wildlife Trust</h1>
+            <span class="badge badge--active">Active</span>
+          </div>
+          <p class="page-subtitle">Charity detail &middot; 5 attendees &middot; Member since Sep 2024</p>
+        </div>
+        <button class="btn btn--primary">
+          <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active">Overview</div>
+        <div class="tab">Contacts</div>
+        <div class="tab">History</div>
+        <div class="tab">Attendance</div>
+        <div class="tab">Engagement</div>
+      </div>
+
+      <!-- ======== OVERVIEW TAB ======== -->
+      <div class="detail-section">
+        <div class="overview-grid">
+          <div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Charity Name</label>
+                <input type="text" class="form-input" value="London Wildlife Trust">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Website</label>
+                <input type="url" class="form-input" value="https://www.wildlondon.org.uk" placeholder="https://...">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Notes</label>
+              <textarea class="form-input" placeholder="Internal notes about this charity...">Great working relationship. Very responsive to communications. Focused on environmental education and conservation in London.</textarea>
+            </div>
+            <div class="form-group" style="max-width: 160px;">
+              <label class="form-label">Booking Quota</label>
+              <input type="number" class="form-input" value="3" min="1" max="10">
+              <span class="form-hint">Max attendees per workshop</span>
+            </div>
+          </div>
+          <div>
+            <label class="form-label">Logo</label>
+            <div class="logo-upload">
+              <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Stats -->
+      <div class="stats-grid detail-section">
+        <div class="stat-card">
+          <div class="stat-card-label">Attendees Sent</div>
+          <div class="stat-card-value">12</div>
+          <div class="stat-card-sub">across all workshops</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Workshops Attended</div>
+          <div class="stat-card-value">8</div>
+          <div class="stat-card-sub">of 12 available</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-card-label">Avg Feedback</div>
+          <div class="stat-card-value">4.3 <small>/ 5</small></div>
+          <div class="stat-card-sub">from 9 responses</div>
+        </div>
+      </div>
+
+      <!-- ======== CONTACTS SECTION ======== -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2 class="section-title">Contacts</h2>
+          <button class="btn btn--primary btn--sm">
+            <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Add Contact
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Primary</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="primary-star" title="Primary contact">&#9733;</span></td>
+                <td><strong>Jade Reilly</strong></td>
+                <td><a href="mailto:jade.reilly@wildlondon.org.uk">jade.reilly@wildlondon.org.uk</a></td>
+                <td>020 7261 0447</td>
+                <td>L&D Manager</td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn--ghost btn--sm">Edit</button>
+                    <button class="btn btn--ghost btn--sm" style="color: var(--error);">Remove</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><span class="primary-star primary-star--inactive" title="Set as primary">&#9734;</span></td>
+                <td>Marcus Okafor</td>
+                <td><a href="mailto:m.okafor@wildlondon.org.uk">m.okafor@wildlondon.org.uk</a></td>
+                <td>&mdash;</td>
+                <td>HR Officer</td>
+                <td>
+                  <div class="flex gap-2">
+                    <button class="btn btn--ghost btn--sm">Edit</button>
+                    <button class="btn btn--ghost btn--sm" style="color: var(--error);">Remove</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ======== HISTORY TIMELINE ======== -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2 class="section-title">History</h2>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <div class="timeline">
+              <div class="timeline-entry">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">September 2024</div>
+                <div class="timeline-text">First contact with London Wildlife Trust</div>
+              </div>
+              <div class="timeline-entry">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">January 2025</div>
+                <div class="timeline-text">Jade Reilly became primary contact</div>
+              </div>
+              <div class="timeline-entry">
+                <div class="timeline-dot timeline-dot--red"></div>
+                <div class="timeline-date">30 September 2025</div>
+                <div class="timeline-text">Rianna Badesha withdrew &mdash; childcare issues</div>
+              </div>
+              <div class="timeline-entry">
+                <div class="timeline-dot timeline-dot--orange"></div>
+                <div class="timeline-date">November 2025</div>
+                <div class="timeline-text">Peter Salter attended 3 workshops</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ======== ATTENDANCE TAB PREVIEW ======== -->
+      <div class="detail-section">
+        <div class="section-header">
+          <h2 class="section-title">Attendance</h2>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Attendee Name</th>
+                <th>Workshops Attended</th>
+                <th>Topics Completed</th>
+                <th>Last Attended</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="admin-attendee-detail.html"><strong>Peter Salter</strong></a></td>
+                <td>3</td>
+                <td>
+                  <div class="flex flex-center gap-2">
+                    <div class="progress" style="width: 80px;"><div class="progress-fill progress-fill--primary" style="width: 75%;"></div></div>
+                    <span style="font-size: var(--text-xs); color: var(--text-muted);">3 / 4</span>
+                  </div>
+                </td>
+                <td>19 Jun 2026</td>
+              </tr>
+              <tr>
+                <td><a href="#"><strong>Latha Mamo</strong></a></td>
+                <td>2</td>
+                <td>
+                  <div class="flex flex-center gap-2">
+                    <div class="progress" style="width: 80px;"><div class="progress-fill progress-fill--primary" style="width: 50%;"></div></div>
+                    <span style="font-size: var(--text-xs); color: var(--text-muted);">2 / 4</span>
+                  </div>
+                </td>
+                <td>17 Apr 2026</td>
+              </tr>
+              <tr>
+                <td><a href="#"><strong>Sophie Hicks</strong></a></td>
+                <td>2</td>
+                <td>
+                  <div class="flex flex-center gap-2">
+                    <div class="progress" style="width: 80px;"><div class="progress-fill progress-fill--primary" style="width: 50%;"></div></div>
+                    <span style="font-size: var(--text-xs); color: var(--text-muted);">2 / 4</span>
+                  </div>
+                </td>
+                <td>3 Feb 2026</td>
+              </tr>
+              <tr>
+                <td><a href="admin-attendee-detail.html"><strong>Laura Ashfield</strong></a></td>
+                <td>3</td>
+                <td>
+                  <div class="flex flex-center gap-2">
+                    <div class="progress" style="width: 80px;"><div class="progress-fill progress-fill--primary" style="width: 50%;"></div></div>
+                    <span style="font-size: var(--text-xs); color: var(--text-muted);">2 / 4</span>
+                  </div>
+                </td>
+                <td>19 Jun 2026</td>
+              </tr>
+              <tr>
+                <td><a href="#"><strong>Amelia Claridge</strong></a></td>
+                <td>1</td>
+                <td>
+                  <div class="flex flex-center gap-2">
+                    <div class="progress" style="width: 80px;"><div class="progress-fill progress-fill--primary" style="width: 25%;"></div></div>
+                    <span style="font-size: var(--text-xs); color: var(--text-muted);">1 / 4</span>
+                  </div>
+                </td>
+                <td>3 Oct 2025</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</body>
+</html>

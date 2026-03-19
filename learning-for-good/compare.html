@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Learning for Good — v1 vs v2 Comparison</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    background: #1a1620;
+    color: #f0ece7;
+    min-height: 100vh;
+  }
+
+  .header {
+    text-align: center;
+    padding: 48px 24px 40px;
+    background: linear-gradient(180deg, #251f2e 0%, #1a1620 100%);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+  }
+
+  .header h1 {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+  .header h1 .t { color: #2596be; }
+  .header h1 .p { color: #8b5a9e; }
+  .header h1 .o { color: #e8842c; }
+  .header p { color: #a89eb5; font-size: 15px; }
+
+  .toggle-bar {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .toggle-btn {
+    padding: 8px 20px;
+    border: 1.5px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    background: transparent;
+    color: #a89eb5;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .toggle-btn:hover { border-color: rgba(255,255,255,0.3); color: #f0ece7; }
+  .toggle-btn.active {
+    background: #2596be;
+    border-color: #2596be;
+    color: white;
+  }
+
+  .comparisons {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 32px 24px 64px;
+  }
+
+  .comparison-section {
+    margin-bottom: 48px;
+  }
+
+  .comparison-label {
+    font-family: 'Fraunces', Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  .comparison-sub {
+    font-size: 13px;
+    color: #a89eb5;
+    margin-bottom: 16px;
+  }
+
+  .comparison-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .comparison-row.stacked {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .frame-wrap {
+    position: relative;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    background: #fff;
+  }
+
+  .frame-label {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 10;
+    padding: 4px 14px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    backdrop-filter: blur(8px);
+  }
+  .frame-label.v1 {
+    background: rgba(0,0,0,0.7);
+    color: #a89eb5;
+  }
+  .frame-label.v2 {
+    background: rgba(37, 150, 190, 0.9);
+    color: white;
+  }
+
+  iframe {
+    width: 100%;
+    border: none;
+    display: block;
+    background: #fff;
+  }
+
+  .iframe-admin { height: 900px; }
+  .iframe-portal { height: 800px; }
+  .iframe-feedback { height: 850px; }
+
+  /* Responsive: stack on narrow screens */
+  @media (max-width: 1200px) {
+    .comparison-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span class="t">Learning</span> <span class="p">for</span> <span class="o">Good</span></h1>
+  <p>v1 vs v2 — Side by Side Comparison</p>
+  <div class="toggle-bar">
+    <button class="toggle-btn active" onclick="setLayout('side')">Side by Side</button>
+    <button class="toggle-btn" onclick="setLayout('stacked')">Stacked</button>
+  </div>
+</div>
+
+<div class="comparisons">
+
+  <!-- 1. Admin Dashboard -->
+  <div class="comparison-section">
+    <div class="comparison-label">1. Admin Dashboard</div>
+    <div class="comparison-sub">Emma's daily home screen — stats, activity feed, upcoming workshops</div>
+    <div class="comparison-row" id="row-1">
+      <div class="frame-wrap">
+        <span class="frame-label v1">v1 — Original</span>
+        <iframe src="../learning-for-good-v1/admin-dashboard.html" class="iframe-admin"></iframe>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label v2">v2 — Warm Editorial</span>
+        <iframe src="admin-dashboard.html" class="iframe-admin"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Admin Workshops -->
+  <div class="comparison-section">
+    <div class="comparison-label">2. Workshops List</div>
+    <div class="comparison-sub">Workshop management with upcoming/history tabs</div>
+    <div class="comparison-row" id="row-2">
+      <div class="frame-wrap">
+        <span class="frame-label v1">v1 — Original</span>
+        <iframe src="../learning-for-good-v1/admin-workshops.html" class="iframe-admin"></iframe>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label v2">v2 — Warm Editorial</span>
+        <iframe src="admin-workshops.html" class="iframe-admin"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Booking Home -->
+  <div class="comparison-section">
+    <div class="comparison-label">3. Booking Portal Home</div>
+    <div class="comparison-sub">Charity contact's view — workshop cards with booking actions</div>
+    <div class="comparison-row" id="row-3">
+      <div class="frame-wrap">
+        <span class="frame-label v1">v1 — Original</span>
+        <iframe src="../learning-for-good-v1/booking-home.html" class="iframe-portal"></iframe>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label v2">v2 — Warm Editorial</span>
+        <iframe src="booking-home.html" class="iframe-portal"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Book Attendees -->
+  <div class="comparison-section">
+    <div class="comparison-label">4. Book Places Form</div>
+    <div class="comparison-sub">Attendee booking form with validation and quota info</div>
+    <div class="comparison-row" id="row-4">
+      <div class="frame-wrap">
+        <span class="frame-label v1">v1 — Original</span>
+        <iframe src="../learning-for-good-v1/booking-add-attendees.html" class="iframe-portal"></iframe>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label v2">v2 — Warm Editorial</span>
+        <iframe src="booking-add-attendees.html" class="iframe-portal"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Feedback Form -->
+  <div class="comparison-section">
+    <div class="comparison-label">5. Feedback Form</div>
+    <div class="comparison-sub">Public post-workshop feedback — accessed via QR code</div>
+    <div class="comparison-row" id="row-5">
+      <div class="frame-wrap">
+        <span class="frame-label v1">v1 — Original</span>
+        <iframe src="../learning-for-good-v1/feedback-form.html" class="iframe-feedback"></iframe>
+      </div>
+      <div class="frame-wrap">
+        <span class="frame-label v2">v2 — Warm Editorial</span>
+        <iframe src="feedback-form.html" class="iframe-feedback"></iframe>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function setLayout(mode) {
+    document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+    event.target.classList.add('active');
+
+    document.querySelectorAll('.comparison-row').forEach(row => {
+      if (mode === 'stacked') {
+        row.classList.add('stacked');
+      } else {
+        row.classList.remove('stacked');
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

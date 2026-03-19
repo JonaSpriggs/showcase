@@ -3,246 +3,308 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Book Places — Assertiveness and Constructive Negotiation</title>
+  <title>Book Places — Learning for Good</title>
   <link rel="stylesheet" href="design.css">
   <style>
-    .portal-header-bar {
-      background: linear-gradient(135deg, #2a2035, #3a2d4a);
-      color: white;
-      padding: var(--sp-4) var(--sp-6);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .portal-header-left {
-      display: flex;
-      align-items: center;
-      gap: var(--sp-4);
-    }
-    .portal-logo {
-      font-size: var(--text-xl);
-      font-weight: var(--weight-extrabold);
-      letter-spacing: -0.5px;
-    }
-    .portal-logo .t { color: #2596be; }
-    .portal-logo .p { color: #8b5a9e; }
-    .portal-logo .o { color: #e8842c; }
-    .portal-header-title {
-      font-size: var(--text-base);
-      font-weight: var(--weight-semibold);
-      opacity: 0.95;
-      border-left: 1px solid rgba(255,255,255,0.2);
-      padding-left: var(--sp-4);
-    }
-    .portal-header-user {
-      font-size: var(--text-sm);
-      opacity: 0.8;
-    }
-    .portal-main {
-      max-width: 800px;
-      margin: 0 auto;
-      padding: var(--sp-6) var(--sp-6) var(--sp-12);
-    }
+    /* === Back Link === */
     .back-link {
       display: inline-flex;
       align-items: center;
-      gap: var(--sp-2);
+      gap: 8px;
       font-size: var(--text-sm);
-      color: var(--text-light);
-      margin-bottom: var(--sp-4);
+      color: var(--text-secondary);
+      margin-bottom: var(--sp-6);
+      text-decoration: none;
+      transition: color var(--transition-fast);
     }
-    .back-link:hover { color: var(--primary); }
+    .back-link:hover {
+      color: var(--primary);
+    }
+    .back-link svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* === Workshop Summary === */
     .workshop-summary {
       background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: var(--sp-5);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-6);
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
       margin-bottom: var(--sp-6);
     }
-    .workshop-summary h2 {
+    .workshop-summary-title {
+      font-family: var(--font-display);
       font-size: var(--text-xl);
       font-weight: var(--weight-bold);
+      color: var(--text);
+      letter-spacing: var(--tracking-tight);
       margin-bottom: var(--sp-3);
     }
-    .places-note {
+    .workshop-summary-meta {
+      display: flex;
+      gap: var(--sp-5);
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+    }
+    .workshop-summary-meta span {
       display: inline-flex;
       align-items: center;
       gap: var(--sp-2);
+    }
+    .workshop-summary-meta svg {
+      width: 15px;
+      height: 15px;
+      stroke: var(--primary);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* === Places Note === */
+    .places-note {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       background: var(--info-light);
-      color: #1a6a8a;
-      padding: var(--sp-2) var(--sp-4);
-      border-radius: var(--radius-md);
+      color: var(--info-text);
+      padding: var(--sp-3) var(--sp-5);
+      border-radius: var(--radius-full);
       font-size: var(--text-sm);
       font-weight: var(--weight-semibold);
-      margin-bottom: var(--sp-5);
+      margin-bottom: var(--sp-6);
     }
+    .places-note svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    /* === Attendee Entry === */
     .attendee-entry {
       background: var(--bg-white);
-      border-radius: var(--radius-lg);
-      padding: var(--sp-5);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-6);
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--border-light);
-      margin-bottom: var(--sp-4);
+      margin-bottom: var(--sp-5);
     }
     .attendee-entry-header {
       font-size: var(--text-base);
       font-weight: var(--weight-bold);
       color: var(--secondary);
-      margin-bottom: var(--sp-4);
-      padding-bottom: var(--sp-2);
+      margin-bottom: var(--sp-5);
+      padding-bottom: var(--sp-3);
       border-bottom: 1px solid var(--border-light);
     }
+
+    /* === Form Row (2-col grid) === */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: var(--sp-4);
+      gap: var(--sp-5);
     }
+
+    /* === Add Attendee Button === */
     .add-attendee-btn {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--sp-2);
       width: 100%;
-      padding: var(--sp-4);
       border: 2px dashed var(--border);
-      border-radius: var(--radius-lg);
+      border-radius: var(--radius-xl);
+      padding: var(--sp-5);
       background: transparent;
-      color: var(--text-light);
-      font-family: var(--font);
+      color: var(--text-secondary);
+      font-family: var(--font-body);
       font-size: var(--text-sm);
       font-weight: var(--weight-semibold);
       cursor: pointer;
       transition: all var(--transition-fast);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--sp-2);
       margin-bottom: var(--sp-5);
     }
-    .add-attendee-btn:hover {
+    .add-attendee-btn:hover:not(:disabled) {
       border-color: var(--primary);
       color: var(--primary);
       background: var(--primary-light);
     }
+    .add-attendee-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .add-attendee-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* === Submit Area === */
     .submit-area {
       display: flex;
       justify-content: flex-end;
       gap: var(--sp-3);
-      padding-top: var(--sp-4);
+      padding-top: var(--sp-5);
     }
+
+    /* === Responsive === */
     @media (max-width: 768px) {
-      .form-row { grid-template-columns: 1fr; }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .workshop-summary-meta {
+        flex-direction: column;
+        gap: var(--sp-2);
+      }
+      .submit-area {
+        flex-direction: column-reverse;
+      }
+      .submit-area .btn {
+        width: 100%;
+      }
     }
   </style>
 </head>
-<body class="portal-layout">
+<body>
+  <div class="portal-layout">
 
-  <!-- Header Bar -->
-  <header class="portal-header-bar">
-    <div class="portal-header-left">
-      <div class="portal-logo">
-        <span class="t">Learn</span><span class="p">ing</span> <span class="o">for Good</span>
-      </div>
-      <div class="portal-header-title">Booking Portal — London Wildlife Trust</div>
-    </div>
-    <div class="portal-header-user">Logged in as Jade Reilly</div>
-  </header>
-
-  <!-- Main Content -->
-  <main class="portal-main">
-
-    <a href="booking-home.html" class="back-link">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
-      Back to workshops
-    </a>
-
-    <!-- Workshop Summary -->
-    <div class="workshop-summary">
-      <h2>Assertiveness and Constructive Negotiation</h2>
-      <div class="workshop-card-meta">
-        <span>
-          <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-          Wednesday 15 April 2026, 10:00 – 16:00
-        </span>
-        <span>
-          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          Community Centre, Hackney
-        </span>
-      </div>
-    </div>
-
-    <!-- Places Note -->
-    <div class="places-note">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-      You can add up to 2 more attendees (1 of 3 places used)
-    </div>
-
-    <!-- Warning Alert -->
-    <div class="alert alert--warning">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-      Laura Ashfield has previously attended this topic (Oct 2025)
-    </div>
-
-    <!-- Attendee 1 -->
-    <div class="attendee-entry">
-      <div class="attendee-entry-header">Attendee 1</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Full Name</label>
-          <input type="text" class="form-input" value="Laura Ashfield" />
+    <!-- Portal Header Bar -->
+    <header class="portal-header-bar">
+      <div class="portal-header-left">
+        <div class="portal-logo">
+          <span class="t">Learn</span><span class="p">ing for</span> <span class="o">Good</span>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" value="l.ashfield@londonwt.org.uk" />
+        <div class="portal-header-title">Booking Portal &mdash; London Wildlife Trust</div>
+      </div>
+      <div class="portal-header-user">Logged in as Jade Reilly</div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="portal-main" style="max-width: 800px;">
+
+      <a href="index.html" style="display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-muted); margin-bottom: 16px; text-decoration: none;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to all mockups
+      </a>
+
+      <!-- Back Link -->
+      <a href="booking-home.html" class="back-link animate-in animate-in-1">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to workshops
+      </a>
+
+      <!-- Workshop Summary Card -->
+      <div class="workshop-summary animate-in animate-in-2">
+        <h1 class="workshop-summary-title">Assertiveness and Constructive Negotiation</h1>
+        <div class="workshop-summary-meta">
+          <span>
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Wednesday 15 April 2026, 10:00 &ndash; 16:00
+          </span>
+          <span>
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Community Centre, Hackney
+          </span>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Line Manager Name</label>
-          <input type="text" class="form-input" value="Tom Baxter" />
+
+      <!-- Places Note -->
+      <div class="places-note animate-in animate-in-3">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        You can add up to 2 more attendees (1 of 3 places used)
+      </div>
+
+      <!-- Warning Alert -->
+      <div class="alert alert--warning animate-in animate-in-3">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+          <line x1="12" y1="9" x2="12" y2="13"/>
+          <line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        Laura Ashfield has previously attended this topic (Oct 2025)
+      </div>
+
+      <!-- Attendee 1 -->
+      <div class="attendee-entry animate-in animate-in-4">
+        <div class="attendee-entry-header">Attendee 1</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" value="Laura Ashfield">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" value="l.ashfield@londonwt.org.uk">
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Line Manager Email</label>
-          <input type="email" class="form-input" value="t.baxter@londonwt.org.uk" />
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Line Manager Name</label>
+            <input type="text" class="form-input" value="Tom Baxter">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Line Manager Email</label>
+            <input type="email" class="form-input" value="t.baxter@londonwt.org.uk">
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- Attendee 2 -->
-    <div class="attendee-entry">
-      <div class="attendee-entry-header">Attendee 2</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Full Name</label>
-          <input type="text" class="form-input" placeholder="e.g. Sarah Chen" />
+      <!-- Attendee 2 -->
+      <div class="attendee-entry animate-in animate-in-5">
+        <div class="attendee-entry-header">Attendee 2</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" class="form-input" placeholder="e.g. Sarah Chen">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-input" placeholder="e.g. s.chen@londonwt.org.uk">
+          </div>
         </div>
-        <div class="form-group">
-          <label class="form-label">Email Address</label>
-          <input type="email" class="form-input" placeholder="e.g. s.chen@londonwt.org.uk" />
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Line Manager Name</label>
+            <input type="text" class="form-input" placeholder="e.g. Tom Baxter">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Line Manager Email</label>
+            <input type="email" class="form-input" placeholder="e.g. t.baxter@londonwt.org.uk">
+          </div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label class="form-label">Line Manager Name</label>
-          <input type="text" class="form-input" placeholder="e.g. Tom Baxter" />
-        </div>
-        <div class="form-group">
-          <label class="form-label">Line Manager Email</label>
-          <input type="email" class="form-input" placeholder="e.g. t.baxter@londonwt.org.uk" />
-        </div>
+
+      <!-- Add Another Button -->
+      <button class="add-attendee-btn animate-in animate-in-6" disabled>
+        <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Another Attendee
+      </button>
+
+      <!-- Submit Area -->
+      <div class="submit-area animate-in animate-in-7">
+        <a href="booking-home.html" class="btn btn--ghost btn--lg">Cancel</a>
+        <button class="btn btn--primary btn--lg">Book 2 Attendees</button>
       </div>
-    </div>
 
-    <!-- Add Another -->
-    <button class="add-attendee-btn" disabled title="Maximum 2 more attendees">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      + Add Another Attendee
-    </button>
+    </main>
 
-    <!-- Submit -->
-    <div class="submit-area">
-      <a href="booking-home.html" class="btn btn--ghost">Cancel</a>
-      <button class="btn btn--primary btn--lg">Book 2 Attendees</button>
-    </div>
-
-  </main>
-
+  </div>
 </body>
 </html>
