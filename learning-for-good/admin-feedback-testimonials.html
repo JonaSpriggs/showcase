@@ -510,13 +510,13 @@
 
       <!-- Tabs -->
       <div class="tabs animate-in animate-in-2">
-        <div class="tab active" onclick="showTab('overview')">Overview</div>
+        <div class="tab" onclick="showTab('overview')">Overview</div>
         <div class="tab" onclick="showTab('comments')">Comments</div>
-        <div class="tab" onclick="showTab('testimonials')">Testimonials</div>
+        <div class="tab active" onclick="showTab('testimonials')">Testimonials</div>
       </div>
 
       <!-- ========== TAB 1: OVERVIEW ========== -->
-      <div id="tab-overview" class="tab-content active">
+      <div id="tab-overview" class="tab-content">
 
         <div class="filter-bar animate-in animate-in-3">
           <select class="filter-select">
@@ -822,7 +822,7 @@
       </div><!-- /tab-comments -->
 
       <!-- ========== TAB 3: TESTIMONIALS ========== -->
-      <div id="tab-testimonials" class="tab-content">
+      <div id="tab-testimonials" class="tab-content active">
 
         <!-- Pending Approval -->
         <div class="animate-in animate-in-3">
@@ -915,7 +915,7 @@
   </div>
 
   <!-- MODAL: Make Testimonial -->
-  <div id="modal-testimonial" class="modal-overlay" style="display: none;">
+  <div id="modal-testimonial" class="modal-overlay" style="display: flex;">
     <div class="modal-card">
       <div class="modal-header">
         <h2>Create Testimonial</h2>
